@@ -1,0 +1,20 @@
+version: 2.1
+jobs:
+  test:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - run:
+          name: "Pruebas"
+          command: |
+            echo "ejecutando pruebas unitarias"
+workflows:
+  version: 2
+  pipeline-principal:
+    jobs:
+      - test:
+          filters:
+              branches:
+                only:
+                  - developer
