@@ -1,0 +1,25 @@
+FROM node:12
+
+COPY . /server
+
+COPY package*.json ./
+
+EXPOSE 5000
+
+WORKDIR /server
+
+ARG DB_HOST
+ENV DB_HOST $DB_HOST
+
+ARG DB_USER
+ENV DB_USER $DB_USER
+
+ARG DB_PASS
+ENV DB_PASS $DB_PASS
+
+ARG DB_DATABASE
+ENV DB_DATABASE $DB_DATABASE
+
+RUN npm install
+
+CMD [ "npm", "run", "dev" ]
