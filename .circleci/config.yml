@@ -63,3 +63,10 @@ workflows:
               branches:
                 only:
                   - master
+      - cd:
+          requires:
+            - ci
+          filters:
+              branches:
+                only:
+                  - master
