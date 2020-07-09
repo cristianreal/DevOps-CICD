@@ -5,10 +5,10 @@ jobs:
       image: ubuntu-1604:201903-01
     steps:
       - checkout
-        - run:
-            name: "Pruebas"
-            command: |
-              echo "ejecutando pruebas unitarias"
+      - run:
+          name: "Pruebas"
+          command: |
+            echo "ejecutando pruebas unitarias"
 workflows:
   version: 2
   pipeline-principal:
