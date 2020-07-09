@@ -20,10 +20,16 @@ jobs:
             cd ${HOME}/project/code/backend
             docker build -t christianreal/backend-nodejs:${CIRCLE_SHA1} . 
       - run:
+          name: "Build Image Frontend"
+          command: |
+            cd ${HOME}/project/code/client
+            docker build -t christianreal/frontend-vuejs:${CIRCLE_SHA1} . 
+      - run:
           name: "Push images to registry"
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push christianreal/backend-nodejs:${CIRCLE_SHA1}
+            docker push christianreal/frontend-vuejs:${CIRCLE_SHA1}
 workflows:
   version: 2
   pipeline-principal:
