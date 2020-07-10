@@ -1,23 +1,40 @@
  <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-solar">
+        <router-link to="/" class="navbar-brand"  >Sistema de Almacenamiento</router-link>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id= "navbar">
         <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-            <router-link to="/" class="nav-link"  >Home</router-link>
-        </li>
-        <li class="nav-item">
-            <router-link to="/GET" class="nav-link" >FirstRoute</router-link>
-        </li>
+         <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Marcas</a>
+                    <div class="dropdown-menu" style="">
+                        <router-link to="/marca/crear" class="nav-link"  >Crear</router-link>
+                        <router-link to="/marca/listar" class="nav-link"  >Listar</router-link>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedores</a>
+                    <div class="dropdown-menu" style="">
+                        <a class="dropdown-item" href="/vendedor/crear">Crear</a>
+                        <a class="dropdown-item" href="/vendedor/listar">Listar</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Proveedores</a>
+                    <div class="dropdown-menu" style="">
+                        <a class="dropdown-item" href="/proveedor/crear">Crear</a>
+                        <a class="dropdown-item" href="/proveedor/listar">Listar</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
+                    <div class="dropdown-menu" style="">
+                        <a class="dropdown-item" href="#">Crear</a>
+                        <a class="dropdown-item" href="#">Editar</a>
+                        <a class="dropdown-item" href="#">Eliminar</a>
+                    </div>
+                </li>
         </ul>
     </div>
     </nav>
