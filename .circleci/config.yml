@@ -72,7 +72,7 @@ jobs:
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
             kubectl apply -f deployment/K8/services/clusterip
-            kubectl apply -f deployment/K8/services/service-ingress.yml
+            kubectl apply -f deployment/K8/services/service-ingress.yml 
 workflows:
   version: 2
   pipeline-principal:
