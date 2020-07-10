@@ -1,13 +1,5 @@
 FROM node:12
 
-COPY . /server
-
-COPY package*.json ./
-
-EXPOSE 5000
-
-WORKDIR /server
-
 ARG DB_HOST
 ENV DB_HOST $DB_HOST
 
@@ -19,6 +11,15 @@ ENV DB_PASS $DB_PASS
 
 ARG DB_DATABASE
 ENV DB_DATABASE $DB_DATABASE
+
+COPY . /server
+
+WORKDIR /server
+
+COPY package*.json ./
+
+EXPOSE 5000
+
 
 RUN npm install
 
