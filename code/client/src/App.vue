@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <PostComponent/>
+    <NavBar/>
+    <main class="py-4" id="Contenido">  
+        <router-view></router-view>
+    </main>
   </div>
 </template>
 
 <script>
-import PostComponent from './components/PostComponent.vue'
+import NavBar from './components/NavBar.vue'
 
 export default {
-  name: 'App',
+  name: 'app',
   components: {
-    PostComponent
+    NavBar
   }
 }
 </script>
-
 <style>
-#app {
+#Contenido {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 15px;
 }
 </style>
