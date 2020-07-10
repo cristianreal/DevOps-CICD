@@ -62,7 +62,7 @@ jobs:
             echo ${CREDENTIALS} > ${HOME}/gcp-key.json
             gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
             gcloud --quiet config set project ${PROJECT_ID}
-            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}\
+            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
             gcloud container clusters get-credentials devops-ci-cd-cluster --region us-central1 --project devops-ci-cd-282823
       - run:          
           name: Apply kubernetes files to the cluster
