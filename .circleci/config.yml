@@ -59,7 +59,7 @@ jobs:
           command: |
             #!/bin/sh
             set -e
-            echo ${Credenciales} > ${HOME}/gcp-key.json
+            echo ${CREDENTIALS} > ${HOME}/gcp-key.json
             gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
             gcloud --quiet config set project ${PROJECT_ID}
             gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}\
