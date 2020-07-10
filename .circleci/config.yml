@@ -30,16 +30,73 @@ jobs:
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker push christianreal/frontend-vuejs:${CIRCLE_SHA1}
+  cd:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - run:
+          name: "Instalar terraform & Crear archivo de credenciales."  
+          command: |
+            sudo bash deployment/Terraform/script.sh
+            echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
+      - run:
+          name: "Desplegar infraestructura con terraform"
+          command: |
+            cd deployment/Terraform
+            export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
+            export TF_VAR_project_id=${PROJECT_ID}
+            terraform init 
+            terraform plan -out plan.out
+            terraform apply plan.out
+  deploy:
+    docker: 
+      - image: google/cloud-sdk    
+    steps:      
+      - checkout
+      - run:          
+          name: Auth gCloud SDK 
+          command: |
+            #!/bin/sh
+            set -e
+            echo ${CREDENTIALS} > ${HOME}/gcp-key.json
+            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+            gcloud --quiet config set project ${PROJECT_ID}
+            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - run:          
+          name: Apply kubernetes files to the cluster
+          command: |
+            gcloud container clusters get-credentials devops-ci-cd-cluster --region us-central1 --project devops-ci-cd-282823
+            kubectl apply -f deployment/K8/deployments
+            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
+            kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
+            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+            kubectl apply -f deployment/K8/services/clusterip
+            kubectl apply -f deployment/K8/services/service-ingress.yml 
 workflows:
   version: 2
   pipeline-principal:
     jobs:
-      - test:
+#      - test:
+#          filters:
+#              branches:
+#                only:
+#                  - developer
+      - ci:
           filters:
               branches:
                 only:
-                  - developer
-      - ci:
+                  - master
+      - cd:
+          requires:
+            - ci
+          filters:
+              branches:
+                only:
+                  - master
+      - deploy:
+          requires:
+            - cd 
           filters:
               branches:
                 only:

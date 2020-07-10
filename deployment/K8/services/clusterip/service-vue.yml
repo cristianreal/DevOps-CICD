@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-vuejs
+spec:
+  selector:
+    app: vuejs
+  ports:
+    - port: 80
+      targetPort: 80
