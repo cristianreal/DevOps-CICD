@@ -24,9 +24,7 @@
 
 <script>
 import axios from 'axios';
-//const _IP=process.env.API_IP;
 const _IP="34.69.42.189";
-//const _PORT=process.env.API_PORT;
 const _PORT="5000";
 const _PATH = "/api/posts/";
 
