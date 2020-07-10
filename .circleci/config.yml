@@ -63,10 +63,10 @@ jobs:
             gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
             gcloud --quiet config set project ${PROJECT_ID}
             gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            gcloud container clusters get-credentials devops-ci-cd-cluster --region us-central1 --project devops-ci-cd-282823
       - run:          
           name: Apply kubernetes files to the cluster
           command: |
+            gcloud container clusters get-credentials devops-ci-cd-cluster --region us-central1 --project devops-ci-cd-282823
             kubectl apply -f deployment/K8/deployments
             kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
