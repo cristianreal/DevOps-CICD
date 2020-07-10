@@ -38,7 +38,7 @@ jobs:
       - run:
           name: "Instalar terraform & Crear archivo de credenciales."  
           command: |
-            sudo bash deployment/script.sh
+            sudo bash deployment/Terraform/script.sh
             echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
       - run:
           name: "Desplegar infraestructura con terraform"
