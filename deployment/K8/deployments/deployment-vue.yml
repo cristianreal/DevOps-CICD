@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-vuejs
+spec:
+  selector:
+    matchLabels:
+      app: vuejs
+  template:
+    metadata:
+      labels:
+        app: vuejs
+    spec:
+      containers:
+      - name: vuejs-container
+        image: christianreal/frontend-vuejs
+        env:
+        - name: API_IP
+          value: "34.69.42.189"
+        - name: API_PORT
+          value: "5000"
+        ports:
+        - containerPort: 80

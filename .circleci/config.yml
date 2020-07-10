@@ -49,6 +49,30 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
+  deploy:
+    docker: 
+      - image: google/cloud-sdk    
+    steps:      
+      - checkout
+      - run:          
+          name: Auth gCloud SDK 
+          command: |
+            #!/bin/sh
+            set -e
+            echo ${Credenciales} > ${HOME}/gcp-key.json
+            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+            gcloud --quiet config set project ${PROJECT_ID}
+            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}\
+            gcloud container clusters get-credentials devops-ci-cd-cluster --region us-central1 --project devops-ci-cd-282823
+      - run:          
+          name: Apply kubernetes files to the cluster
+          command: |
+            kubectl apply -f deployment/K8/deployments
+            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
+            kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
+            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+            kubectl apply -f deployment/K8/services/clusterip
+            kubectl apply -f deployment/K8/services/service-ingress.yml
 workflows:
   version: 2
   pipeline-principal:
@@ -66,6 +90,13 @@ workflows:
       - cd:
           requires:
             - ci
+          filters:
+              branches:
+                only:
+                  - master
+      - deploy:
+          requires:
+            - cd 
           filters:
               branches:
                 only:
