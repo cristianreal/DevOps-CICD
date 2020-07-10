@@ -9,8 +9,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const posts = require('./routes/api/posts');
+const marcas = require('./routes/api/marcas');
 
 app.use('/api/posts', posts);
+app.use('/api/marcas', marcas);
 app.get('/', function (req, res) {
     res.sendStatus(200)
 })
