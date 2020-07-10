@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-principal
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: service-vuejs
+          servicePort: 80
+      - path: /api
+        backend:
+          serviceName: service-nodejs
+          servicePort: 5000
