@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-nodejs
+spec:
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+      - name: nodejs-container
+        image: christianreal/backend-nodejs
+        env:
+        - name: "DB_USER"
+          value: "root"
+        - name: "DB_PASS"
+          value: "123456"
+        - name: "DB_DATABASE"
+          value: "prueba"
+        - name: "DB_HOST"
+          value: "34.68.157.78"
+        ports:
+        - containerPort: 5000
