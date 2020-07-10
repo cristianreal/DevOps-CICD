@@ -77,11 +77,11 @@ workflows:
   version: 2
   pipeline-principal:
     jobs:
-      - test:
-          filters:
-              branches:
-                only:
-                  - developer
+#      - test:
+#          filters:
+#              branches:
+#                only:
+#                  - developer
       - ci:
           filters:
               branches:
