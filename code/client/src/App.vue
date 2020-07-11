@@ -17,6 +17,7 @@ export default {
   }
 }
 </script>
+console.log(process.env.API_IP);
 <style>
 #Contenido {
   margin-top: 15px;
