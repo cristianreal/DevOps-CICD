@@ -39,7 +39,8 @@ import axios from 'axios';
 //const _IP = "127.0.0.1";
 //const _IP = "service-nodejs";
 //const _PORT=process.env.API_PORT;
-const _PORT = "5000";
+//const _PORT = "5000";
+const _PORT = "80";
 const _PATH = "/api/marcas/";
 
 const url = "http://" + _IP + ":" + _PORT + _PATH
