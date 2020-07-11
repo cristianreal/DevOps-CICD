@@ -17,14 +17,13 @@
 					<tr class="table-primary" v-for="(post, index) in posts" 
         v-bind:item="post" 
         v-bind:index="index" 
-        v-bind:key="post.id" 
-        @click="deletePost(post.pk_marca)">
+        v-bind:key="post.id" >
 						<td> {{post.nombre}} </td>
 						<td> {{post.pagina_web}} </td>
 						<td> {{post.pais}} </td>
 						<td>
 							<router-link to="/marca/editar/{{post.name}}" class="btn btn-info"  >Editar</router-link>
-							<router-link to="/marca/eliminar/{{post.name}}" class="btn btn-warning"  >Eliminar</router-link>
+							<a class="btn btn-warning" @click="deletePost(post.pk_marca)"  >Eliminar</a>
 						</td>
 					</tr>
 				</tbody>
