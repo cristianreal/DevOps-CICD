@@ -17,12 +17,12 @@
 					<tr class="table-primary" v-for="(post, index) in posts" 
         v-bind:item="post" 
         v-bind:index="index" 
-        v-bind:key="post.id" >
+        v-bind:key="post.pk_marca" >
 						<td> {{post.nombre}} </td>
 						<td> {{post.pagina_web}} </td>
 						<td> {{post.pais}} </td>
 						<td>
-							<router-link to="/marca/editar/{{post.name}}" class="btn btn-info"  >Editar</router-link>
+							<router-link :to="'/marca/editar/' + post.pk_marca" class="btn btn-info"  >Editar</router-link>
 							<a class="btn btn-warning" @click="deletePost(post.pk_marca)"  >Eliminar</a>
 						</td>
 					</tr>
@@ -51,7 +51,6 @@ export default {
     methods: {
 
         getPosts() {
-            console.log(this.url);
             axios.get(this.url).then(
                 result => {
                     this.posts = result.data[0]
