@@ -33,12 +33,6 @@
 
 <script>
 import axios from 'axios';
-//const _IP=process.env.API_IP;
-//const _IP="34.69.42.189";
-//const _IP = "127.0.0.1";
-const _IP = "service-nodejs";
-//const _PORT=process.env.API_PORT;
-const _PORT = "5000";
 const _PATH = "/api/marcas/";
 
 export default {
@@ -57,6 +51,10 @@ export default {
     methods: {
 
         getPosts() {
+<<<<<<< HEAD
+=======
+            console.log(this.url);
+>>>>>>> variable global de localhost
             axios.get(this.url).then(
                 result => {
                     this.posts = result.data[0]

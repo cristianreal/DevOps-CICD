@@ -1,6 +1,7 @@
 <template>
 	<div class="container">
 		<div v-if="testButClicked" class="alert alert-success" role="alert">
+<<<<<<< HEAD
             {{elemento}} Editado
         </div>
 		<div class="jumbotron">
@@ -13,6 +14,20 @@
 					<div class="form-group">
 						<label class="col-form-label" for="country">Pais de origen</label>
 						<select class="custom-select" id="country" v-model="country" name="country" >
+=======
+            {{elemento}} Guardado
+    </div>
+		<div class="jumbotron">
+			<h3 align="center" class="display-4">Crear Marca</h3>
+			<hr class="my-1">
+				<div class="form-group">
+					<label class="col-form-label" for="namebrand">Nombre de marca</label>
+					<input type="text" class="form-control" placeholder="Ingrese el nombre de la marca" v-model="namebrand" id="namebrand" name="namebrand">
+					</div>
+					<div class="form-group">
+						<label class="col-form-label" for="country">Pais de origen</label>
+						<select class="custom-select" id="country" v-model="country" name="country" class="col-form-label">
+>>>>>>> variable global de localhost
 							<option value="Afganistan">Afghanistan</option>
 							<option value="Albania">Albania</option>
 							<option value="Algeria">Algeria</option>
@@ -263,6 +278,7 @@
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="webpage">Pagina web</label>
+<<<<<<< HEAD
 						<input type="text" class="form-control" placeholder="Ingrese la pagina oficial de la marca" v-model="webpage"  id="webpage" name="webpage" :value="marca.pagina_web">
 						</div>
 						<button  class="btn btn-primary"  v-on:click="createPost">Guardar</button>
@@ -273,11 +289,29 @@
 <script>
 import axios from 'axios';
 const _PATH = "/api/marcas/";
+=======
+						<input type="text" class="form-control" placeholder="Ingrese la pagina oficial de la marca" v-model="webpage"  id="webpage" name="webpage">
+						</div>
+						<button  class="btn btn-primary" v-on:click="updateMarca">Actualizar marca</button>
+					</div>
+				</div>
+			</template>
+<script>
+import axios from 'axios';
+const _IP = "34.69.252.180";
+//const _IP = "127.0.0.1";
+//const _IP = "service-nodejs";
+//const _PORT="5000";
+const _PORT = "80";
+const _PATH = "/api/marcas/";
+const url = "http://" + _IP + ":" + _PORT + _PATH
+>>>>>>> variable global de localhost
 
 export default {
     name: 'crear',
     data() {
         return {
+<<<<<<< HEAD
             marcas: [],
             marca: {
                 nombre : '',
@@ -295,10 +329,19 @@ export default {
     mounted() {
         this.obtenerMarca()
     },
+=======
+            error: '',
+            text: '',
+            elemento: '',
+            testButClicked: false
+        }
+    },
+>>>>>>> variable global de localhost
     methods: {
         testToast() {
             this.testButClicked = true;
         },
+<<<<<<< HEAD
         obtenerMarca() {
             axios.get(this.url+"/"+this.id_marca).then(
                 result => {
@@ -318,16 +361,29 @@ export default {
         },
         createPost() {
             axios.put(this.url+"/"+this.id_marca, {
+=======
+        updateMarca() {
+            this.elemento = this.namebrand
+            axios.post(url, {
+>>>>>>> variable global de localhost
                 name: this.namebrand,
                 country: this.country,
                 webpage: this.webpage
             }).then(() => {
+<<<<<<< HEAD
                 this.elemento = "Marca #"+this.id_marca
                 this.testToast()
+=======
+                this.namebrand = ''
+>>>>>>> variable global de localhost
             }).catch((error) => {
                 console.error(error)
                 return;
             })
+<<<<<<< HEAD
+=======
+            this.testToast()
+>>>>>>> variable global de localhost
         }
     },
     watch: {
