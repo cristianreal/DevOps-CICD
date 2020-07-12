@@ -20,8 +20,8 @@ spec:
         - name: "DB_PASS"
           value: "123456"
         - name: "DB_DATABASE"
-          value: "prueba"
+          value: "test_proyectoeps"
         - name: "DB_HOST"
-          value: "34.68.157.78"
+          value: "104.197.198.192"
         ports:
         - containerPort: 5000

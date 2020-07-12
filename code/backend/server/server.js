@@ -10,9 +10,11 @@ app.use(cors());
 
 const posts = require('./routes/api/posts');
 const marcas = require('./routes/api/marcas');
+const proveedores = require('./routes/api/proveedores');
 
 app.use('/api/posts', posts);
 app.use('/api/marcas', marcas);
+app.use('/api/proveedores', proveedores);
 app.get('/', function (req, res) {
     res.sendStatus(200)
 })
