@@ -7,7 +7,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const router = express.Router();
 router.get('/', (req, res) => {
-    connection.query('call Marca_Listar()', function (err, rows, fields) {
+    connection.query('call Proveedor_Listar()', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
         //console.log('The solution is: ', rows[0].name)
