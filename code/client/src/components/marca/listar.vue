@@ -17,12 +17,12 @@
 					<tr class="table-primary" v-for="(post, index) in posts" 
         v-bind:item="post" 
         v-bind:index="index" 
-        v-bind:key="post.id" >
+        v-bind:key="post.pk_marca" >
 						<td> {{post.nombre}} </td>
 						<td> {{post.pagina_web}} </td>
 						<td> {{post.pais}} </td>
 						<td>
-							<router-link to="/marca/editar/{{post.name}}" class="btn btn-info"  >Editar</router-link>
+							<router-link :to="'/marca/editar/' + post.pk_marca" class="btn btn-info"  >Editar</router-link>
 							<a class="btn btn-warning" @click="deletePost(post.pk_marca)"  >Eliminar</a>
 						</td>
 					</tr>
@@ -33,24 +33,16 @@
 
 <script>
 import axios from 'axios';
- const _IP="34.69.252.180";
-//const _IP=process.env.API_IP;
-//const _IP="34.69.42.189";
-//const _IP = "127.0.0.1";
-//const _IP = "service-nodejs";
-//const _PORT=process.env.API_PORT;
-//const _PORT = "5000";
-const _PORT = "80";
 const _PATH = "/api/marcas/";
 
-const url = "http://" + _IP + ":" + _PORT + _PATH
 export default {
     name: 'listar',
     data() {
         return {
             posts: [],
             error: '',
-            text: ''
+            text: '',
+            url: "http://" + this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {
@@ -59,8 +51,7 @@ export default {
     methods: {
 
         getPosts() {
-          console.log(process.env);
-            axios.get(url).then(
+            axios.get(this.url).then(
                 result => {
                     this.posts = result.data[0]
                 }, error => {
@@ -70,7 +61,7 @@ export default {
         },
         deletePost(id) {
 
-            axios.delete(`${url}${id}`).then(() => {
+            axios.delete(`${this.url}${id}`).then(() => {
                 this.getPosts()
             }).catch((error) => {
                 console.error(error)

@@ -6,6 +6,7 @@ import GetComponent from '@/components/GetComponent'
 import marcaComponent from '@/components/marca/marca'
 import marcarListarComponent from '@/components/marca/listar'
 import marcaCrearComponent from '@/components/marca/crear'
+import marcaEditarComponent from '@/components/marca/editar'
 
 Vue.use(Router)
 
@@ -32,6 +33,10 @@ export default new Router({
                 {
                     path: 'listar',
                     component: marcarListarComponent
+                },
+                {
+                    path: 'editar/:pkmarca',
+                    component: marcaEditarComponent
                 }
             ]
         }
