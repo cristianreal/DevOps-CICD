@@ -1,29 +1,31 @@
 <template>
 	<div class="container">
-		<h1 align="center" class="display-3">Listar Marcas</h1>
+		<h1 align="center" class="display-3">Listar Proveedores</h1>
 		<!-- LIMIT CREATE -->
 		<hr>
 			<p class="error" v-if="error">{{error}}</p>
 			<table class="table table-hover">
 				<thead>
 					<tr class="table-secondary">
-						<th scope="col">Nombre</th>
-						<th scope="col">Pais</th>
-						<th scope="col">Web Page</th>
-						<th scope="col">Opciones</th>
-					</tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Direccion</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
 				</thead>
 				<tbody>
 					<tr class="table-primary" v-for="(post, index) in posts" 
                         v-bind:item="post" 
                         v-bind:index="index" 
-                        v-bind:key="post.pk_marca" >
-						<td> {{post.nombre}} </td>
-						<td> {{post.pagina_web}} </td>
-						<td> {{post.pais}} </td>
+                        v-bind:key="post.pk_proveedor" >
+						<td> {{post.nombre }} {{post.apellido }}</td>
+                        <td> {{post.telefono }}</td>
+                        <td> {{post.email }}</td>
+                        <td> {{post.direccion }}, {{post.ciudad }}, {{post.pais }}</td>
 						<td>
-							<router-link :to="'/marca/editar/' + post.pk_marca" class="btn btn-info"  >Editar</router-link>
-							<a class="btn btn-warning" @click="deletePost(post.pk_marca)"  >Eliminar</a>
+							<router-link :to="'/proveedores/editar/' + post.pk_proveedor" class="btn btn-info"  >Editar</router-link>
+							<a class="btn btn-warning" @click="deletePost(post.pk_proveedor)"  >Eliminar</a>
 						</td>
 					</tr>
 				</tbody>
@@ -33,7 +35,7 @@
 
 <script>
 import axios from 'axios';
-const _PATH = "/api/marcas/";
+const _PATH = "/api/proveedores/";
 
 export default {
     name: 'listar',
@@ -49,7 +51,6 @@ export default {
         this.getPosts()
     },
     methods: {
-
         getPosts() {
             axios.get(this.url).then(
                 result => {

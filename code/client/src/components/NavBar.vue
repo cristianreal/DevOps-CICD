@@ -9,8 +9,8 @@
          <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Marcas</a>
                     <div class="dropdown-menu" style="">
-                        <router-link to="/marca/crear" class="nav-link"  >Crear</router-link>
-                        <router-link to="/marca/listar" class="nav-link"  >Listar</router-link>
+                        <router-link to="/marca/crear" class="dropdown-item"  >Crear</router-link>
+                        <router-link to="/marca/listar" class="dropdown-item"  >Listar</router-link>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -23,8 +23,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Proveedores</a>
                     <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" href="/proveedor/crear">Crear</a>
-                        <a class="dropdown-item" href="/proveedor/listar">Listar</a>
+                        <router-link to="/proveedor/crear" class="dropdown-item"  >Crear</router-link>
+                        <router-link to="/proveedor/listar" class="dropdown-item"  >Listar</router-link>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
