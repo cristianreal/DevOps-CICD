@@ -1,7 +1,6 @@
 -- GENERO= 1->Masculino, 2->Femenino
 -- TipoUsuario = 1->Admin, 2->Vendedor, 3->Proveedor
-DROP TABLE IF EXISTS usuario;
-CREATE TABLE usuario(
+CREATE TABLE IF NOT EXISTS usuario(
 	pk_usuario		INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nombre			VARCHAR(50),
 	apellido		VARCHAR(50),
