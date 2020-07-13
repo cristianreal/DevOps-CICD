@@ -22,7 +22,7 @@ router.post('/', urlencodedParser, (req, res) => {
             error: "Bad Data"
         })
     }else{
-        connection.query('call Marca_Crear(\''+req.body.name+'\',\''+req.body.country+'\',\''+req.body.webpage+'\')', function (err, rows, fields) {
+        connection.query('call Proveedor_Crear(\''+req.body.name+'\',\''+req.body.country+'\',\''+req.body.webpage+'\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("name added")
         });
