@@ -21,7 +21,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   cluster    = google_container_cluster.primary.name
   node_count = 1
   min_node_count = 1
-  min_node_count = 1
+  max_node_count = 1
 
   node_config {
     preemptible  = true
