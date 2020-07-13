@@ -3,8 +3,8 @@
         <div v-if="testButClicked" class="alert alert-success" role="alert">
             {{elemento}} Guardado
         </div>
-        <h4>Crear proveedor</h4>
 		<div class="jumbotron">
+        <h4>Crear proveedor</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
