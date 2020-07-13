@@ -51,10 +51,6 @@ export default {
     methods: {
 
         getPosts() {
-<<<<<<< HEAD
-=======
-            console.log(this.url);
->>>>>>> variable global de localhost
             axios.get(this.url).then(
                 result => {
                     this.posts = result.data[0]
