@@ -88,8 +88,6 @@ workflows:
                 only:
                   - master
       - cd:
-          requires:
-            - ci
           filters:
               branches:
                 only:
