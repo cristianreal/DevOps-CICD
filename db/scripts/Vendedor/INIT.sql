@@ -1,5 +1,6 @@
-#JORNADA = 1->Matutina, 2->Vespertina
-CREATE TABLE IF NOT EXISTS vendedor(
+-- JORNADA = 1->Matutina, 2->Vespertina
+DROP TABLE IF EXISTS vendedor;
+CREATE TABLE vendedor(
 	pk_vendedor			INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	fecha_nacimiento	DATE,
 	fecha_vinculacion	DATE,

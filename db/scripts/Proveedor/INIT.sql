@@ -1,4 +1,5 @@
-CREATE TABLE IF NOT EXISTS proveedor(
+DROP TABLE IF EXISTS proveedor;
+CREATE TABLE proveedor(
 	pk_proveedor	INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	pagina_web		VARCHAR(50),
 	pais			VARCHAR(50),

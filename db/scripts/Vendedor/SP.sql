@@ -19,9 +19,9 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	#JORNADA = 1->Matutina, 2->Vespertina
-	#GENERO= 1->Masculino, 2->Femenino
-	#TipoUsuario = 1->Admin, 2->Vendedor, 3->Proveedor
+	-- JORNADA = 1->Matutina, 2->Vespertina
+	-- GENERO= 1->Masculino, 2->Femenino
+	-- TipoUsuario = 1->Admin, 2->Vendedor, 3->Proveedor
 	INSERT INTO vendedor (fecha_nacimiento, fecha_vinculacion, jornada)
 	VALUES (cfecha_nacimiento, cfecha_vinculacion, cjornada);
 
