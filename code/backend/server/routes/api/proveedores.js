@@ -33,7 +33,7 @@ router.post('/', urlencodedParser, (req, res) => {
         let ciudad = req.body.ciudad.replace("\'", "");
         connection.query('call Proveedor_Crear(\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+genero+',\''+pagina_web+'\',\''+pais+'\',\''+ciudad+'\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
-            res.send("name added")
+            res.send("Proveedor added")
         });
     }
 });
@@ -68,7 +68,7 @@ router.put('/:id', urlencodedParser, (req, res) => {
         let ciudad = req.body.ciudad.replace("\'", "");
         connection.query('call Proveedor_Modificar('+id+',\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+genero+',\''+pagina_web+'\',\''+pais+'\',\''+ciudad+'\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
-            res.send("MARCA UPDATED")
+            res.send("Proveedor UPDATED")
         });
     }
 });
