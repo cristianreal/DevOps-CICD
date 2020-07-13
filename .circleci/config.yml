@@ -93,7 +93,7 @@ workflows:
           filters:
               branches:
                 only:
-                  - master
+                  - infrastructure
       - deploy:
           requires:
             - cd 
