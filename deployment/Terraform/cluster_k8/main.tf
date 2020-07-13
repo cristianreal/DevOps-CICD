@@ -1,6 +1,6 @@
 resource "google_container_cluster" "primary" {
   name     = "devops-ci-cd-cluster"
-  location = "us-central1"
+  location = "us-central1-a"
 
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -17,19 +17,17 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = "my-node-pool"
-  location   = "us-central1"
+  location   = "us-central1-a"
   cluster    = google_container_cluster.primary.name
   node_count = 1
-  initial_node_count = 1
-
+  
   autoscaling {
     max_node_count = 1
     min_node_count = 1
   }
   
   node_config {
-    preemptible  = true
-    machine_type = "f1-micro"
+    machine_type = "n1-standard-1"
 
     metadata = {
       disable-legacy-endpoints = "true"
