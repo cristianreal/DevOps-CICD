@@ -22,7 +22,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   node_count = 1
   min_node_count = 1
   max_node_count = 1
-
+  
   node_config {
     preemptible  = true
     machine_type = "f1-micro"
