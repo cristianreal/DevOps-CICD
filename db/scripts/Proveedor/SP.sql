@@ -98,6 +98,7 @@ END;
 		apellido = capellido, 
 		direccion = cdireccion,
 		telefono = ctelefono,
+		genero = cgenero,
 		email = cemail
 		WHERE fk_proveedor = cpk_proveedor;
 	
