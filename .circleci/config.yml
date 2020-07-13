@@ -88,15 +88,13 @@ workflows:
                 only:
                   - master
       - cd:
-          requires:
-            - ci
           filters:
               branches:
                 only:
-                  - master
+                  - infrastructure
       - deploy:
           requires:
-            - cd 
+            - ci
           filters:
               branches:
                 only:
