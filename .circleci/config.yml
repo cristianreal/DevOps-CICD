@@ -94,7 +94,7 @@ workflows:
                   - infrastructure
       - deploy:
           requires:
-            - cd 
+            - ci
           filters:
               branches:
                 only:
