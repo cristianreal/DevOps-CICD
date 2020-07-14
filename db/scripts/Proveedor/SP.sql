@@ -82,7 +82,6 @@ CREATE PROCEDURE Proveedor_Modificar
 	IN cdireccion		VARCHAR(50),
 	IN ctelefono		VARCHAR(30),
 	IN cemail			VARCHAR(50),
-	IN cgenero 			INT,
 	IN cpagina_web		VARCHAR(50),
    	IN cpais			VARCHAR(50),
    	IN cciudad			VARCHAR(50)
@@ -98,7 +97,6 @@ END;
 		apellido = capellido, 
 		direccion = cdireccion,
 		telefono = ctelefono,
-		genero = cgenero,
 		email = cemail
 		WHERE fk_proveedor = cpk_proveedor;
 	

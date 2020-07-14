@@ -10,10 +10,10 @@ CALL Vendedor_Crear('Miguel', 'Ruano', 'Chimaltenango', '87654321', 'miguel@gmai
 CALL Vendedor_Crear('Andrea', 'Lopez', 'Guatemala', '12345678', 'andrea@gmail.com', 2, '1999-01-07', '2020-05-15', 2);
 CALL Vendedor_Crear('Lucia', 'Flores', 'Mexico', '87654321', 'lucia@gmail.com', 2, '2001-03-16', '2020-05-15', 2);
 -- ******************************************************************************
-CALL Vendedor_Modificar(1, 'Andres', 'Iniesta', 'Suiza', '11111111', 'ai@gmail.com', 2);
+CALL Vendedor_Modificar(1, 'Andres', 'Iniesta', 'Switzerland', '11111111', 'ai@gmail.com', 2);
 -- ******************************************************************************
-CALL Proveedor_Crear('Antonio','Hernandez', 'Guatemala', '65478124', 'ant@gmail.com', 1, 'www.mattel.com', 'Suiza', 'Luxemburgo');
-CALL Proveedor_Crear('Lucas','Perez', 'Honduras', '14571234', 'lu@gmail.com', 1, 'www.test1.com', 'Alemania', 'Chelsea');
-CALL Proveedor_Crear('Raul','Lozano', 'Mexico', '21479563', 'ra@gmail.com', 1, 'www.test2.com', 'Holando', 'Henna');
-CALL Proveedor_Crear('Fernando','Abad', 'Costa Rica', '42135687', 'fer@gmail.com', 1, 'www.test3.com', 'Espania', 'Madrid');
+CALL Proveedor_Crear('Antonio','Hernandez', 'Guatemala', '65478124', 'ant@gmail.com', 1, 'www.mattel.com', 'Switzerland', 'Luxemburgo');
+CALL Proveedor_Crear('Lucas','Perez', 'Honduras', '14571234', 'lu@gmail.com', 1, 'www.test1.com', 'Germany', 'Chelsea');
+CALL Proveedor_Crear('Raul','Lozano', 'Mexico', '21479563', 'ra@gmail.com', 1, 'www.test2.com', 'Netherlands', 'Henna');
+CALL Proveedor_Crear('Fernando','Abad', 'Costa Rica', '42135687', 'fer@gmail.com', 1, 'www.test3.com', 'Spain', 'Madrid');
 -- ******************************************************************************
