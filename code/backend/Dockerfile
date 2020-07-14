@@ -20,7 +20,6 @@ COPY package*.json ./
 
 EXPOSE 5000
 
-
-RUN npm install
+RUN npm install && npm test
 
 CMD [ "npm", "run", "dev" ]
