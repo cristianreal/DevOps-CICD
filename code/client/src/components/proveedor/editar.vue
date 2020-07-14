@@ -338,7 +338,6 @@ export default {
                         throw "No existe el proveedor indicado";    // throw a text
                     }else{
                         this.proveedor = this.proveedores[0];
-                        console.log(this.proveedor.pais);
                         this.namebuyer = this.proveedores[0].nombre;
                         this.lastnamebuyer = this.proveedores[0].apellido;
                         this.dirbuyer = this.proveedores[0].direccion;
@@ -354,7 +353,6 @@ export default {
             )
         },
         createPost() {
-            console.log(this.url+"/"+this.id_proveedor);
             axios.put(this.url+"/"+this.id_proveedor, {
                 nombre: this.namebuyer,
                 apellido: this.lastnamebuyer,
