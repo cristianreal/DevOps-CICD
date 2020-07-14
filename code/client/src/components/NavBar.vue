@@ -16,8 +16,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Vendedores</a>
                     <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" href="/vendedor/crear">Crear</a>
-                        <a class="dropdown-item" href="/vendedor/listar">Listar</a>
+                        <router-link to="/vendedor/crear" class="dropdown-item"  >Crear</router-link>
+                        <router-link to="/vendedor/listar" class="dropdown-item"  >Listar</router-link>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
