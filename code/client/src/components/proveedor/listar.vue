@@ -24,7 +24,7 @@
                         <td> {{post.email }}</td>
                         <td> {{post.direccion }}, {{post.ciudad }}, {{post.pais }}</td>
 						<td>
-							<router-link :to="'/proveedores/editar/' + post.pk_proveedor" class="btn btn-info"  >Editar</router-link>
+							<router-link :to="'/proveedor/editar/' + post.pk_proveedor" class="btn btn-info"  >Editar</router-link>
 							<a class="btn btn-warning" @click="deletePost(post.pk_proveedor)"  >Eliminar</a>
 						</td>
 					</tr>

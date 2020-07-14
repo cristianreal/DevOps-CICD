@@ -4,7 +4,7 @@
             {{elemento}} Guardado
         </div>
 		<div class="jumbotron">
-        <h4>Crear proveedor</h4>
+			<h4 align="center" >Crear Proveedor</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -23,20 +23,12 @@
                         <label class="col-form-label" for="telbuyer">Telefono</label>
                         <input type="text" class="form-control" placeholder="Ingrese el numero de telefono" v-model="telbuyer" id="telbuyer" name="telbuyer">
                     </div>
-					<div class="form-group">
+                    <div class="form-group">
 						<label class="col-form-label" for="emailbuyer">Email</label>
 						<input type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="emailbuyer" id="emailbuyer" name="emailbuyer">
 					</div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label" for="genderbuyer">Genero</label>
-                        <select class="custom-select" v-model="genderbuyer" id="genderbuyer" name="genderbuyer">
-                            <option selected="">Seleccione el genero</option>
-                            <option value="1">Masculino</option>
-                            <option value="2">Femenino</option>
-                        </select>
-                    </div>
                     <div class="form-group">
                         <label class="col-form-label" for="webpage">Pagina web</label>
                         <input type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="webpage" id="webpage" name="webpage">
@@ -304,3 +296,88 @@
 		</div>
     </div>
 </template>
+<script>
+import axios from 'axios';
+const _PATH = "/api/proveedores/";
+
+export default {
+    name: 'editar',
+    data() {
+        return {
+            proveedores: [],
+            proveedor: {
+                nombre : '',
+                apellido: '',
+                direccion: '',
+                telefono: '',
+                email: '',
+                genero: '',
+                webpage: '',
+                pais: '',
+                ciudad: ''
+            },
+            error: '',
+            text: '',
+            elemento: '',
+            testButClicked: false,
+            id_proveedor: this.$route.params.pkproveedor,
+            url: "http://" + this.$http + ":" + this.$port + _PATH
+        }
+    },
+    mounted() {
+        this.obtenerProveedor()
+    },
+    methods: {
+        testToast() {
+            this.testButClicked = true;
+        },
+        obtenerProveedor() {
+            axios.get(this.url+"/"+this.id_proveedor).then(
+                result => {
+                    this.proveedores = result.data[0]
+                    if(this.proveedores.length == 0){
+                        throw "No existe el proveedor indicado";    // throw a text
+                    }else{
+                        this.proveedor = this.proveedores[0];
+                        this.namebuyers = this.proveedores[0].nombre;
+                        this.lastnamebuyer = this.proveedores[0].apellido;
+                        this.dirbuyer = this.proveedores[0].direccion;
+                        this.telbuyer = this.proveedores[0].telefono;
+                        this.emailbuyer = this.proveedores[0].email;
+                        this.webpage = this.proveedores[0].pagina_web;
+                        this.country = this.proveedores[0].pais;
+                        this.city = this.proveedores[0].ciudad;
+                    }
+                }, error => {
+                    console.error(error)
+                }
+            )
+        },
+        createPost() {
+            axios.put(this.url+"/"+this.id_marca, {
+                nombre: this.namebuyer,
+                apellido: this.lastnamebuyer,
+                direccion: this.dirbuyer,
+                telefono: this.telbuyer,
+                email: this.emailbuyer,
+                pagina_web: this.emailbuyer,
+                country: this.country,
+                city: this.city
+            }).then(() => {
+                this.elemento = "Proveedor #"+this.id_marca
+                this.testToast()
+            }).catch((error) => {
+                console.error(error)
+                return;
+            })
+        }
+    },
+    watch: {
+        testButClicked(val) {
+            if (val) {
+                setTimeout(() => this.testButClicked = false, 1000);
+            }
+        }
+    }
+};
+</script>

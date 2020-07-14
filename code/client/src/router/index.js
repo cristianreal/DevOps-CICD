@@ -11,6 +11,7 @@ import marcaEditarComponent from '@/components/marca/editar'
 //----------- Proveedor -----------------------------
 import proveedorListarComponent from '@/components/proveedor/listar'
 import proveedorCrearComponent from '@/components/proveedor/crear'
+import proveedorEditarComponent from '@/components/proveedor/editar'
 
 Vue.use(Router)
 
@@ -55,6 +56,10 @@ export default new Router({
                 {
                     path: 'listar',
                     component: proveedorListarComponent
+                },
+                {
+                    path: 'editar/:pkproveedor',
+                    component: proveedorEditarComponent
                 }
             ]
         }
