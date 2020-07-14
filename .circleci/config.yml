@@ -6,9 +6,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Pruebas"
+          name: "Tests backend"
           command: |
-            echo "ejecutando pruebas unitarias"
+            cd ${HOME}/project/code/backend
+            docker build -t christianreal/backend-nodejs:${CIRCLE_SHA1} .
+            docker run --name node --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
+            docker exec -it node npm test
   ci:
     machine:
       image: ubuntu-1604:201903-01
@@ -77,11 +80,11 @@ workflows:
   version: 2
   pipeline-principal:
     jobs:
-#      - test:
-#          filters:
-#              branches:
-#                only:
-#                  - developer
+      - test:
+          filters:
+              branches:
+                only:
+                  - developer
       - ci:
           filters:
               branches:
