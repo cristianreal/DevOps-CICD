@@ -1,18 +1,18 @@
 <template>
 	<div class="container">
 		<div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Guardado
+            {{elemento}} Editado
         </div>
 		<div class="jumbotron">
-			<h4 align="center" >Crear Marca</h4>
+			<h3 align="center" class="display-4">Detalle Marca #{{id_marca}}</h3>
 			<hr class="my-1">
 				<div class="form-group">
 					<label class="col-form-label" for="namebrand">Nombre de marca</label>
-					<input type="text" class="form-control" placeholder="Ingrese el nombre de la marca" v-model="namebrand" id="namebrand" name="namebrand">
+					<input disabled type="text" class="form-control" placeholder="Ingrese el nombre de la marca"  v-model="namebrand" id="namebrand" name="namebrand" :value="marca.nombre">
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="country">Pais de origen</label>
-						<select class="custom-select" id="country" v-model="country" name="country" >
+						<select disabled class="custom-select" id="country" v-model="country" name="country" >
 							<option value="Afganistan">Afghanistan</option>
 							<option value="Albania">Albania</option>
 							<option value="Algeria">Algeria</option>
@@ -263,47 +263,57 @@
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="webpage">Pagina web</label>
-						<input type="text" class="form-control" placeholder="Ingrese la pagina oficial de la marca" v-model="webpage"  id="webpage" name="webpage">
-						</div>
-						<button  class="btn btn-primary"  v-on:click="createPost">Guardar</button>
+						<input disabled type="text" class="form-control" placeholder="Ingrese la pagina oficial de la marca" v-model="webpage"  id="webpage" name="webpage" :value="marca.pagina_web">
+					</div>
 					</div>
 				</div>
 			</template>
 
 <script>
 import axios from 'axios';
-const _PATH = "/api/marcas/";
+const _PATH = "/api/marcas";
 
 export default {
-    name: 'crear',
+    name: 'editar',
     data() {
         return {
+            marcas: [],
+            marca: {
+                nombre : '',
+                pais: '',
+                pagina_web: ''
+            },
             error: '',
             text: '',
             elemento: '',
             testButClicked: false,
+            id_marca: this.$route.params.pkmarca,
             url: "http://" + this.$http + ":" + this.$port + _PATH
         }
+    },
+    mounted() {
+        this.obtenerMarca()
     },
     methods: {
         testToast() {
             this.testButClicked = true;
         },
-        createPost() {
-            axios.post(this.url, {
-                name: this.namebrand,
-                country: this.country,
-                webpage: this.webpage
-            }).then(() => {
-                this.elemento = "Marca ["+this.namebrand+"]"
-                this.namebrand = ''
-                this.country= ''
-                this.webpage= ''
-                this.testToast()
-            }).catch((error) => {
-                console.error(error)
-                return;
-            })
+        obtenerMarca() {
+            axios.get(this.url+"/"+this.id_marca).then(
+                result => {
+                    this.marcas = result.data[0]
+                    if(this.marcas.length == 0){
+                        throw "No existe la marca indicada";    // throw a text
+                    }else{
+                        this.marca = this.marcas[0];
+                        this.namebrand = this.marcas[0].nombre;
+                        this.country = this.marcas[0].pais;
+                        this.webpage = this.marcas[0].pagina_web;
+                    }
+                }, error => {
+                    console.error(error)
+                }
+            )
         }
     },
     watch: {

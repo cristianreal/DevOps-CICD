@@ -1,5 +1,6 @@
 USE test_proyectoeps;
 -- CREATE TABLES
+ source ./scripts/Usuario/INIT.sql
  source ./scripts/Marca/INIT.sql
  source ./scripts/Proveedor/INIT.sql
  source ./scripts/Vendedor/INIT.sql

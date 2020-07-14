@@ -7,7 +7,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const router = express.Router();
 router.get('/', (req, res) => {
-    connection.query('call Proveedor_Listar()', function (err, rows, fields) {
+    connection.query('call Vendedor_Listar()', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
         //console.log('The solution is: ', rows[0].name)
@@ -28,12 +28,12 @@ router.post('/', urlencodedParser, (req, res) => {
         let telefono = req.body.telefono.replace("\'", "");
         let email = req.body.email.replace("\'", "");
         let genero = req.body.genero.replace("\'", "");
-        let pagina_web = req.body.pagina_web.replace("\'", "");
-        let pais = req.body.pais.replace("\'", "");
-        let ciudad = req.body.ciudad.replace("\'", "");
-        connection.query('call Proveedor_Crear(\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+genero+',\''+pagina_web+'\',\''+pais+'\',\''+ciudad+'\')', function (err, rows, fields) {
+        let fecha_nacimiento = req.body.fecha_nacimiento.replace("\'", "");
+        let fecha_vinculacion = req.body.fecha_vinculacion.replace("\'", "");
+        let jornada = req.body.jornada.replace("\'", "");
+        connection.query('call Vendedor_Crear(\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+genero+',\''+fecha_nacimiento+'\',\''+fecha_vinculacion+'\','+jornada+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
-            res.send("Proveedor added")
+            res.send("Vendedor added")
         });
     }
 });
@@ -41,7 +41,7 @@ router.post('/', urlencodedParser, (req, res) => {
 //OBTENER MARCA ESPECIFICA
 router.get('/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
-    connection.query('call Proveedor_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+    connection.query('call Vendedor_Buscar_Por_Id('+id+')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
@@ -62,22 +62,20 @@ router.put('/:id', urlencodedParser, (req, res) => {
         let direccion = req.body.direccion.replace("\'", "");
         let telefono = req.body.telefono.replace("\'", "");
         let email = req.body.email.replace("\'", "");
-        let pagina_web = req.body.pagina_web.replace("\'", "");
-        let pais = req.body.pais.replace("\'", "");
-        let ciudad = req.body.ciudad.replace("\'", "");
-        connection.query('call Proveedor_Modificar('+id+',\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\',\''+pagina_web+'\',\''+pais+'\',\''+ciudad+'\')', function (err, rows, fields) {
+        let jornada = req.body.jornada;
+        connection.query('call Vendedor_Modificar('+id+',\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+jornada+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
-            res.send("Proveedor UPDATED")
+            res.send("Vendedores UPDATED")
         });
     }
 });
 
 //DELETE
 router.delete('/:id', (req, res) => {
-    connection.query('call Proveedor_Eliminar('+req.params.id+')', 
+    connection.query('call Vendedor_Eliminar('+req.params.id+')', 
     function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
-        res.send("name deleted")
+        res.send("Vendedor eliminado")
     });
 });
 
