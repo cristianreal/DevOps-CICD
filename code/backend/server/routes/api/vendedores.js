@@ -62,7 +62,7 @@ router.put('/:id', urlencodedParser, (req, res) => {
         let direccion = req.body.direccion.replace("\'", "");
         let telefono = req.body.telefono.replace("\'", "");
         let email = req.body.email.replace("\'", "");
-        let jornada = req.body.jornada.replace("\'", "");
+        let jornada = req.body.jornada;
         connection.query('call Vendedor_Modificar('+id+',\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+jornada+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Vendedores UPDATED")

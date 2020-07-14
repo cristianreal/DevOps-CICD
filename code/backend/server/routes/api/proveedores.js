@@ -62,11 +62,10 @@ router.put('/:id', urlencodedParser, (req, res) => {
         let direccion = req.body.direccion.replace("\'", "");
         let telefono = req.body.telefono.replace("\'", "");
         let email = req.body.email.replace("\'", "");
-        let genero = req.body.genero.replace("\'", "");
         let pagina_web = req.body.pagina_web.replace("\'", "");
         let pais = req.body.pais.replace("\'", "");
         let ciudad = req.body.ciudad.replace("\'", "");
-        connection.query('call Proveedor_Modificar('+id+',\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+genero+',\''+pagina_web+'\',\''+pais+'\',\''+ciudad+'\')', function (err, rows, fields) {
+        connection.query('call Proveedor_Modificar('+id+',\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\',\''+pagina_web+'\',\''+pais+'\',\''+ciudad+'\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Proveedor UPDATED")
         });
