@@ -272,7 +272,7 @@
 
 <script>
 import axios from 'axios';
-const _PATH = "/api/marcas/";
+const _PATH = "/api/marcas";
 
 export default {
     name: 'editar',

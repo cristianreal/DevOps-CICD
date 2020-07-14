@@ -9,7 +9,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-form-label" for="namebuyer">Nombre proveedor</label>
-                        <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="namebuyer" id="namebuyer" name="namebuyer">
+                        <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="namebuyer" id="namebuyer" name="namebuyer" :value="proveedor.nombre">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="lastnamebuyer">Apellido proveedor</label>
@@ -23,12 +23,12 @@
                         <label class="col-form-label" for="telbuyer">Telefono</label>
                         <input type="text" class="form-control" placeholder="Ingrese el numero de telefono" v-model="telbuyer" id="telbuyer" name="telbuyer">
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
 						<label class="col-form-label" for="emailbuyer">Email</label>
 						<input type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="emailbuyer" id="emailbuyer" name="emailbuyer">
 					</div>
-                </div>
-                <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-form-label" for="webpage">Pagina web</label>
                         <input type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="webpage" id="webpage" name="webpage">
@@ -298,7 +298,7 @@
 </template>
 <script>
 import axios from 'axios';
-const _PATH = "/api/proveedores/";
+const _PATH = "/api/proveedores";
 
 export default {
     name: 'editar',
@@ -311,7 +311,6 @@ export default {
                 direccion: '',
                 telefono: '',
                 email: '',
-                genero: '',
                 webpage: '',
                 pais: '',
                 ciudad: ''
@@ -339,7 +338,8 @@ export default {
                         throw "No existe el proveedor indicado";    // throw a text
                     }else{
                         this.proveedor = this.proveedores[0];
-                        this.namebuyers = this.proveedores[0].nombre;
+                        console.log(this.proveedor.pais);
+                        this.namebuyer = this.proveedores[0].nombre;
                         this.lastnamebuyer = this.proveedores[0].apellido;
                         this.dirbuyer = this.proveedores[0].direccion;
                         this.telbuyer = this.proveedores[0].telefono;
@@ -354,17 +354,18 @@ export default {
             )
         },
         createPost() {
-            axios.put(this.url+"/"+this.id_marca, {
+            console.log(this.url+"/"+this.id_proveedor);
+            axios.put(this.url+"/"+this.id_proveedor, {
                 nombre: this.namebuyer,
                 apellido: this.lastnamebuyer,
                 direccion: this.dirbuyer,
                 telefono: this.telbuyer,
                 email: this.emailbuyer,
                 pagina_web: this.emailbuyer,
-                country: this.country,
-                city: this.city
+                pais: this.country,
+                ciudad: this.city
             }).then(() => {
-                this.elemento = "Proveedor #"+this.id_marca
+                this.elemento = "Proveedor #"+this.id_proveedor
                 this.testToast()
             }).catch((error) => {
                 console.error(error)
