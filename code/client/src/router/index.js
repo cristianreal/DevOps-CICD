@@ -8,10 +8,12 @@ import contenedor from '@/components/contenedor'
 import marcarListarComponent from '@/components/marca/listar'
 import marcaCrearComponent from '@/components/marca/crear'
 import marcaEditarComponent from '@/components/marca/editar'
+import marcaDetalleComponent from '@/components/marca/detalle'
 //----------- Proveedor -----------------------------
 import proveedorListarComponent from '@/components/proveedor/listar'
 import proveedorCrearComponent from '@/components/proveedor/crear'
 import proveedorEditarComponent from '@/components/proveedor/editar'
+import proveedorDetalleComponent from '@/components/proveedor/detalle'
 
 Vue.use(Router)
 
@@ -40,6 +42,10 @@ export default new Router({
                     component: marcarListarComponent
                 },
                 {
+                    path: 'detalle/:pkmarca',
+                    component: marcaDetalleComponent
+                },
+                {
                     path: 'editar/:pkmarca',
                     component: marcaEditarComponent
                 }
@@ -56,6 +62,10 @@ export default new Router({
                 {
                     path: 'listar',
                     component: proveedorListarComponent
+                },
+                {
+                    path: 'detalle/:pkproveedor',
+                    component: proveedorDetalleComponent
                 },
                 {
                     path: 'editar/:pkproveedor',

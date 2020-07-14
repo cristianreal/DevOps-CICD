@@ -4,38 +4,38 @@
             {{elemento}} Guardado
         </div>
 		<div class="jumbotron">
-			<h4 align="center" >Editar Proveedor #{{id_proveedor}}</h4>
+			<h4 align="center" >Detalle Proveedor #{{id_proveedor}}</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-form-label" for="namebuyer">Nombre proveedor</label>
-                        <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="namebuyer" id="namebuyer" name="namebuyer" :value="proveedor.nombre">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="namebuyer" id="namebuyer" name="namebuyer" :value="proveedor.nombre">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="lastnamebuyer">Apellido proveedor</label>
-                        <input type="text" class="form-control" placeholder="Ingrese el apellido" v-model="lastnamebuyer" id="lastnamebuyer" name="lastnamebuyer">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese el apellido" v-model="lastnamebuyer" id="lastnamebuyer" name="lastnamebuyer">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="dirbuyer">Direccion domiciliar</label>
-                        <input type="text" class="form-control" placeholder="Ingrese la direccion de su domicilio" v-model="dirbuyer" id="dirbuyer" name="dirbuyer">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese la direccion de su domicilio" v-model="dirbuyer" id="dirbuyer" name="dirbuyer">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="telbuyer">Telefono</label>
-                        <input type="text" class="form-control" placeholder="Ingrese el numero de telefono" v-model="telbuyer" id="telbuyer" name="telbuyer">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese el numero de telefono" v-model="telbuyer" id="telbuyer" name="telbuyer">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
 						<label class="col-form-label" for="emailbuyer">Email</label>
-						<input type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="emailbuyer" id="emailbuyer" name="emailbuyer">
+						<input disabled type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="emailbuyer" id="emailbuyer" name="emailbuyer">
 					</div>
                     <div class="form-group">
                         <label class="col-form-label" for="webpage">Pagina web</label>
-                        <input type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="webpage" id="webpage" name="webpage">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="webpage" id="webpage" name="webpage">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="country">Pais</label>
-                        <select class="custom-select" id="country" v-model="country" name="country" >
+                        <select disabled class="custom-select" id="country" v-model="country" name="country" >
                             <option value="Afganistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
                             <option value="Algeria">Algeria</option>
@@ -286,10 +286,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="city">Ciudad</label>
-                        <input type="text" class="form-control" placeholder="Ingrese su ciudad"  v-model="city" id="city" name="city">
-                    </div>
-                    <div class="modal-footer">
-                    <button  class="btn btn-primary"  v-on:click="createPost">Guardar</button>
+                        <input disabled type="text" class="form-control" placeholder="Ingrese su ciudad"  v-model="city" id="city" name="city">
                     </div>
                 </div>
             </div>
@@ -351,24 +348,6 @@ export default {
                     console.error(error)
                 }
             )
-        },
-        createPost() {
-            axios.put(this.url+"/"+this.id_proveedor, {
-                nombre: this.namebuyer,
-                apellido: this.lastnamebuyer,
-                direccion: this.dirbuyer,
-                telefono: this.telbuyer,
-                email: this.emailbuyer,
-                pagina_web: this.webpage,
-                pais: this.country,
-                ciudad: this.city
-            }).then(() => {
-                this.elemento = "Proveedor #"+this.id_proveedor
-                this.testToast()
-            }).catch((error) => {
-                console.error(error)
-                return;
-            })
         }
     },
     watch: {

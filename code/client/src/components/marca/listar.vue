@@ -22,6 +22,7 @@
 						<td> {{post.pagina_web}} </td>
 						<td> {{post.pais}} </td>
 						<td>
+							<router-link :to="'/marca/detalle/' + post.pk_marca" class="btn btn-success"  >Editar</router-link>
 							<router-link :to="'/marca/editar/' + post.pk_marca" class="btn btn-info"  >Editar</router-link>
 							<a class="btn btn-warning" @click="deletePost(post.pk_marca)"  >Eliminar</a>
 						</td>

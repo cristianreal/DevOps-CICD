@@ -4,15 +4,15 @@
             {{elemento}} Editado
         </div>
 		<div class="jumbotron">
-			<h3 align="center" class="display-4">Editar Marca #{{id_marca}}</h3>
+			<h3 align="center" class="display-4">Detalle Marca #{{id_marca}}</h3>
 			<hr class="my-1">
 				<div class="form-group">
 					<label class="col-form-label" for="namebrand">Nombre de marca</label>
-					<input type="text" class="form-control" placeholder="Ingrese el nombre de la marca"  v-model="namebrand" id="namebrand" name="namebrand" :value="marca.nombre">
+					<input disabled type="text" class="form-control" placeholder="Ingrese el nombre de la marca"  v-model="namebrand" id="namebrand" name="namebrand" :value="marca.nombre">
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="country">Pais de origen</label>
-						<select class="custom-select" id="country" v-model="country" name="country" >
+						<select disabled class="custom-select" id="country" v-model="country" name="country" >
 							<option value="Afganistan">Afghanistan</option>
 							<option value="Albania">Albania</option>
 							<option value="Algeria">Algeria</option>
@@ -263,9 +263,8 @@
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="webpage">Pagina web</label>
-						<input type="text" class="form-control" placeholder="Ingrese la pagina oficial de la marca" v-model="webpage"  id="webpage" name="webpage" :value="marca.pagina_web">
-						</div>
-						<button  class="btn btn-primary"  v-on:click="createPost">Guardar</button>
+						<input disabled type="text" class="form-control" placeholder="Ingrese la pagina oficial de la marca" v-model="webpage"  id="webpage" name="webpage" :value="marca.pagina_web">
+					</div>
 					</div>
 				</div>
 			</template>
@@ -315,19 +314,6 @@ export default {
                     console.error(error)
                 }
             )
-        },
-        createPost() {
-            axios.put(this.url+"/"+this.id_marca, {
-                name: this.namebrand,
-                country: this.country,
-                webpage: this.webpage
-            }).then(() => {
-                this.elemento = "Marca #"+this.id_marca
-                this.testToast()
-            }).catch((error) => {
-                console.error(error)
-                return;
-            })
         }
     },
     watch: {
