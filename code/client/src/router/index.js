@@ -2,7 +2,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import GetComponent from '@/components/GetComponent'
 import contenedor from '@/components/contenedor'
 //------------ Marcas ------------------------------
 import marcarListarComponent from '@/components/marca/listar'
@@ -24,6 +23,8 @@ import productoListarComponent from '@/components/producto/listar'
 import productoCrearComponent from '@/components/producto/crear'
 import productoEditarComponent from '@/components/producto/editar'
 import productoDetalleComponent from '@/components/producto/detalle'
+//----------- Movimiento ------------------------------
+import movimientoEntradaComponent from '@/components/movimiento/entrada'
 
 Vue.use(Router)
 
@@ -33,11 +34,6 @@ export default new Router({
             path: '/',
             name: 'POST',
             component: Home
-        },
-        {
-            path: '/GET',
-            name: 'GET',
-            component: GetComponent,
         },
         {
             path: '/marca/', 
@@ -124,6 +120,16 @@ export default new Router({
                 {
                     path: 'editar/:pkproducto',
                     component: productoEditarComponent
+                }
+            ]
+        },
+        {
+            path: '/movimiento/', 
+            component: contenedor,
+            children: [
+                {
+                    path: 'entrada',
+                    component: movimientoEntradaComponent
                 }
             ]
         }
