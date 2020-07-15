@@ -2,7 +2,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import GetComponent from '@/components/GetComponent'
 import contenedor from '@/components/contenedor'
 //------------ Marcas ------------------------------
 import marcarListarComponent from '@/components/marca/listar'
@@ -19,6 +18,13 @@ import vendedorListarComponent from '@/components/vendedor/listar'
 import vendedorCrearComponent from '@/components/vendedor/crear'
 import vendedorEditarComponent from '@/components/vendedor/editar'
 import vendedorDetalleComponent from '@/components/vendedor/detalle'
+//----------- Prooducto ------------------------------
+import productoListarComponent from '@/components/producto/listar'
+import productoCrearComponent from '@/components/producto/crear'
+import productoEditarComponent from '@/components/producto/editar'
+import productoDetalleComponent from '@/components/producto/detalle'
+//----------- Movimiento ------------------------------
+import movimientoEntradaComponent from '@/components/movimiento/entrada'
 
 Vue.use(Router)
 
@@ -28,11 +34,6 @@ export default new Router({
             path: '/',
             name: 'POST',
             component: Home
-        },
-        {
-            path: '/GET',
-            name: 'GET',
-            component: GetComponent,
         },
         {
             path: '/marca/', 
@@ -97,6 +98,38 @@ export default new Router({
                 {
                     path: 'editar/:pkvendedor',
                     component: vendedorEditarComponent
+                }
+            ]
+        },
+        {
+            path: '/producto/', 
+            component: contenedor,
+            children: [
+                {
+                    path: 'crear',
+                    component: productoCrearComponent
+                },
+                {
+                    path: 'listar',
+                    component: productoListarComponent
+                },
+                {
+                    path: 'detalle/:pkproducto',
+                    component: productoDetalleComponent
+                },
+                {
+                    path: 'editar/:pkproducto',
+                    component: productoEditarComponent
+                }
+            ]
+        },
+        {
+            path: '/movimiento/', 
+            component: contenedor,
+            children: [
+                {
+                    path: 'entrada',
+                    component: movimientoEntradaComponent
                 }
             ]
         }

@@ -27,7 +27,7 @@
                         <td  v-if="post.jornada == 1"> Matutina </td>
                         <td  v-else> Vespertina </td>
 						<td>
-							<router-link :to="'/vendedor/detalle/' + post.pk_vendedor" class="btn btn-success"  >Detalle</router-link>
+							<router-link :to="'/vendedor/detalle/' + post.pk_vendedor" class="btn btn-secondary"  >Detalle</router-link>
 							<router-link :to="'/vendedor/editar/' + post.pk_vendedor" class="btn btn-info"  >Editar</router-link>
 							<a class="btn btn-warning" @click="deletePost(post.pk_vendedor)"  >Eliminar</a>
 						</td>
@@ -65,7 +65,6 @@ export default {
             )
         },
         deletePost(id) {
-
             axios.delete(`${this.url}${id}`).then(() => {
                 this.getPosts()
             }).catch((error) => {
