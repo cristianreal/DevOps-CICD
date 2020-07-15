@@ -8,10 +8,10 @@ chai.use(chaiHttp);
 
 describe("marcas", function() {
     describe("listar", function() {
-            it('se verifica si la ruta para listar marcas funciona', done => {
+            it('se verifica si la ruta para listar vendedores funciona', done => {
                 chai
                     .request(server)
-                    .get('/api/marcas')
+                    .get('/api/vendedores')
                     .end((err, res) => {
                         expect(err).to.be.null;
                         expect(res).to.have.status(200);
@@ -20,13 +20,19 @@ describe("marcas", function() {
             });
         }),
         describe("agregar", function() {
-            it('se verifica si la ruta para listar marcas funciona', done => {
+            it('se verifica si la ruta para listar vendedores funciona', done => {
                 chai.request(server)
-                    .post('/api/marcas')
+                    .post('/api/vendedores')
                     .send({
-                        name: 'marcatest',
-                        country: 'Guatemala',
-                        webpage: "marcatest.moca.gt"
+                        nombre: 'vendedortest',
+                        apellido: 'apellidotest',
+                        direccion: "12av. 15-24",
+                        telefono: "12345678",
+                        email: "vendedor@gmail.com",
+                        genero: "1",
+                        fecha_nacimiento: "2001-03-16",
+                        fecha_vinculacion: "2001-03-16",
+                        jornada: "1"
                     })
                     .end(function(err, res) {
                         expect(err).to.be.null;
@@ -36,9 +42,9 @@ describe("marcas", function() {
             });
         }),
         describe("ver", function() {
-            it('metodo para ver un marcas especifico', done => {
+            it('metodo para ver un vendedores especifico', done => {
                 chai.request(server)
-                    .get('/api/marcas/1')
+                    .get('/api/vendedores/1')
                     .end(function(err, res) {
                         expect(err).to.be.null;
                         expect(res).to.have.status(200);

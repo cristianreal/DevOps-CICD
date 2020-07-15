@@ -12,11 +12,14 @@ const posts = require('./routes/api/posts');
 const marcas = require('./routes/api/marcas');
 const proveedores = require('./routes/api/proveedores');
 const vendedores = require('./routes/api/vendedores');
+const productos = require('./routes/api/productos');
 
 app.use('/api/posts', posts);
 app.use('/api/marcas', marcas);
 app.use('/api/proveedores', proveedores);
 app.use('/api/vendedores', vendedores);
+app.use('/api/productos', productos);
+
 app.get('/', function (req, res) {
     res.sendStatus(200)
 })
