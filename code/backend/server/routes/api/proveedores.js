@@ -49,7 +49,6 @@ router.get('/:id', (req, res) => {
 
 //UPDATE
 router.put('/:id', urlencodedParser, (req, res) => {
-    console.log(req)
     if(!req.body.nombre){
         res.status(400)
         res.json({

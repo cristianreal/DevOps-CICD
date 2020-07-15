@@ -33,4 +33,24 @@ router.post('/', urlencodedParser, (req, res) => {
     }
 });
 
+//UPDATE
+router.put('/:id', urlencodedParser, (req, res) => {
+    if(!req.body.nombre){
+        res.status(400)
+        res.json({
+            error: "Bad Data"
+        })
+    }else{
+        let id = req.params.id.replace("\'", "");
+        let nombre = req.body.nombre.replace("\'", "");
+        let descripcion = req.body.descripcion.replace("\'", "");
+        let precio = req.body.precio.replace("\'", "");
+        let marca = req.body.marca;
+        connection.query('call Producto_Modificar('+id+',\''+nombre+'\',\''+descripcion+'\','+precio+','+marca+')', function (err, rows, fields) {
+            if (err) throw res.send('error: ' + err)
+            res.send("Producto UPDATED")
+        });
+    }
+});
+
 module.exports = router;

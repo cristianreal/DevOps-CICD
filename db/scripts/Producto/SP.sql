@@ -34,7 +34,7 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	UPDATE marca 
+	UPDATE producto 
 	SET nombre=cnombre, descripcion = cdescripcion, precio = cprecio, fk_marca = cfk_marca 
 	WHERE pk_producto=cpk_producto;
 END //
