@@ -18,6 +18,28 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+DROP PROCEDURE IF EXISTS Producto_Modificar;
+DELIMITER //
+CREATE PROCEDURE Producto_Modificar
+(
+	IN cpk_producto		INT,
+	IN cnombre			VARCHAR(50),
+	IN cdescripcion		VARCHAR(50),
+	IN cprecio			FLOAT,
+	IN cfk_marca		INT
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	UPDATE marca 
+	SET nombre=cnombre, descripcion = cdescripcion, precio = cprecio, fk_marca = cfk_marca 
+	WHERE pk_producto=cpk_producto;
+END //
+DELIMITER ;
+-- ******************************************************************************
 DROP PROCEDURE IF EXISTS Producto_Listar;
 DELIMITER //
 CREATE PROCEDURE Producto_Listar()
