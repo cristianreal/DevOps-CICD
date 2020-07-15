@@ -84,11 +84,10 @@ export default {
                         throw "No existe el producto indicado";    // throw a text
                     }else{
                         this.producto = this.productos[0];
-                        console.table(this.producto)
                         this.nameproduct = this.productos[0].nombre;
                         this.descriptionproduct = this.productos[0].descripcion;
                         this.priceproduct = this.productos[0].precio;
-                        this.brandproduct = this.productos[0].Marca;
+                        this.brandproduct = this.productos[0].fk_marca;
                     }
                 }, error => {
                     console.error(error)
@@ -99,17 +98,13 @@ export default {
             this.testButClicked = true;
         },
         createPost() {
-            axios.post(this.url, {
+            axios.put(this.url+"/"+this.id_producto, {
                nombre: this.nameproduct,
                descripcion: this.descriptionproduct,
                precio: this.priceproduct,
                marca: this.brandproduct
             }).then(() => {
-                this.elemento = "Producto ["+this.namebuyer+"]"
-                this.nameproduct=  ''
-                this.descriptionproduct= ''
-                this.priceproduct= ''
-                this.brandproduct= ''              
+                this.elemento = "Producto ["+this.nameproduct+"]"           
                 this.testToast()
             }).catch((error) => {
                 console.error(error)

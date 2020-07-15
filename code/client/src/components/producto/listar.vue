@@ -24,7 +24,7 @@
 						<td> {{post.precio}} </td>
 						<td> {{post.Marca}} </td>
 						<td>
-							<router-link :to="'/producto/detalle/' + post.pk_producto" class="btn btn-success"  >Editar</router-link>
+							<router-link :to="'/producto/detalle/' + post.pk_producto" class="btn btn-secondary"  >Detalle</router-link>
 							<router-link :to="'/producto/editar/' + post.pk_producto" class="btn btn-info"  >Editar</router-link>
 							<a class="btn btn-warning" @click="deletePost(post.pk_producto)"  >Eliminar</a>
 						</td>

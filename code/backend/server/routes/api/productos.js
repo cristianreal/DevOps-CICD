@@ -53,7 +53,7 @@ router.put('/:id', urlencodedParser, (req, res) => {
         let id = req.params.id.replace("\'", "");
         let nombre = req.body.nombre.replace("\'", "");
         let descripcion = req.body.descripcion.replace("\'", "");
-        let precio = req.body.precio.replace("\'", "");
+        let precio = req.body.precio;
         let marca = req.body.marca;
         connection.query('call Producto_Modificar('+id+',\''+nombre+'\',\''+descripcion+'\','+precio+','+marca+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
