@@ -18,6 +18,34 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+DROP PROCEDURE IF EXISTS Producto_Listar;
+DELIMITER //
+CREATE PROCEDURE Producto_Listar()
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	SELECT pk_producto, nombre, descripcion, precio, (SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as Marca FROM producto as p;
+END //
+DELIMITER ;
+-- ******************************************************************************
+DROP PROCEDURE IF EXISTS Producto_Buscar_Por_Id;
+DELIMITER //
+CREATE PROCEDURE Producto_Buscar_Por_Id(
+	IN cpk_producto		INT
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	SELECT pk_producto, nombre, descripcion, precio, (SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as Marca FROM producto as p WHERE pk_producto=cpk_producto;
+END //
+DELIMITER ;
+-- ******************************************************************************
 DROP PROCEDURE IF EXISTS Producto_Modificar;
 DELIMITER //
 CREATE PROCEDURE Producto_Modificar
@@ -37,19 +65,6 @@ END;
 	UPDATE producto 
 	SET nombre=cnombre, descripcion = cdescripcion, precio = cprecio, fk_marca = cfk_marca 
 	WHERE pk_producto=cpk_producto;
-END //
-DELIMITER ;
--- ******************************************************************************
-DROP PROCEDURE IF EXISTS Producto_Listar;
-DELIMITER //
-CREATE PROCEDURE Producto_Listar()
-BEGIN
-DECLARE EXIT HANDLER FOR SQLEXCEPTION
-BEGIN
-    ROLLBACK;
-    SHOW ERRORS;
-END;
-	SELECT pk_producto, nombre, descripcion, precio, (SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as Marca FROM producto as p;
 END //
 DELIMITER ;
 -- ******************************************************************************
