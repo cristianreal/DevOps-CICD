@@ -8,10 +8,10 @@ chai.use(chaiHttp);
 
 describe("marcas", function() {
     describe("listar", function() {
-            it('se verifica si la ruta para listar marcas funciona', done => {
+            it('se verifica si la ruta para listar productos funciona', done => {
                 chai
                     .request(server)
-                    .get('/api/marcas')
+                    .get('/api/productos')
                     .end((err, res) => {
                         expect(err).to.be.null;
                         expect(res).to.have.status(200);
@@ -20,13 +20,14 @@ describe("marcas", function() {
             });
         }),
         describe("agregar", function() {
-            it('se verifica si la ruta para listar marcas funciona', done => {
+            it('metodo para agregar productos', done => {
                 chai.request(server)
-                    .post('/api/marcas')
+                    .post('/api/productos')
                     .send({
-                        name: 'marcatest',
-                        country: 'Guatemala',
-                        webpage: "marcatest.moca.gt"
+                        nombre: 'productostest',
+                        descripcion: 'este es un producto de ejemplo',
+                        precio: "24.36",
+                        marca: "1"
                     })
                     .end(function(err, res) {
                         expect(err).to.be.null;
@@ -36,9 +37,9 @@ describe("marcas", function() {
             });
         }),
         describe("ver", function() {
-            it('metodo para ver un marcas especifico', done => {
+            it('metodo para ver un producto especifico', done => {
                 chai.request(server)
-                    .get('/api/marcas/1')
+                    .get('/api/productos/1')
                     .end(function(err, res) {
                         expect(err).to.be.null;
                         expect(res).to.have.status(200);
