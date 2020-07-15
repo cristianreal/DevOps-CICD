@@ -1,32 +1,32 @@
 <template>
 	<div class="container">
-		<h1 align="center" class="display-3">Listar Proveedores</h1>
+		<h1 align="center" class="display-3">Listar Productos</h1>
 		<!-- LIMIT CREATE -->
 		<hr>
 			<p class="error" v-if="error">{{error}}</p>
 			<table class="table table-hover">
 				<thead>
 					<tr class="table-secondary">
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Telefono</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Direccion</th>
-                        <th scope="col">Opciones</th>
-                    </tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Descripcion</th>
+						<th scope="col">Precio</th>
+						<th scope="col">Marca</th>
+						<th scope="col">Opciones</th>
+					</tr>
 				</thead>
 				<tbody>
 					<tr class="table-primary" v-for="(post, index) in posts" 
                         v-bind:item="post" 
                         v-bind:index="index" 
-                        v-bind:key="post.pk_proveedor" >
-						<td> {{post.nombre }} {{post.apellido }}</td>
-                        <td> {{post.telefono }}</td>
-                        <td> {{post.email }}</td>
-                        <td> {{post.direccion }}, {{post.ciudad }}, {{post.pais }}</td>
+                        v-bind:key="post.pk_producto" >
+						<td> {{post.nombre}} </td>
+						<td> {{post.descripcion}} </td>
+						<td> {{post.precio}} </td>
+						<td> {{post.Marca}} </td>
 						<td>
-							<router-link :to="'/proveedor/detalle/' + post.pk_proveedor" class="btn btn-secondary"  >Detalle</router-link>
-							<router-link :to="'/proveedor/editar/' + post.pk_proveedor" class="btn btn-info"  >Editar</router-link>
-							<a class="btn btn-warning" @click="deletePost(post.pk_proveedor)"  >Eliminar</a>
+							<router-link :to="'/producto/detalle/' + post.pk_producto" class="btn btn-secondary"  >Detalle</router-link>
+							<router-link :to="'/producto/editar/' + post.pk_producto" class="btn btn-info"  >Editar</router-link>
+							<a class="btn btn-warning" @click="deletePost(post.pk_producto)"  >Eliminar</a>
 						</td>
 					</tr>
 				</tbody>
@@ -36,7 +36,7 @@
 
 <script>
 import axios from 'axios';
-const _PATH = "/api/proveedores/";
+const _PATH = "/api/productos/";
 
 export default {
     name: 'listar',
@@ -52,6 +52,7 @@ export default {
         this.getPosts()
     },
     methods: {
+
         getPosts() {
             axios.get(this.url).then(
                 result => {
@@ -62,7 +63,6 @@ export default {
             )
         },
         deletePost(id) {
-
             axios.delete(`${this.url}${id}`).then(() => {
                 this.getPosts()
             }).catch((error) => {

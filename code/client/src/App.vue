@@ -6,7 +6,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import NavBar from './components/NavBar.vue'
 
@@ -17,7 +16,6 @@ export default {
   }
 }
 </script>
-console.log(process.env.API_IP);
 <style>
 #Contenido {
   margin-top: 15px;
