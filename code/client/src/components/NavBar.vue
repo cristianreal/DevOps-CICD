@@ -1,12 +1,12 @@
  <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-solar">
         <router-link to="/" class="navbar-brand"  >Sistema de Almacenamiento</router-link>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id= "navbar">
-        <ul class="navbar-nav mr-auto">
-         <li class="nav-item dropdown">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id= "navbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Marcas</a>
                     <div class="dropdown-menu" style="">
                         <router-link to="/marca/crear" class="dropdown-item"  >Crear</router-link>
@@ -30,13 +30,13 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
                     <div class="dropdown-menu" style="">
-                        <a class="dropdown-item" href="#">Crear</a>
+                        <router-link to="/producto/crear" class="dropdown-item"  >Crear</router-link>
                         <a class="dropdown-item" href="#">Editar</a>
-                        <a class="dropdown-item" href="#">Eliminar</a>
+                        <router-link to="/producto/listar" class="dropdown-item"  >Listar</router-link>
                     </div>
                 </li>
-        </ul>
-    </div>
+            </ul>
+        </div>
     </nav>
 </template>
 <script>

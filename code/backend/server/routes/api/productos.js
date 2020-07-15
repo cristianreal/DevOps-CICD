@@ -24,7 +24,7 @@ router.post('/', urlencodedParser, (req, res) => {
     }else{
         let nombre = req.body.nombre.replace("\'", "");
         let descripcion = req.body.descripcion.replace("\'", "");
-        let precio = req.body.precio.replace("\'", "");
+        let precio = req.body.precio;
         let marca = req.body.marca;
         connection.query('call Producto_Crear(\''+nombre+'\',\''+descripcion+'\','+precio+','+marca+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
@@ -67,7 +67,7 @@ router.delete('/:id', (req, res) => {
     connection.query('call Producto_Eliminar('+req.params.id+')', 
     function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
-        res.send("name deleted")
+        res.send("Producto deleted")
     });
 });
 
