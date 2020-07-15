@@ -1,13 +1,13 @@
 <template>
 	<div class="container">
         <div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Guardado
+            {{elemento}} Editado
         </div>
 		<div class="jumbotron">
-			<h4 align="center" >Crear Producto</h4>
+			<h4 align="center" >Editar Producto</h4>
                     <div class="form-group">
                         <label class="col-form-label" for="nameproduct">Nombre Producto</label>
-                        <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="nameproduct" id="nameproduct" name="nameproduct">
+                        <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="nameproduct" :value="producto.nombre" id="nameproduct" name="nameproduct">
                     </div>
 
                     <div class="form-group">
@@ -39,7 +39,7 @@
 </template>
 <script>
 import axios from 'axios';
-const _PATH = "/api/productos/";
+const _PATH = "/api/productos";
 
 export default {
     name: 'crear',
@@ -49,19 +49,47 @@ export default {
             text: '',
             elemento: '',
             marcas: [],
+            productos:[],
+            producto:{
+                name: '',
+                descripcion: '',
+                precio: '',
+                marca: ''
+            },
             testButClicked: false,
+            id_producto: this.$route.params.pkproducto,
             urlMarcas: "http://" + this.$http + ":" + this.$port +"/api/marcas/",
             url: "http://" + this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {
-        this.getPosts()
+        this.getMarcas()
+        this.getProducto()
     },
     methods: {
-         getPosts() {
+         getMarcas() {
             axios.get(this.urlMarcas).then(
                 result => {
                     this.marcas = result.data[0]
+                }, error => {
+                    console.error(error)
+                }
+            )
+        },
+        getProducto() {
+            axios.get(this.url+"/"+this.id_producto).then(
+                result => {
+                    this.productos = result.data[0]
+                    if(this.productos.length == 0){
+                        throw "No existe el producto indicado";    // throw a text
+                    }else{
+                        this.producto = this.productos[0];
+                        console.table(this.producto)
+                        this.nameproduct = this.productos[0].nombre;
+                        this.descriptionproduct = this.productos[0].descripcion;
+                        this.priceproduct = this.productos[0].precio;
+                        this.brandproduct = this.productos[0].Marca;
+                    }
                 }, error => {
                     console.error(error)
                 }
@@ -98,10 +126,3 @@ export default {
     }
 };
 </script>
-<style scoped>
-    @media screen and (max-width: 600px) {
-    .column {
-        width: 100%;
-    }
-    }
-</style>

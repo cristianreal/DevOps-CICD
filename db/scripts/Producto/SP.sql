@@ -42,7 +42,7 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	SELECT pk_producto, nombre, descripcion, precio, (SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as Marca FROM producto as p WHERE pk_producto=cpk_producto;
+	SELECT pk_producto, nombre, descripcion, precio, p.fk_marca, (SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as marca FROM producto as p WHERE pk_producto=cpk_producto;
 END //
 DELIMITER ;
 -- ******************************************************************************

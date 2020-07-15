@@ -22,6 +22,7 @@ import vendedorDetalleComponent from '@/components/vendedor/detalle'
 //----------- Prooducto ------------------------------
 import productoListarComponent from '@/components/producto/listar'
 import productoCrearComponent from '@/components/producto/crear'
+import productoEditarComponent from '@/components/producto/editar'
 
 Vue.use(Router)
 
@@ -114,6 +115,10 @@ export default new Router({
                 {
                     path: 'listar',
                     component: productoListarComponent
+                },
+                {
+                    path: 'editar/:pkproducto',
+                    component: productoEditarComponent
                 }
             ]
         }
