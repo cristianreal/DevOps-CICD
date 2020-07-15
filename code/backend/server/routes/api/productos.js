@@ -33,6 +33,15 @@ router.post('/', urlencodedParser, (req, res) => {
     }
 });
 
+//OBTENER producto ESPECIFICo
+router.get('/:id', (req, res) => {
+    let id = req.params.id.replace("\'", "");
+    connection.query('call Producto_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
 //UPDATE
 router.put('/:id', urlencodedParser, (req, res) => {
     if(!req.body.nombre){
@@ -51,6 +60,15 @@ router.put('/:id', urlencodedParser, (req, res) => {
             res.send("Producto UPDATED")
         });
     }
+});
+
+//DELETE
+router.delete('/:id', (req, res) => {
+    connection.query('call Producto_Eliminar('+req.params.id+')', 
+    function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.send("name deleted")
+    });
 });
 
 module.exports = router;

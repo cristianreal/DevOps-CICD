@@ -68,3 +68,19 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+DROP PROCEDURE IF EXISTS Producto_Eliminar;
+DELIMITER //
+CREATE PROCEDURE Producto_Eliminar
+(
+	IN cpk_producto		INT
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	DELETE FROM producto WHERE pk_producto=cpk_producto;
+END //
+DELIMITER ;
+-- ******************************************************************************

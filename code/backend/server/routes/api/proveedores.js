@@ -38,7 +38,7 @@ router.post('/', urlencodedParser, (req, res) => {
     }
 });
 
-//OBTENER MARCA ESPECIFICA
+//OBTENER proveedor ESPECIFICA
 router.get('/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
     connection.query('call Proveedor_Buscar_Por_Id('+id+')', function (err, rows, fields) {
