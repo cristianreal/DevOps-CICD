@@ -7,8 +7,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    connection.query('call Producto_Listar()', function (err, rows, fields) {
+router.get('/ingreso', (req, res) => {
+    connection.query('call Ingreso_Listar()', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
@@ -16,37 +16,45 @@ router.get('/', (req, res) => {
 
 //ADD
 router.post('/ingreso', urlencodedParser, (req, res) => {
-    if(!req.body.tipo_movimiento){
+    if(!req.body.fecha_movimiento){
         res.status(400)
         res.json({
             error: "Bad Data"
         })
     }else{
-        let tipo_movimiento = req.body.tipo_movimientos;
         let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
         let fk_vendedor = req.body.fk_vendedor;
         let fk_proveedor = req.body.fk_proveedor;
-        connection.query('call Ingreso_Movimiento('+tipo_movimiento+'\''+fecha_movimiento+'\','+fk_vendedor+','+fk_proveedor+')', function (err, rows, fields) {
+        console.log('call Ingreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+','+fk_proveedor+')')
+        connection.query('call Ingreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+','+fk_proveedor+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Ingreso agregado")
         });
     }
 });
 
+router.get('/egreso', (req, res) => {
+    connection.query('call Egreso_Listar()', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
 //ADD
 router.post('/egreso', urlencodedParser, (req, res) => {
-    if(!req.body.tipo_movimiento){
+    if(!req.body.fecha_movimiento){
         res.status(400)
         res.json({
             error: "Bad Data"
         })
     }else{
-        let tipo_movimiento = req.body.tipo_movimientos;
         let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
         let fk_vendedor = req.body.fk_vendedor;
-        connection.query('call Egreso_Movimiento('+tipo_movimiento+'\''+fecha_movimiento+'\','+fk_vendedor+')', function (err, rows, fields) {
+        connection.query('call Egreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Egreso agregado")
         });
     }
 });
+
+module.exports = router;
