@@ -38,16 +38,16 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
-DROP PROCEDURE IF EXISTS Ingreso_Listar;
+DROP PROCEDURE IF EXISTS Movimiento_Listar;
 DELIMITER //
-CREATE PROCEDURE Ingreso_Listar()
+CREATE PROCEDURE Movimiento_Listar()
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	SELECT pk_movimiento, tipo_movimiento, fecha_movimiento, fk_vendedor, fk_proveedor FROM movimiento where tipo_movimiento =1;
+	SELECT pk_movimiento, tipo_movimiento, fecha_movimiento, fk_vendedor, fk_proveedor FROM movimiento;
 END //
 DELIMITER ;
 -- ******************************************************************************
