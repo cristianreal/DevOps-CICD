@@ -26,18 +26,14 @@ router.post('/ingreso', urlencodedParser, (req, res) => {
         let fk_vendedor = req.body.fk_vendedor;
         let fk_proveedor = req.body.fk_proveedor;
         let detalle = req.body.detalle;
-
         connection.query('call Ingreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+','+fk_proveedor+')', function (err, result, fields) {
             if (err) throw res.send('error: ' + err)
-            res.send("Ingreso agregado")
             detalle.forEach(async function(element){
-                console.log("Antes de los detalles");
                 connection.query('call Detalle_Crear('+element.cantidad+','+element.total+','+element.fk_producto+')', function (err, result, fields) {
                     if (err) throw res.send('error: ' + err)
-                    console.log("detalle1");
                 });
-                console.log("Despues de los detalles")
             });
+            res.send("Ingreso agregado")
         });
     }
 });
@@ -60,9 +56,13 @@ router.post('/egreso', urlencodedParser, (req, res) => {
         let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
         let fk_vendedor = req.body.fk_vendedor;
         let detalle = req.body.detalle;
-        console.log(detalle);
         connection.query('call Egreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
+            detalle.forEach(async function(element){
+                connection.query('call Detalle_Crear('+element.cantidad+','+element.total+','+element.fk_producto+')', function (err, result, fields) {
+                    if (err) throw res.send('error: ' + err)
+                });
+            });
             res.send("Egreso agregado")
         });
     }
