@@ -16,6 +16,7 @@ END;
 	-- TipoMovimiento = 1->Ingresos, 2->Egresos
 	INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, fk_vendedor, fk_proveedor) 
 	VALUES (1, cfecha_movimiento, cfk_vendedor, cfk_proveedor);
+	SELECT * FROM movimiento ORDER BY pk_movimiento DESC LIMIT 1;
 END //
 DELIMITER ;
 -- ******************************************************************************

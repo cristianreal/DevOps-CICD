@@ -25,9 +25,19 @@ router.post('/ingreso', urlencodedParser, (req, res) => {
         let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
         let fk_vendedor = req.body.fk_vendedor;
         let fk_proveedor = req.body.fk_proveedor;
-        console.log('call Ingreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+','+fk_proveedor+')')
+        let detalle = req.body.detalle;
+        console.log(detalle);
+
         connection.query('call Ingreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+','+fk_proveedor+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
+
+            detalle.forEach(async function(element){
+                console.log("----------------")
+                console.log(element);
+            });
+            console.log(rows)
+            console.log("--------------------")
+            console.log(fields)
             res.send("Ingreso agregado")
         });
     }
@@ -50,6 +60,8 @@ router.post('/egreso', urlencodedParser, (req, res) => {
     }else{
         let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
         let fk_vendedor = req.body.fk_vendedor;
+        let detalle = req.body.detalle;
+        console.log(detalle);
         connection.query('call Egreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Egreso agregado")
