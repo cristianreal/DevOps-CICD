@@ -55,7 +55,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
+//import axios from 'axios';
 const _PATH = "/api/movimientos/";
 
 export default {
