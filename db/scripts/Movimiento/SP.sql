@@ -51,8 +51,8 @@ END;
 	pk_movimiento, 
 	tipo_movimiento, 
 	fecha_movimiento, 
-	(Select u1.nombre from usuario as u1 where u1.pk_usuario=m.fk_vendedor) as vendedor, 
-	(Select u2.nombre from usuario as u2 where u2.pk_usuario=m.fk_proveedor) as proveedor,
+	(Select concat(u1.nombre,' ',u1.apellido) from usuario as u1 where u1.pk_usuario=m.fk_vendedor) as vendedor, 
+	(Select concat(u2.nombre,' ',u2.apellido) from usuario as u2 where u2.pk_usuario=m.fk_proveedor) as proveedor,
 	fk_proveedor,
 	fk_proveedor
 	FROM movimiento as m;
