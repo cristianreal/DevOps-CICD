@@ -17,3 +17,5 @@ CALL Proveedor_Crear('Lucas','Perez', 'Honduras', '14571234', 'lu@gmail.com', 1,
 CALL Proveedor_Crear('Raul','Lozano', 'Mexico', '21479563', 'ra@gmail.com', 1, 'www.test2.com', 'Netherlands', 'Henna');
 CALL Proveedor_Crear('Fernando','Abad', 'Costa Rica', '42135687', 'fer@gmail.com', 1, 'www.test3.com', 'Spain', 'Madrid');
 -- ******************************************************************************
+call Ingreso_Movimiento('2020-07-15',1,5);
+call Ingreso_Movimiento('2020-07-15',1,5);
