@@ -14,16 +14,12 @@
               <div class="card-body">
                 <ul class="list-group">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Cras justo odio
-                    <span class="badge badge-primary badge-pill">Crear</span>
+                   Crear
+                      <router-link to="/marca/crear" class="badge badge-secondary badge-pill" >Visitar</router-link>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Dapibus ac facilisis in
-                    <span class="badge badge-primary badge-pill">Editar</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Morbi leo risus
-                    <span class="badge badge-primary badge-pill">Listar</span>
+                    Listar
+                      <router-link to="/marca/listar" class="badge badge-secondary badge-pill" >Visitar</router-link>
                   </li>
                 </ul> 
               </div>
@@ -33,20 +29,16 @@
             <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
               <div class="card-header">Productos</div>
               <div class="card-body">
-              <ul class="list-group">
+               <ul class="list-group">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Cras justo odio
-                    <span class="badge badge-primary badge-pill">Crear</span>
+                    Crear
+                      <router-link to="/producto/crear" class="badge badge-primary badge-pill" >Visitar</router-link>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Dapibus ac facilisis in
-                    <span class="badge badge-primary badge-pill">Editar</span>
+                    Listar
+                      <router-link to="/producto/listar" class="badge badge-primary badge-pill" >Visitar</router-link>
                   </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Morbi leo risus
-                    <span class="badge badge-primary badge-pill">Listar</span>
-                  </li>
-                </ul>               
+                </ul>              
               </div>
             </div>
           </div>
@@ -54,18 +46,14 @@
             <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
               <div class="card-header">Movimientos</div>
               <div class="card-body">
-              <ul class="list-group">
+               <ul class="list-group">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Cras justo odio
-                    <span class="badge badge-primary badge-pill">Crear</span>
+                    Ingresos
+                      <router-link to="/movimiento/ingresos" class="badge badge-primary badge-pill" >Visitar</router-link>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Dapibus ac facilisis in
-                    <span class="badge badge-primary badge-pill">Editar</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Morbi leo risus
-                    <span class="badge badge-primary badge-pill">Listar</span>
+                    Egresos
+                      <router-link to="/movimiento/egresos" class="badge badge-primary badge-pill" >Visitar</router-link>
                   </li>
                 </ul> 
               </div>
