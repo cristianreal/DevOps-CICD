@@ -1,7 +1,7 @@
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Ingreso_Movimiento;
 DELIMITER //
-CREATE PROCEDURE Ingresos_Movimiento
+CREATE PROCEDURE Ingreso_Movimiento
 (
 	IN cfecha_movimiento 	DATE,
 	IN cfk_vendedor 		INT,
