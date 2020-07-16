@@ -31,8 +31,14 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
                     <div class="dropdown-menu" style="">
                         <router-link to="/producto/crear" class="dropdown-item"  >Crear</router-link>
-                        <a class="dropdown-item" href="#">Editar</a>
                         <router-link to="/producto/listar" class="dropdown-item"  >Listar</router-link>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Movimientos</a>
+                    <div class="dropdown-menu" style="">
+                        <router-link to="/producto/crear" class="dropdown-item" >Ingresos</router-link>
+                        <router-link to="/producto/listar" class="dropdown-item">Egresos</router-link>
                     </div>
                 </li>
             </ul>
