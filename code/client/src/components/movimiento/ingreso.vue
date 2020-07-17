@@ -125,8 +125,7 @@ export default {
                 subtotal: this.subtotal,
             };
             this.rowData.push(my_object);
-            this.total = String(Number(this.total) + Number(this.precio));
-            console.log(String(Number(this.total) + Number(this.precio)))
+            this.total = String(Number(this.total) + Number(this.subtotal));
             this.cantidad = '';
             this.precio = '';
             this.producto = '';
