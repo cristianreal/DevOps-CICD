@@ -37,9 +37,9 @@
                   <th>Subtotal</th>
                   <th>Acciones</th>
                </tr>
-                <td><input type="number"  class="form-control" id="cantidad"></td>
+                <td><input type="number" style="width: 5em"  class="form-control" id="cantidad"></td>
                <td>
-                    <select class="custom-select" v-model="producto" id="producto" name="producto">
+                    <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto">
                     <option v-for="(product, index) in products"
                      v-bind:item="product" 
                      v-bind:index="index" 
@@ -47,8 +47,8 @@
                      v-bind:value="product.pk_producto">{{product.nombre}}</option>
                   </select>
                </td>
-                <td><input type="number"  class="form-control" id="precio"></td>
-                <td><input type="number"  class="form-control" id="subtotal"></td>
+                <td><input type="number"  style="width: 5em" class="form-control" id="precio"></td>
+                <td><input type="number"  style="width: 7em" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro"></td>
             </table>
          </div>
