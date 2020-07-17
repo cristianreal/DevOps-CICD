@@ -52,8 +52,8 @@
                      v-bind:value="product">{{product.nombre}}</option>
                   </select>
                </td>
-                <td><input readonly type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio"></td>
-                <td><input readonly type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
+                <td><input readonly type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" :value="valorPrecio"></td>
+                <td><input readonly type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal" :value="valorSubtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
                <tr v-for="(item,index) in rowData" v-bind:key="index" >
@@ -82,7 +82,9 @@ export default {
             products:[],
             elemento: '',
             rowData:[] ,
-            sumaTotal: 0,
+            sumaTotal: "0",
+            valorPrecio: "0",
+            valorSubtotal: "0",
             vendorName: 'Vendedor Prueba',
             pk_vendor: '1',
             seller: 'venddor prueba',
@@ -136,12 +138,8 @@ export default {
             this.rowData.splice(no,1);
         },
          onChange(event) {
-            console.log(event.target.value)
-            console.log()
-            let index= event.target.selectedIndex
-            console.log(this.products[index])
-            this.precio = this.products[index].precio;
-            this.subtotal = this.cantidad * this.precio;
+            this.valorPrecio = this.producto.precio;
+            this.valorSubtotal = this.cantidad * this.precio;
         }
 
 
