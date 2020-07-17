@@ -32,7 +32,8 @@ router.post('/ingreso', urlencodedParser, (req, res) => {
             detalle.forEach(async function(element){
                 connection.query('call Detalle_Crear('+element.cantidad+','+element.subtotal+','+element.fk_producto+')', function (err, result, fields) {          
                     console.log(element)
-                    console.log(result)
+                    console.log(err)
+                    if (err) throw res.send('error: ' + err)
                 });
             });
             res.send("Ingreso agregado")
