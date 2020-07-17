@@ -1,6 +1,5 @@
 <template>
 <div class="container">
-<div class="jumbotron">
    <h1 class="display-3">Movimiento ingreso!</h1>
    <div class="row">
       <div class="col-lg-3" >
@@ -31,8 +30,8 @@
          <div style="overflow-y: scroll; height:460px;">
             <table align='center' id="data_table" name="data_table" class="table table-hover">
                <tr>
-                  <th>Codigo</th>
                   <th>Cantidad</th>
+                  <th>Producto</th>
                   <th>Precio</th>
                   <th>Subtotal</th>
                   <th>Acciones</th>
@@ -53,7 +52,6 @@
             </table>
          </div>
       </div>
-   </div>
 </div>
 </template>
 <script>
