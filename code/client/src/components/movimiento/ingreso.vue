@@ -1,31 +1,27 @@
 <template>
 <div class="container">
-   <div class="row">
-        <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-            <div class="card-header">Movimiento ingreso</div>
-            <div class="card-body">
-                <div class="form-group">
-                <label class="col-form-label" for="date">Fecha</label>
-                <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
-                </div>
-                <div class="form-group">
-                <label for="seller">Vendedor</label>
-                <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
-                </div>
-                <div class="form-group">
-                <label class="col-form-label" for="provider">Proveedor</label>
-                <select class="custom-select" v-model="provider" id="provider" name="provider">
-                    <option>Seleccione un proveedor</option>
-                    <option v-for="(provider, index) in providers"
-                        v-bind:item="provider" 
-                        v-bind:index="index" 
-                        v-bind:key="provider.pk_proveedor"
-                        v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
-                </select>
-                </div>
-                <button type="button" class="btn btn-primary" v-on:click="enviarInformacion">Guardar Lote</button>
-            </div>
-        </div>
+   <div class="jumbotron">
+      <h1 class="display-3">Movimiento ingreso!</h1>
+      <div class="form-group">
+         <label class="col-form-label" for="date">Fecha</label>
+         <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
+      </div>
+      <div class="form-group">
+         <label for="seller">Vendedor</label>
+         <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
+      </div>
+      <div class="form-group">
+         <label class="col-form-label" for="provider">Proveedor</label>
+         <select class="custom-select" v-model="provider" id="provider" name="provider">
+            <option>Seleccione un proveedor</option>
+            <option v-for="(provider, index) in providers"
+               v-bind:item="provider" 
+               v-bind:index="index" 
+               v-bind:key="provider.pk_proveedor"
+               v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
+         </select>
+      </div>
+      <button type="button" class="btn btn-primary" v-on:click="enviarInformacion">Guardar Lote</button>
    </div>
 </div>
 </template>
