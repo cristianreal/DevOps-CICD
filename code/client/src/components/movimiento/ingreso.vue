@@ -38,18 +38,18 @@
                   <th>Acciones</th>
                </tr>
                <tr>
-                <td><input type="number" style="width: 5em"  class="form-control" id="cantidad"></td>
+                <td><input type="number" style="width: 5em" v-model="cantidad" class="form-control" id="cantidad"></td>
                <td>
                     <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto">
                     <option v-for="(product, index) in products"
                      v-bind:item="product" 
                      v-bind:index="index" 
                      v-bind:key="product.pk_producto"
-                     v-bind:value="product.pk_producto">{{product.nombre}}</option>
+                     v-bind:value="product.nombre">{{product.nombre}}</option>
                   </select>
                </td>
-                <td><input type="number"  style="width: 5em" class="form-control" id="precio"></td>
-                <td><input type="number"  style="width: 7em" class="form-control" id="subtotal"></td>
+                <td><input type="number"  style="width: 5em" v-model="precio" class="form-control" id="precio"></td>
+                <td><input type="number"  style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
                <tr v-for="item in rowData" v-bind:key="item">
@@ -119,7 +119,7 @@ export default {
                 subtotal: this.subtotal,
             };
             this.rowData.push(my_object);
-
+            console.table(this.rowData);
          //   validarCodigo();
          //   calcularSubtotal();
          //   var codigo = document.getElementById("codigo").value;
