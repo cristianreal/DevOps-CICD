@@ -76,6 +76,7 @@ export default {
             providers:[],
             products:[],
             elemento: '',
+            rowData:[] ,
             vendorName: 'Vendedor Prueba',
             pk_vendor: '1',
             seller: 'venddor prueba',
