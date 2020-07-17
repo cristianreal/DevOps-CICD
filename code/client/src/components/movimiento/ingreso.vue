@@ -82,7 +82,7 @@ export default {
             products:[],
             elemento: '',
             vendorName: 'Vendedor Prueba',
-            pk_vendor: 1,
+            pk_vendor: '1',
             vendor: 'venddor prueba',
             date: new Date().toISOString().slice(0,10),
             testButClicked: false,
