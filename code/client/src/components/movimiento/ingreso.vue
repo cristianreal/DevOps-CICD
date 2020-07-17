@@ -44,7 +44,7 @@
                <tr>
                 <td><input type="number" style="width: 5em" v-model="cantidad" class="form-control" id="cantidad"></td>
                <td>
-                    <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto" @change="onChange($event)">
+                    <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto" @change="onChange()">
                     <option v-for="(product, index) in products"
                      v-bind:item="product" 
                      v-bind:index="index" 
@@ -135,7 +135,7 @@ export default {
             this.sumaTotal = this.sumaTotal - this.rowData[no].subtotal;
             this.rowData.splice(no,1);
         },
-        onChange(event) {
+        onChange() {
             this.precio = this.producto.precio;
             this.subtotal = this.cantidad * this.precio;
             console.log(this.precio)
