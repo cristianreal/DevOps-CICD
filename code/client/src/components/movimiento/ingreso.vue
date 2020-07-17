@@ -136,9 +136,10 @@ export default {
             this.rowData.splice(no,1);
         },
          onChange(event) {
-            console.table(event.target.value)
-            let index= event.target.selectedIndex
-            this.precio = this.products[index].precio;
+            console.log(event.target.value)
+        //    let index= event.target.selectedIndex
+        //    console.log(this.products[index])
+            this.precio = event.target.value.precio;
             this.subtotal = this.cantidad * this.precio;
         }
 
