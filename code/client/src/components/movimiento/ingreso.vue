@@ -12,8 +12,8 @@
                                     <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
                             </div>
                             <div class="form-group">
-                                <label for="vendor">Vendedor</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el apellido" v-model="seller" id="seller" name="seller" :value="seller">
+                                <label for="seller">Vendedor</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label" for="provider">Proveedor</label>
@@ -97,6 +97,7 @@ export default {
             axios.get(this.bare_url+"/api/proveedores").then(
                 result => {
                     this.providers = result.data[0]
+            console.log(this.providers)
                 }, error => {
                     console.error(error)
                 }
@@ -104,12 +105,11 @@ export default {
             axios.get(this.bare_url+"/api/productos").then(
                 result => {
                     this.products = result.data[0]
+            console.log(this.products)
                 }, error => {
                     console.error(error)
                 }
             )
-            console.log(this.providers)
-            console.log(this.products)
         },
         add_row() {
             //validarCodigo();
