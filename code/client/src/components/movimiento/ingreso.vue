@@ -122,7 +122,6 @@ export default {
                 alert("Debe de insertar todos los campos");
                 return;
             }
-            var bandera = false;
             var table = document.getElementById("data_table");
             // var table_len=(table.rows.length)-1;
             var table_len = (table.rows.length);
