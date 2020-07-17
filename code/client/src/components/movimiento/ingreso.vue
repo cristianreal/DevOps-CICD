@@ -50,7 +50,7 @@
                         <tr>
                         <td><input type="number" style="width: 6em" class="form-control" v-model="quantity" id="quantity" onchange="calcularSubtotal()"></td>
                         <td>
-                            <select style="width: 12em"  class="custom-select" v-model="productId" id="productId" name="productId">
+                            <select class="custom-select" v-model="productId" id="productId" name="productId">
                                     <option selected>Seleccione un producto</option>
                                     <option v-for="(product, index) in products"
                                     v-bind:item="product" 
@@ -92,11 +92,10 @@ export default {
         }
     },
     mounted() {
-        this.getProveedores()
-        this.getProductos()
+        this.getElementos()
     },
     methods: {
-         getProveedores() {
+         getElementos() {
             axios.get(this.bare_url+"/api/proveedores").then(
                 result => {
                     this.providers = result.data[0]
@@ -104,8 +103,6 @@ export default {
                     console.error(error)
                 }
             )
-        },
-        getProductos() {
             axios.get(this.bare_url+"/api/productos").then(
                 result => {
                     this.products = result.data[0]
