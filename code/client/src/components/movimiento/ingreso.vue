@@ -18,12 +18,12 @@
                             <div class="form-group">
                                 <label class="col-form-label" for="provider">Proveedor</label>
                                 <select class="custom-select" v-model="provider" id="provider" name="provider">
-                                    <option selected>Seleccione un prpveedor</option>
+                                    <option selected>Seleccione un proveedor</option>
                                     <option v-for="(provider, index) in providers"
-                                    v-bind:item="provider" 
-                                    v-bind:index="index" 
-                                    v-bind:key="provider.pk_proveedor"
-                                    v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
+                                        v-bind:item="provider" 
+                                        v-bind:index="index" 
+                                        v-bind:key="provider.pk_proveedor"
+                                        v-bind:value="provider.pk_proveedor">{{provider.nombre provider.apellido}}</option>
                                 </select>
                             </div>
 
