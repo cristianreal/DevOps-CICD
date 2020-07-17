@@ -1,11 +1,11 @@
 # etapa de compilación
 FROM node:9.11.1-alpine as build-stage
 WORKDIR /app
-COPY ./ .
+COPY package*.json ./
+
+RUN npm install && npm install vue-router
+COPY ./dist .
 #RUN npm install --silent && npm install vue-router --silent && npm run build
-RUN npm i npm@latest -g
-RUN npm install
-RUN npm install vue-router
 RUN npm run build
 # etapa de producción
 FROM nginx as production-stage
