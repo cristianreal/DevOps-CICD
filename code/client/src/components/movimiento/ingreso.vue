@@ -127,7 +127,7 @@ export default {
             // var table_len=(table.rows.length)-1;
             var table_len = (table.rows.length);
 
-            var row = table.insertRow(table_len).outerHTML = "<tr id='row" + table_len + "'><td id='quantity" + table_len + "'>" + val_quantity + "</td><td id='productId" + table_len + "'>" + val_productId + "</td><td> <input type='button' value='Delete' id='delete_button" + table_len + "' class='btn btn-danger' onclick='delete_row(" + table_len + ")'></td></tr>";
+            table.insertRow(table_len).outerHTML = "<tr id='row" + table_len + "'><td id='quantity" + table_len + "'>" + val_quantity + "</td><td id='productId" + table_len + "'>" + val_productId + "</td><td> <input type='button' value='Delete' id='delete_button" + table_len + "' class='btn btn-danger' onclick='delete_row(" + table_len + ")'></td></tr>";
 
             this.quantity = "";
             this.productId = "";
