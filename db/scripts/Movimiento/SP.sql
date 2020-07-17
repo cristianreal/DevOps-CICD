@@ -76,7 +76,8 @@ END;
 	tipo_movimiento, 
 	fecha_movimiento, 
 	(Select concat(u1.nombre,' ',u1.apellido) from usuario as u1 where u1.pk_usuario=m.fk_vendedor) as vendedor, 
-	fk_vendedor
+	fk_vendedor,
+	(Select sum(d1.total) from detalle as d1 where d1.fk_movimiento = m.pk_movimiento) as total
 	FROM movimiento as m
 	where tipo_movimiento=2;
 END //
