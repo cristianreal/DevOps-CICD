@@ -50,8 +50,14 @@
                </td>
                 <td><input type="number"  style="width: 5em" class="form-control" id="precio"></td>
                 <td><input type="number"  style="width: 7em" class="form-control" id="subtotal"></td>
-               <td><input type="button" class='btn btn-primary' value="Agregar Registro"></td>
+               <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
+               <tr v-for="item in rowData" >
+                    <th scope="row">{{ item.cantidad }}</th>
+                    <td>{{ item.producto }}</td>
+                    <td>{{ item.precio }}</td>
+                    <td>{{ item.subtotal }}</td>
+                </tr>
             </table>
          </div>
       </div>
@@ -105,6 +111,14 @@ export default {
             )
         },
         add_row() {
+            var my_object = {
+                cantidad:this.cantidad,
+                producto:this.producto,
+                precio:this.precio,
+                subtotal: this.subtotal,
+            };
+            this.rowData.push(my_object);
+
          //   validarCodigo();
          //   calcularSubtotal();
          //   var codigo = document.getElementById("codigo").value;
@@ -116,17 +130,17 @@ export default {
          //       return;
          //   }
          //   var bandera = false;
-            var table = document.getElementById("data_table");
+            //var table = document.getElementById("data_table");
             // var table_len=(table.rows.length)-1;
-            var table_len = (table.rows.length);
+           // var table_len = (table.rows.length);
 
-            table.insertRow(table_len).outerHTML = "<tr id='row" + table_len + "'><td id='codigo" + table_len + "'>" + "10" + "</td><td id='cantidad" + table_len + "'>" + "Producto1" + "</td><td id='precio" + table_len + "'>" + "10.23" + "</td><td id='subtotal" + table_len + "'>" + "150.23" + "</td><td> <input type='button' value='Delete' id='delete_button" + table_len + "' class='btn btn-danger' v-on:click='delete_row(" + table_len + ")'></td></tr>";
+         //   table.insertRow(table_len).outerHTML = "<tr id='row" + table_len + "'><td id='codigo" + table_len + "'>" + "10" + "</td><td id='cantidad" + table_len + "'>" + "Producto1" + "</td><td id='precio" + table_len + "'>" + "10.23" + "</td><td id='subtotal" + table_len + "'>" + "150.23" + "</td><td> <input type='button' value='Delete' id='delete_button" + table_len + "' class='btn btn-danger' v-on:click='delete_row(" + table_len + ")'></td></tr>";
 
         //    document.getElementById("codigo").value = "";
         //    document.getElementById("cantidad").value = "";
         //    document.getElementById("precio").value = "";
         //    document.getElementById("subtotal").value = "";
-            document.getElementById("delete_button" + table_len).style.visibility = "visible";
+         //   document.getElementById("delete_button" + table_len).style.visibility = "visible";
 
         },
         delete_row(no)
