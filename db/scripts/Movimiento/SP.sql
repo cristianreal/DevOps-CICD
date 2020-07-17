@@ -131,3 +131,20 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+DROP PROCEDURE IF EXISTS Movimiento_Eliminar;
+DELIMITER //
+CREATE PROCEDURE Movimiento_Eliminar
+(
+	IN cpk_movimiento		INT
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	DELETE FROM detalle WHERE fk_movimiento=cpk_movimiento;
+	DELETE FROM movimiento WHERE pk_movimiento=cpk_movimiento;
+END //
+DELIMITER ;
+-- ******************************************************************************
