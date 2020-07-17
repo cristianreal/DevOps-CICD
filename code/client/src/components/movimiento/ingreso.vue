@@ -51,6 +51,7 @@
                         <td><input type="number" style="width: 6em" class="form-control" v-model="quantity" id="quantity" onchange="calcularSubtotal()"></td>
                         <td>
                             <select style="width: 12em"  class="custom-select" v-model="productId" id="productId" name="productId" placeholder="Seleccione un producto">
+                                    <option selected>Seleccione un prpveedor</option>
                                     <option v-for="(product, index) in products"
                                     v-bind:item="product" 
                                     v-bind:index="index" 
