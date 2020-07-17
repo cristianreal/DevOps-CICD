@@ -3,7 +3,8 @@
    <div class="jumbotron">
       <h1 class="display-3">Movimiento ingreso!</h1>
         <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3" >
+        <div style="max-width: 20rem;">
       <div class="form-group">
          <label class="col-form-label" for="date">Fecha</label>
          <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
@@ -24,6 +25,7 @@
          </select>
       </div>
       <button type="button" class="btn btn-primary">Guardar Lote</button>
+      </div>
       </div>
       </div>
    </div>
