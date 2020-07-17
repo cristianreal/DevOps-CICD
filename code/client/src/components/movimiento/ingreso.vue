@@ -1,8 +1,7 @@
 <template>
 <div class="container">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+    <div class="col-lg-3">
+        <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
                 <div class="card-header">Movimiento ingreso</div>
                     <div class="card-body">
 
@@ -31,10 +30,10 @@
                             </div>                    
                     </div>
                 </div>
-            </div>
         </div>
-            <div class="col-lg-9">
-                <div style="overflow-y: scroll; height:460px;">
+    </div>
+    <div class="col-lg-9">
+        <div style="overflow-y: scroll; height:460px;">
                     <table align='center' id="data_table" name="data_table" class="table table-hover">
                         <tr>
                         <th>Cantidad</th>
@@ -60,9 +59,8 @@
                         <td><input type="button" class='btn btn-primary' v-on:click="add_row;"  value="Agregar Registro"></td>
                         </tr>
                     </table>
-                </div>
-            </div>       
-    </div>
+        </div>
+    </div>       
 </div>
 </template>
 <script>
