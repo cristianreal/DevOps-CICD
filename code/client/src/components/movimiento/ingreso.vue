@@ -125,7 +125,7 @@ export default {
                 subtotal: this.subtotal,
             };
             this.rowData.push(my_object);
-            this.total = Number(this.total) + Number(this.subtotal);
+            this.total = parseFloat(Number(this.total) + Number(this.subtotal)).toFixed(2);
             this.cantidad = '';
             this.precio = '';
             this.producto = '';
@@ -133,12 +133,12 @@ export default {
         },
         delete_row(no)
         {
-            this.total = Number(this.total - this.rowData[no].subtotal);
+            this.total = parseFloat(this.total - this.rowData[no].subtotal).toFixed(2);
             this.rowData.splice(no,1);
         },
         onChange() {
-            this.precio = Number(this.producto.precio);
-            this.subtotal = Number(this.cantidad * this.precio);
+            this.precio = parseFloat(this.producto.precio).toFixed(2);
+            this.subtotal = parseFloat(this.cantidad * this.precio).toFixed(2);
         }
 
 
