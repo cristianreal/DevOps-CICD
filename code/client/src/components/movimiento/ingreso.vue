@@ -37,6 +37,7 @@
                   <th>Subtotal</th>
                   <th>Acciones</th>
                </tr>
+               <tr>
                 <td><input type="number" style="width: 5em"  class="form-control" id="cantidad"></td>
                <td>
                     <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto">
@@ -50,6 +51,7 @@
                 <td><input type="number"  style="width: 5em" class="form-control" id="precio"></td>
                 <td><input type="number"  style="width: 7em" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro"></td>
+               </tr>
             </table>
          </div>
       </div>
@@ -124,7 +126,7 @@ export default {
         //    document.getElementById("cantidad").value = "";
         //    document.getElementById("precio").value = "";
         //    document.getElementById("subtotal").value = "";
-        //    document.getElementById("delete_button" + table_len).style.visibility = "visible";
+            document.getElementById("delete_button" + table_len).style.visibility = "visible";
 
         },
         delete_row(no)
