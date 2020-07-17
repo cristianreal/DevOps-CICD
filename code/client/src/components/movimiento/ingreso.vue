@@ -52,8 +52,8 @@
                      v-bind:value="product">{{product.nombre}}</option>
                   </select>
                </td>
-                <td><input readonly type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" ></td>
-                <td><input readonly type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
+                <td><input type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" ></td>
+                <td><input type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
                <tr v-for="(item,index) in rowData" v-bind:key="index" >
