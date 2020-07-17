@@ -4,7 +4,7 @@ import router from './router'
 
 Vue.config.productionTip = false
 //Vue.prototype.$http = "127.0.0.1"
-Vue.prototype.$http = "35.223.145.27";
+Vue.prototype.$http = "34.70.7.203";
 Vue.prototype.$port = "5000"
 //Vue.prototype.$http = "35.223.168.202"
 //Vue.prototype.$port = "80"
