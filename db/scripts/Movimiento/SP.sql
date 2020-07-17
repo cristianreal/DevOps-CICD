@@ -61,6 +61,31 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+DROP PROCEDURE IF EXISTS Ingreso_Buscar_Por_Id;
+DELIMITER //
+CREATE PROCEDURE Ingreso_Buscar_Por_Id(
+	IN cpk_movimiento		INT
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	SELECT 
+	pk_movimiento, 
+	tipo_movimiento, 
+	fecha_movimiento, 
+	(Select concat(u1.nombre,' ',u1.apellido) from usuario as u1 where u1.pk_usuario=m.fk_vendedor) as vendedor, 
+	(Select concat(u2.nombre,' ',u2.apellido) from usuario as u2 where u2.pk_usuario=m.fk_proveedor) as proveedor,
+	fk_vendedor,
+	fk_proveedor,
+	(Select sum(d1.total) from detalle as d1 where d1.fk_movimiento = m.pk_movimiento) as total
+	FROM movimiento as m
+	where m.tipo_movimiento=1 and m.pk_movimiento = cpk_movimiento;
+END //
+DELIMITER ;
+
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Egreso_Listar;
 DELIMITER //
@@ -80,6 +105,29 @@ END;
 	(Select sum(d1.total) from detalle as d1 where d1.fk_movimiento = m.pk_movimiento) as total
 	FROM movimiento as m
 	where tipo_movimiento=2;
+END //
+DELIMITER ;
+-- ******************************************************************************
+DROP PROCEDURE IF EXISTS Egreso_Buscar_Por_Id;
+DELIMITER //
+CREATE PROCEDURE Egreso_Buscar_Por_Id(
+		IN cpk_movimiento		INT
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	SELECT 
+	pk_movimiento, 
+	tipo_movimiento, 
+	fecha_movimiento, 
+	(Select concat(u1.nombre,' ',u1.apellido) from usuario as u1 where u1.pk_usuario=m.fk_vendedor) as vendedor, 
+	fk_vendedor,
+	(Select sum(d1.total) from detalle as d1 where d1.fk_movimiento = m.pk_movimiento) as total
+	FROM movimiento as m
+	where m.tipo_movimiento=2 and m.pk_movimiento = cpk_movimiento;
 END //
 DELIMITER ;
 -- ******************************************************************************

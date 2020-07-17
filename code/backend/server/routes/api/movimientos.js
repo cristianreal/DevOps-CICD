@@ -14,6 +14,14 @@ router.get('/ingreso', (req, res) => {
     });
 });
 
+router.get('/ingreso/:id', (req, res) => {
+    let id = req.params.id.replace("\'", "");
+    connection.query('call Ingreso_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
 //ADD
 router.post('/ingreso', urlencodedParser, (req, res) => {
     if(!req.body.fecha_movimiento){
@@ -40,6 +48,14 @@ router.post('/ingreso', urlencodedParser, (req, res) => {
 
 router.get('/egreso', (req, res) => {
     connection.query('call Egreso_Listar()', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
+router.get('/egreso/:id', (req, res) => {
+    let id = req.params.id.replace("\'", "");
+    connection.query('call Egreso_Buscar_Por_Id('+id+')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
