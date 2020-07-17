@@ -138,7 +138,8 @@ export default {
          onChange(event) {
             console.table(event.target.value)
             let index= event.target.selectedIndex
-            this.precio = this.rowData[index].precio;
+            this.precio = this.products[index].precio;
+            this.subtotal = this.cantidad * this.precio;
         }
 
 
