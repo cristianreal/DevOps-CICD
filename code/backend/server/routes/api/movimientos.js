@@ -84,4 +84,11 @@ router.post('/egreso', urlencodedParser, (req, res) => {
     }
 });
 
+router.get('/detalle/:id', (req, res) => {
+    connection.query('call Egreso_Listar()', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
 module.exports = router;
