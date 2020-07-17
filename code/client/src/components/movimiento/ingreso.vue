@@ -6,7 +6,6 @@
                 <div class="card-header">Movimiento ingreso</div>
                     <div class="card-body">
 
-                        <form method="post" id="form">
                             <div class="form-group">
                                     <label class="col-form-label" for="date">Fecha</label>
                                     <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
@@ -29,10 +28,7 @@
 
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary block" v-on:click="enviarInformacion">Guardar Lote</button>
-                            </div>
-                            
-                        </form>
-                    
+                            </div>                    
                     </div>
                 </div>
             </div>
@@ -67,7 +63,7 @@
                 </div>
             </div>       
     </div>
-    </div>
+</div>
 </template>
 <script>
 import axios from 'axios';
