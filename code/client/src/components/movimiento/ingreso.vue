@@ -112,31 +112,7 @@ export default {
                     console.error(error)
                 }
             )
-        },
-        add_row() {
-//            calcularSubtotal();
-            var productId = document.getElementById("productId").value;
-            var quantity = document.getElementById("quantity").value;
-            if (!productId || !quantity) {
-                alert("Debe de insertar todos los campos");
-                return;
-            }
-            var table = document.getElementById("data_table");
-            var table_len = (table.rows.length);
-            console.log(table_len);
-//            table.insertRow(table_len).outerHTML = "<tr id='row" + table_len + "'><td id='quantity" + table_len + "'>" + quantity + "</td><td id='productId" + table_len + "'>" + productId + "</td><td> <input type='button' value='Delete' id='delete_button" + table_len + "' class='btn btn-danger' vo-on:click='delete_row(" + table_len + ")'></td></tr>";
-//
-//            document.getElementById("productId").value = "";
-//            document.getElementById("quantity").value = "0";
-//
-//            document.getElementById("delete_button" + table_len).style.visibility = "visible";
-
         }
-        //,
-        //delete_row(no)
-        //{
-        //    document.getElementById("row"+no+"").outerHTML="";
-        //}
     }
 };
 </script>
