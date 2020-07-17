@@ -3,6 +3,7 @@
 
 <div class="container">
    <div class="row">
+     <div class="col-lg-3">
       <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
          <div class="card-header">Movimiento ingreso</div>
          <div class="card-body">
@@ -30,6 +31,8 @@
             </div>
          </div>
       </div>
+      </div>
+      <div class="col-lg-9">
       <div style="overflow-y: scroll; height:460px;">
          <table align='center' id="data_table" name="data_table" class="table table-hover">
             <tr>
@@ -56,6 +59,7 @@
                <td><input type="button" class='btn btn-primary' v-on:click="add_row;"  value="Agregar Registro"></td>
             </tr>
          </table>
+      </div>
       </div>
    </div>
 </div>
@@ -112,16 +116,9 @@ export default {
             //calcularSubtotal();
             var val_quantity = document.getElementById("quantity").value;
             var val_productId = document.getElementById("productId").value;
-            if (!val_quantity || !val_productId) {
-                alert("Debe de insertar todos los campos");
-                return;
-            }
             var table = document.getElementById("data_table");
-            // var table_len=(table.rows.length)-1;
             var table_len = (table.rows.length);
-
             table.insertRow(table_len).outerHTML = "<tr id='row" + table_len + "'><td id='quantity" + table_len + "'>" + val_quantity + "</td><td id='productId" + table_len + "'>" + val_productId + "</td><td> <input type='button' value='Delete' id='delete_button" + table_len + "' class='btn btn-danger' onclick='delete_row(" + table_len + ")'></td></tr>";
-
             this.quantity = "";
             this.productId = "";
 
