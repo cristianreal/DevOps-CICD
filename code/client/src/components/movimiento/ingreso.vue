@@ -11,22 +11,7 @@
                                     <label class="col-form-label" for="date">Fecha</label>
                                     <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
                             </div>
-                            <div class="form-group">
-                                <label for="vendor">Vendedor</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el apellido" v-model="vendor" id="vendor" name="vendor" :value="vendor">
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label" for="provider">Proveedor</label>
-                                <select class="custom-select" v-model="provider" id="provider" name="provider">
-                                    <option selected>Seleccione un prpveedor</option>
-                                    <option v-for="(provider, index) in providers"
-                                    v-bind:item="provider" 
-                                    v-bind:index="index" 
-                                    v-bind:key="provider.pk_proveedor"
-                                    v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
-                                </select>
-                            </div>
-
+                     
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary block" v-on:click="enviarInformacion">Guardar Lote</button>
                             </div>
