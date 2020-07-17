@@ -1,6 +1,7 @@
 <template>
 <div class="container">
-   <h1 class="display-3">Movimiento ingreso!</h1>
+   <h1 class="display-3">Ingreso de producto</h1>
+    <hr class="my-4">
    <div class="row">
       <div class="col-lg-3" >
          <div style="max-width: 20rem;">
@@ -100,7 +101,38 @@ export default {
                     console.error(error)
                 }
             )
+        },
+        add_row() {
+         //   validarCodigo();
+         //   calcularSubtotal();
+         //   var codigo = document.getElementById("codigo").value;
+         //   var cantidad = document.getElementById("cantidad").value;
+         //   var precio = document.getElementById("precio").value;
+         //   var subtotal = document.getElementById("subtotal").value;
+         //   if (!codigo || !cantidad || !precio || !subtotal) {
+         //       alert("Debe de insertar todos los campos");
+         //       return;
+         //   }
+         //   var bandera = false;
+            var table = document.getElementById("data_table");
+            // var table_len=(table.rows.length)-1;
+            var table_len = (table.rows.length);
+
+            table.insertRow(table_len).outerHTML = "<tr id='row" + table_len + "'><td id='codigo" + table_len + "'>" + "10" + "</td><td id='cantidad" + table_len + "'>" + "Producto1" + "</td><td id='precio" + table_len + "'>" + "10.23" + "</td><td id='subtotal" + table_len + "'>" + "150.23" + "</td><td> <input type='button' value='Delete' id='delete_button" + table_len + "' class='btn btn-danger' v-on:click='delete_row(" + table_len + ")'></td></tr>";
+
+        //    document.getElementById("codigo").value = "";
+        //    document.getElementById("cantidad").value = "";
+        //    document.getElementById("precio").value = "";
+        //    document.getElementById("subtotal").value = "";
+        //    document.getElementById("delete_button" + table_len).style.visibility = "visible";
+
+        },
+        delete_row(no)
+        {
+            document.getElementById("row"+no+"").outerHTML="";
         }
+
+
     }
 };
 </script>
