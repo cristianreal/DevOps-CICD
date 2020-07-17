@@ -108,6 +108,7 @@ export default {
             axios.get(this.bare_url+"/api/productos").then(
                 result => {
                     this.products = result.data[0]
+                    console.log(this.products)
                 }, error => {
                     console.error(error)
                 }
