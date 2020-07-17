@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                <label for="total">Total</label>
-               <input type="number" step="0.01" class="form-control" v-model="total" id="total" name="total">
+               <input type="number" step="0.01" class="form-control" v-model="total" id="total">
             </div>
             <button type="button" class="btn btn-primary">Guardar Lote</button>
          </div>
@@ -52,8 +52,8 @@
                      v-bind:value="product">{{product.nombre}}</option>
                   </select>
                </td>
-                <td><input type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" ></td>
-                <td><input type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
+                <td><input readonly type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" ></td>
+                <td><input readonly type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
                <tr v-for="(item,index) in rowData" v-bind:key="index" >
@@ -134,7 +134,7 @@ export default {
         },
         delete_row(no)
         {
-            this.sumaTotal = this.sumaTotal - this.rowData[no].subtotal;
+            this.total = this.total - this.rowData[no].subtotal;
             this.rowData.splice(no,1);
         },
         onChange() {
