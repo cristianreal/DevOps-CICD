@@ -83,7 +83,7 @@ export default {
         }
     },
     mounted() {
-        this.getElementos()
+       // this.getElementos()
         this.getProductos()
     },
     methods: {
@@ -92,21 +92,20 @@ export default {
                 result => {
                     this.providers = result.data[0]
             console.log(this.providers)
-                    axios.get(this.bare_url+"/api/productos").then(
-                        result => {
-                            this.products = result.data[0]
-                    console.log(this.products)
-                        }, error => {
-                            console.error(error)
-                        }
-                    )
                 }, error => {
                     console.error(error)
                 }
             )
          },
          getProductos(){
-            
+            axios.get(this.bare_url+"/api/productos").then(
+                result => {
+                    this.products = result.data[0]
+                    console.log(this.products)
+                }, error => {
+                    console.error(error)
+                }
+            )
         },
         add_row() {
             //validarCodigo();
