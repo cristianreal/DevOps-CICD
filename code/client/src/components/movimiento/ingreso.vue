@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                <label for="total">Total</label>
-               <input type="number" step="0.01" class="form-control" v-model="total" id="total" name="total" :value="sumaTotal">
+               <input type="number" step="0.01" class="form-control" v-model="total" id="total" name="total">
             </div>
             <button type="button" class="btn btn-primary">Guardar Lote</button>
          </div>
@@ -82,7 +82,9 @@ export default {
             products:[],
             elemento: '',
             rowData:[] ,
-            sumaTotal: "0.00",
+            total: '0.00',
+            precio: '0.00',
+            subtotal: '0.00',
             vendorName: 'Vendedor Prueba',
             pk_vendor: '1',
             seller: 'venddor prueba',
@@ -123,12 +125,12 @@ export default {
                 precio:this.precio,
                 subtotal: this.subtotal,
             };
-            this.sumaTotal = this.sumaTotal + this.precio;
+            this.total = this.total + this.precio;
             this.rowData.push(my_object);
-            this.precio = "";
-            this.producto = "";
-            this.precio = "";
-            this.subtotal = "";
+            this.cantidad = '';
+            this.precio = '';
+            this.producto = '';
+            this.subtotal = '';
         },
         delete_row(no)
         {
