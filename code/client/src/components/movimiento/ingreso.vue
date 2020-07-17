@@ -52,10 +52,7 @@
                 <td><input type="number"  style="width: 7em" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
-               <tr v-for="(item, index) in rowData" 
-                    v-bind:item="item" 
-                    v-bind:index="index" 
-                    v-bind:key="index"   >
+               <tr v-for="item in rowData" >
                     <th scope="row">{{ item.cantidad }}</th>
                     <td>{{ item.producto }}</td>
                     <td>{{ item.precio }}</td>
