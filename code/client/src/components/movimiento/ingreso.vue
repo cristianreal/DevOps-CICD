@@ -13,7 +13,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="vendor">Vendedor</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el apellido" v-model="vendor" id="vendor" name="vendor" :value="vendor">
+                                <input type="text" class="form-control" placeholder="Ingrese el apellido" v-model="seller" id="seller" name="seller" :value="seller">
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label" for="provider">Proveedor</label>
@@ -82,7 +82,7 @@ export default {
             elemento: '',
             vendorName: 'Vendedor Prueba',
             pk_vendor: '1',
-            vendor: 'venddor prueba',
+            seller: 'venddor prueba',
             date: new Date().toISOString().slice(0,10),
             testButClicked: false,
             bare_url:  "http://" + this.$http + ":" + this.$port,
