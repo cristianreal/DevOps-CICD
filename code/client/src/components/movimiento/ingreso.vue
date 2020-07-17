@@ -118,15 +118,15 @@ export default {
             )
         },
         add_row() {
-            console.log(this.producto.precio);
             var my_object = {
                 cantidad:this.cantidad,
                 producto:this.producto.nombre,
                 precio:this.precio,
                 subtotal: this.subtotal,
             };
-            this.total = this.total + this.precio;
             this.rowData.push(my_object);
+            this.total = String(Number(this.total) + Number(this.precio));
+            console.log(String(Number(this.total) + Number(this.precio)))
             this.cantidad = '';
             this.precio = '';
             this.producto = '';
@@ -140,8 +140,6 @@ export default {
         onChange() {
             this.precio = this.producto.precio;
             this.subtotal = this.cantidad * this.precio;
-            console.log(this.precio)
-            console.log(this.subtotal)
         }
 
 
