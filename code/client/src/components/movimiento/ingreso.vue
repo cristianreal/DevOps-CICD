@@ -86,6 +86,7 @@ export default {
             elemento: '',
             rowData:[] ,
             total: '0.00',
+            cantidad: '1',
             precio: '0.00',
             subtotal: '0.00',
             vendorName: 'Vendedor Prueba',
