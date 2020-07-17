@@ -39,7 +39,7 @@
 
             <div class="col-lg-9">
                 <div style="overflow-y: scroll; height:460px;">
-                    <table align='center' cellspacing="0" cellpadding="0" id="data_table" name="data_table" class="table table-hover">
+                    <table align='center' id="data_table" name="data_table" class="table table-hover">
                         <tr>
                         <th>Cantidad</th>
                         <th>Producto</th>
