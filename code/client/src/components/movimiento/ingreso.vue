@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-   <h1 class="display-3">Ingreso de producto</h1>
+   <h3 align="center">Ingreso de producto</h3>
     <hr class="my-4">
    <div class="row">
       <div class="col-lg-3" >
@@ -24,6 +24,10 @@
                      v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
                </select>
             </div>
+            <div class="form-group">
+               <label for="total">Total</label>
+               <input type="number" step="0.01" :value="sumaTotal" class="form-control" placeholder="Ingrese el nombre" v-model="total" id="total" name="total">
+            </div>
             <button type="button" class="btn btn-primary">Guardar Lote</button>
          </div>
       </div>
@@ -45,11 +49,11 @@
                      v-bind:item="product" 
                      v-bind:index="index" 
                      v-bind:key="product.pk_producto"
-                     v-bind:value="product.nombre">{{product.nombre}}</option>
+                     v-bind:value="product">{{product.nombre}}</option>
                   </select>
                </td>
-                <td><input type="number"  style="width: 5em" v-model="precio" class="form-control" id="precio"></td>
-                <td><input type="number"  style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
+                <td><input disabled type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio"></td>
+                <td><input disabled type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
                <tr v-for="(item,index) in rowData" v-bind:key="index">
@@ -78,6 +82,7 @@ export default {
             products:[],
             elemento: '',
             rowData:[] ,
+            sumaTotal: 0,
             vendorName: 'Vendedor Prueba',
             pk_vendor: '1',
             seller: 'venddor prueba',
@@ -96,7 +101,6 @@ export default {
             axios.get(this.bare_url+"/api/proveedores").then(
                 result => {
                     this.providers = result.data[0]
-            console.log(this.providers)
                 }, error => {
                     console.error(error)
                 }
@@ -106,23 +110,29 @@ export default {
             axios.get(this.bare_url+"/api/productos").then(
                 result => {
                     this.products = result.data[0]
-                    console.log(this.products)
                 }, error => {
                     console.error(error)
                 }
             )
         },
         add_row() {
+            console.log(this.producto);
             var my_object = {
                 cantidad:this.cantidad,
-                producto:this.producto,
+                producto:this.producto.nombre,
                 precio:this.precio,
                 subtotal: this.subtotal,
             };
+            this.sumaTotal = this.sumaTotal + this.precio;
             this.rowData.push(my_object);
+            this.precio = "";
+            this.producto = "";
+            this.precio = "";
+            this.subtotal = "";
         },
         delete_row(no)
         {
+            this.sumaTotal = this.sumaTotal - this.rowData[no].subtotal;
             this.rowData.splice(no,1);
         }
 
