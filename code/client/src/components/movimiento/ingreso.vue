@@ -44,7 +44,7 @@
                <tr>
                 <td><input type="number" style="width: 5em" v-model="cantidad" class="form-control" id="cantidad"></td>
                <td>
-                    <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto">
+                    <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto" @change="onChange($event)">
                     <option v-for="(product, index) in products"
                      v-bind:item="product" 
                      v-bind:index="index" 
@@ -56,7 +56,7 @@
                 <td><input disabled type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
-               <tr v-for="(item,index) in rowData" v-bind:key="index">
+               <tr v-for="(item,index) in rowData" v-bind:key="index" >
                     <th scope="row">{{ item.cantidad }}</th>
                     <td>{{ item.producto }}</td>
                     <td>{{ item.precio }}</td>
@@ -116,7 +116,7 @@ export default {
             )
         },
         add_row() {
-            console.log(this.producto);
+            console.log(this.producto.precio);
             var my_object = {
                 cantidad:this.cantidad,
                 producto:this.producto.nombre,
@@ -134,6 +134,13 @@ export default {
         {
             this.sumaTotal = this.sumaTotal - this.rowData[no].subtotal;
             this.rowData.splice(no,1);
+        },
+         onChange(event) {
+            console.log(event.target.value)
+            let index= event.target.selectedIndex
+            if(index>0){
+                this.precio = this.rowData[index-1];
+            }
         }
 
 
