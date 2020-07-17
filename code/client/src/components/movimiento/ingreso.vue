@@ -23,7 +23,7 @@
                                         v-bind:item="provider" 
                                         v-bind:index="index" 
                                         v-bind:key="provider.pk_proveedor"
-                                        v-bind:value="provider.pk_proveedor">{{provider.nombre provider.apellido}}</option>
+                                        v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
                                 </select>
                             </div>
 
