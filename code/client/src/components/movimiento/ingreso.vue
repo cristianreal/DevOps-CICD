@@ -53,9 +53,6 @@
                             <select class="custom-select" v-model="productId" id="productId" name="productId">
                                     <option selected>Seleccione un producto</option>
                                     <option v-for="(product, index) in products"
-                                    v-bind:item="product" 
-                                    v-bind:index="index" 
-                                    v-bind:key="product.pk_producto"
                                     v-bind:value="product.pk_producto">{{product.nombre}}</option>
                             </select>
                         </td>
