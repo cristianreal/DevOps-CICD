@@ -1,5 +1,8 @@
 <template>
 <div class="container">
+    <div v-if="testButClicked" class="alert alert-success" role="alert">
+            {{elemento}}
+    </div>
    <h3 align="center">Ingreso de producto</h3>
     <hr class="my-4">
    <div class="row">
@@ -14,7 +17,7 @@
                <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
             </div>
             <div class="form-group">
-               <label class="col-form-label" for="provider">Proveedor</label>
+               <label class="col-form-label" for="Proveedor">Proveedor</label>
                <select class="custom-select" v-model="Proveedor" id="Proveedor" name="Proveedor">
                   <option>Seleccione un proveedor</option>
                   <option v-for="(provider, index) in providers"
@@ -42,7 +45,7 @@
                   <th>Acciones</th>
                </tr>
                <tr>
-                <td><input type="number" style="width: 5em" v-model="cantidad" class="form-control" id="cantidad"></td>
+                <td><input type="number" style="width: 5em" v-model="cantidad" class="form-control" id="cantidad" @change="onChange()"></td>
                <td>
                     <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto" @change="onChange()">
                     <option v-for="(product, index) in products"
@@ -70,7 +73,7 @@
 </template>
 <script>
 import axios from 'axios';
-const _PATH = "/api/movimientos/";
+const _PATH = "/api/movimientos/ingreso";
 
 export default {
     name: 'crear',
@@ -122,7 +125,7 @@ export default {
                 cantidad:this.cantidad,
                 producto:this.producto.nombre,
                 precio:this.precio,
-                subtotal: this.subtotal,
+                subtotal: this.subtotal
             };
             this.rowData.push(my_object);
             this.total = parseFloat(Number(this.total) + Number(this.subtotal)).toFixed(2);
@@ -136,12 +139,40 @@ export default {
             this.total = parseFloat(this.total - this.rowData[no].subtotal).toFixed(2);
             this.rowData.splice(no,1);
         },
-        onChange() {
+        onChange() {   
+            console.log(this.producto)        
             this.precio = parseFloat(this.producto.precio).toFixed(2);
             this.subtotal = parseFloat(this.cantidad * this.precio).toFixed(2);
+        },
+        testToast() {
+            this.testButClicked = true;
+        },
+        createPost() {
+            axios.post(this.url, {
+                fecha_movimiento:this.date,
+                fk_vendedor:this.pk_vendor,
+                fk_proveedor:this.Proveedor,
+                detalle: this.rowData,
+            }).then(() => {
+                this.elemento = "Moviento Almacenado"             
+                this.testToast()
+            }).catch((error) => {
+                console.error(error)
+                return;
+            })
         }
 
 
+    },
+    watch: {
+        testButClicked(val) {
+            if (val) {
+                setTimeout(function(){
+                    this.testButClicked = false;
+                    window.location.reload()
+                    }, 1000);
+            }
+        }
     }
 };
 </script>
