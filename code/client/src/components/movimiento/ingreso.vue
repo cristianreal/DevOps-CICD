@@ -1,39 +1,9 @@
 <template>
 <div class="container">
-    <div class="col-lg-3">
-        <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-                <div class="card-header">Movimiento ingreso</div>
-                    <div class="card-body">
+    <div class="row">
 
-                            <div class="form-group">
-                                    <label class="col-form-label" for="date">Fecha</label>
-                                    <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
-                            </div>
-                            <div class="form-group">
-                                <label for="seller">Vendedor</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label" for="provider">Proveedor</label>
-                                <select class="custom-select" v-model="provider" id="provider" name="provider">
-                                    <option selected>Seleccione un prpveedor</option>
-                                    <option v-for="(provider, index) in providers"
-                                    v-bind:item="provider" 
-                                    v-bind:index="index" 
-                                    v-bind:key="provider.pk_proveedor"
-                                    v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary block" v-on:click="enviarInformacion">Guardar Lote</button>
-                            </div>                    
-                    </div>
-                </div>
-        </div>
-    </div>
-    <div class="col-lg-9">
-        <div style="overflow-y: scroll; height:460px;">
+            <div class="col-lg-9">
+                <div style="overflow-y: scroll; height:460px;">
                     <table align='center' id="data_table" name="data_table" class="table table-hover">
                         <tr>
                         <th>Cantidad</th>
@@ -59,8 +29,9 @@
                         <td><input type="button" class='btn btn-primary' v-on:click="add_row;"  value="Agregar Registro"></td>
                         </tr>
                     </table>
-        </div>
-    </div>       
+                </div>
+            </div>       
+    </div>
 </div>
 </template>
 <script>
