@@ -1,7 +1,6 @@
 <template>
 <div class="container">
    <div class="row">
-     <div class="col-lg-3">
         <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
             <div class="card-header">Movimiento ingreso</div>
             <div class="card-body">
@@ -27,7 +26,6 @@
                 <button type="button" class="btn btn-primary" v-on:click="enviarInformacion">Guardar Lote</button>
             </div>
         </div>
-      </div>
    </div>
 </div>
 </template>
