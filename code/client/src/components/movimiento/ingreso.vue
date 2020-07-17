@@ -16,7 +16,7 @@
             <div class="form-group">
                <label class="col-form-label" for="provider">Proveedor</label>
                <select class="custom-select" v-model="provider" id="provider" name="provider">
-                  <option selected>Seleccione un proveedor</option>
+                  <option>Seleccione un proveedor</option>
                   <option v-for="(provider, index) in providers"
                      v-bind:item="provider" 
                      v-bind:index="index" 
@@ -31,33 +31,7 @@
       </div>
       </div>
       <div class="col-lg-9">
-      <div style="overflow-y: scroll; height:460px;">
-         <table align='center' id="data_table" name="data_table" class="table table-hover">
-            <tr>
-               <th>Cantidad</th>
-               <th>Producto</th>
-               <th>Precio</th>
-               <th>Subtotal</th>
-               <th>Acciones</th>
-            </tr>
-            <tr>
-               <td><input type="number" class="form-control" v-model="quantity" id="quantity" ></td>
-               <td>
-                  <select class="custom-select" v-model="productId" id="productId" name="productId">
-                     <option selected>Seleccione un producto</option>
-                     <option v-for="(product) in products"
-                        v-bind:item="product" 
-                        v-bind:index="index" 
-                        v-bind:key="product.pk_producto"
-                        v-bind:value="product.pk_producto">{{product}}</option>
-                  </select>
-               </td>
-               <td><input type="number"  step="0.01" class="form-control"  id="precio" ></td>
-               <td><input type="number"  step="0.01" class="form-control" id="subtotal" disabled></td>
-               <td><input type="button" class='btn btn-primary' v-on:click="add_row;"  value="Agregar Registro"></td>
-            </tr>
-         </table>
-      </div>
+
       </div>
    </div>
 </div>
