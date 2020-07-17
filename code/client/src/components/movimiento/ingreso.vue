@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                <label for="total">Total</label>
-               <input type="number" step="0.01" :value="sumaTotal" class="form-control" v-model="total" id="total" name="total">
+               <input type="number" step="0.01" class="form-control" v-model="total" id="total" name="total" :value="sumaTotal">
             </div>
             <button type="button" class="btn btn-primary">Guardar Lote</button>
          </div>
@@ -52,8 +52,8 @@
                      v-bind:value="product">{{product.nombre}}</option>
                   </select>
                </td>
-                <td><input readonly type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" :value="valorPrecio"></td>
-                <td><input readonly type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal" :value="valorSubtotal"></td>
+                <td><input readonly type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" ></td>
+                <td><input readonly type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
                <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
                </tr>
                <tr v-for="(item,index) in rowData" v-bind:key="index" >
@@ -82,9 +82,7 @@ export default {
             products:[],
             elemento: '',
             rowData:[] ,
-            sumaTotal: "0",
-            valorPrecio: "0",
-            valorSubtotal: "0",
+            sumaTotal: "0.00",
             vendorName: 'Vendedor Prueba',
             pk_vendor: '1',
             seller: 'venddor prueba',
@@ -137,9 +135,11 @@ export default {
             this.sumaTotal = this.sumaTotal - this.rowData[no].subtotal;
             this.rowData.splice(no,1);
         },
-         onChange(event) {
-            this.valorPrecio = this.producto.precio;
-            this.valorSubtotal = this.cantidad * this.precio;
+        onChange(event) {
+            this.precio = this.producto.precio;
+            this.subtotal = this.cantidad * this.precio;
+            console.log(this.precio)
+            console.log(this.subtotal)
         }
 
 
