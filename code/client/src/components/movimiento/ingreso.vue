@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                <label for="total">Total</label>
-               <input type="number" step="0.01" :value="sumaTotal" class="form-control" placeholder="Ingrese el nombre" v-model="total" id="total" name="total">
+               <input type="number" step="0.01" :value="sumaTotal" class="form-control" v-model="total" id="total" name="total">
             </div>
             <button type="button" class="btn btn-primary">Guardar Lote</button>
          </div>
@@ -138,11 +138,7 @@ export default {
          onChange(event) {
             console.table(event.target.value)
             let index= event.target.selectedIndex
-            console.log(index)
-
-            if(index>0){
-                this.precio = this.rowData[index-1];
-            }
+            this.precio = this.rowData[index].precio;
         }
 
 
