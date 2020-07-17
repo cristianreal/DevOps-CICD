@@ -34,7 +34,7 @@ END;
 		total,
 		(SELECT nombre from producto as p1 where p1.pk_producto=d.fk_producto) as producto,
 		(SELECT precio from producto as p2 where p2.pk_producto=d.fk_producto) as precio,
-		fk_producto,
+		fk_producto
 	FROM detalle as d WHERE d.fk_movimiento = cpk_movimiento;
 END //
 DELIMITER ;
