@@ -1,6 +1,4 @@
 <template>
-
-
 <div class="container">
 <div class="jumbotron">
    <h1 class="display-3">Movimiento ingreso!</h1>
@@ -39,6 +37,18 @@
                   <th>Subtotal</th>
                   <th>Acciones</th>
                </tr>
+               <td>
+                  <input type="text" class="form-control"  placeholder="Seleccione un producto..." id="codigo" name="codigo" list="productList"/><!--your input textbox-->
+                  <datalist id="productList">
+                    <option v-for="(product, index) in products"
+                     v-bind:item="product" 
+                     v-bind:index="index" 
+                     v-bind:key="product.pk_producto"
+                     v-bind:value="product.pk_producto">{{product.nombre}}</option>
+                  </datalist>
+               </td>
+               <td><input type="number"  class="form-control" id="cantidad"></td>
+               <td><input type="button" class='btn btn-primary' value="Agregar Registro"></td>
             </table>
          </div>
       </div>
@@ -68,7 +78,7 @@ export default {
         }
     },
     mounted() {
-       // this.getProductos()
+        this.getProductos()
         this.getElementos()
     },
     methods: {
