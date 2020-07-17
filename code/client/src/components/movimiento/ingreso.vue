@@ -1,4 +1,6 @@
 <template>
+
+
 <div class="container">
    <div class="row">
       <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
@@ -28,8 +30,6 @@
             </div>
          </div>
       </div>
-   </div>
-   <div class="row">
       <div style="overflow-y: scroll; height:460px;">
          <table align='center' id="data_table" name="data_table" class="table table-hover">
             <tr>
@@ -92,20 +92,21 @@ export default {
                 result => {
                     this.providers = result.data[0]
             console.log(this.providers)
+                    axios.get(this.bare_url+"/api/productos").then(
+                        result => {
+                            this.products = result.data[0]
+                    console.log(this.products)
+                        }, error => {
+                            console.error(error)
+                        }
+                    )
                 }, error => {
                     console.error(error)
                 }
             )
          },
          getProductos(){
-            axios.get(this.bare_url+"/api/productos").then(
-                result => {
-                    this.products = result.data[0]
-            console.log(this.products)
-                }, error => {
-                    console.error(error)
-                }
-            )
+            
         },
         add_row() {
             //validarCodigo();
