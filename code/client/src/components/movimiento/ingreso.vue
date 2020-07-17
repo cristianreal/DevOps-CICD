@@ -18,12 +18,12 @@
                             <div class="form-group">
                                 <label class="col-form-label" for="provider">Proveedor</label>
                                 <select class="custom-select" v-model="provider" id="provider" name="provider">
-                                    <option selected>Seleccione un proveedor</option>
+                                    <option selected>Seleccione un prpveedor</option>
                                     <option v-for="(provider, index) in providers"
-                                        v-bind:item="provider" 
-                                        v-bind:index="index" 
-                                        v-bind:key="provider.pk_proveedor"
-                                        v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
+                                    v-bind:item="provider" 
+                                    v-bind:index="index" 
+                                    v-bind:key="provider.pk_proveedor"
+                                    v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
                                 </select>
                             </div>
 
@@ -39,7 +39,30 @@
 
             <div class="col-lg-9">
                 <div style="overflow-y: scroll; height:460px;">
-                 
+                    <table align='center' cellspacing="0" cellpadding="0" id="data_table" name="data_table" class="table table-hover">
+                        <tr>
+                        <th>Cantidad</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                        </tr>
+                        <tr>
+                        <td><input type="number" style="width: 6em" class="form-control" v-model="quantity" id="quantity" onchange="calcularSubtotal()"></td>
+                        <td>
+                            <select style="width: 12em"  class="custom-select" v-model="productId" id="productId" name="productId" placeholder="Seleccione un producto">
+                                    <option v-for="(product, index) in products"
+                                    v-bind:item="product" 
+                                    v-bind:index="index" 
+                                    v-bind:key="product.pk_producto"
+                                    v-bind:value="product.pk_producto">{{product.nombre}}</option>
+                            </select>
+                        </td>
+                        <td><input type="number" style="width: 6em" step="0.01" class="form-control"  id="precio" onchange="calcularSubtotal()"></td>
+                        <td><input type="number" style="width: 6em" step="0.01" class="form-control" id="subtotal" disabled></td>
+                        <td><input type="button" class='btn btn-primary' v-on:click="add_row;"  value="Agregar Registro"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
