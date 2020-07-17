@@ -17,5 +17,11 @@ CALL Proveedor_Crear('Lucas','Perez', 'Honduras', '14571234', 'lu@gmail.com', 1,
 CALL Proveedor_Crear('Raul','Lozano', 'Mexico', '21479563', 'ra@gmail.com', 1, 'www.test2.com', 'Netherlands', 'Henna');
 CALL Proveedor_Crear('Fernando','Abad', 'Costa Rica', '42135687', 'fer@gmail.com', 1, 'www.test3.com', 'Spain', 'Madrid');
 -- ******************************************************************************
+call Producto_Crear('Producto A','Sirve para muchas cosas',15.23,1);
+call Producto_Crear('Producto B','Sirve para muchas cosas',15.23,2);
 call Ingreso_Movimiento('2020-07-15',1,5);
+call Detalle_Crear(5,123,1);
+call Detalle_Crear(5,245,2);
 call Egreso_Movimiento('2020-07-16',2);
+call Detalle_Crear(3,78,1);
+call Detalle_Crear(2,896,2);
