@@ -1,6 +1,4 @@
 <template>
-
-
 <div class="container">
    <div class="row">
      <div class="col-lg-3">
@@ -43,7 +41,7 @@
                <th>Acciones</th>
             </tr>
             <tr>
-               <td><input type="number" style="width: 6em" class="form-control" v-model="quantity" id="quantity" onchange="calcularSubtotal()"></td>
+               <td><input type="number" class="form-control" v-model="quantity" id="quantity" ></td>
                <td>
                   <select class="custom-select" v-model="productId" id="productId" name="productId">
                      <option selected>Seleccione un producto</option>
@@ -51,11 +49,11 @@
                         v-bind:item="product" 
                         v-bind:index="index" 
                         v-bind:key="product.pk_producto"
-                        v-bind:value="product.pk_producto">{{product.nombre}}</option>
+                        v-bind:value="product.pk_producto">{{product}}</option>
                   </select>
                </td>
-               <td><input type="number" style="width: 6em" step="0.01" class="form-control"  id="precio" onchange="calcularSubtotal()"></td>
-               <td><input type="number" style="width: 6em" step="0.01" class="form-control" id="subtotal" disabled></td>
+               <td><input type="number"  step="0.01" class="form-control"  id="precio" ></td>
+               <td><input type="number"  step="0.01" class="form-control" id="subtotal" disabled></td>
                <td><input type="button" class='btn btn-primary' v-on:click="add_row;"  value="Agregar Registro"></td>
             </tr>
          </table>
@@ -87,8 +85,8 @@ export default {
         }
     },
     mounted() {
-       // this.getElementos()
         this.getProductos()
+        this.getElementos()
     },
     methods: {
          getElementos() {
