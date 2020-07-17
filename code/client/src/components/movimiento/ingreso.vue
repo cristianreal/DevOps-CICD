@@ -16,7 +16,7 @@
             <div class="form-group">
                <label class="col-form-label" for="provider">Proveedor</label>
                <select class="custom-select" v-model="provider" id="provider" name="provider">
-                  <option selected>Seleccione un prpveedor</option>
+                  <option selected>Seleccione un proveedor</option>
                   <option v-for="(provider, index) in providers"
                      v-bind:item="provider" 
                      v-bind:index="index" 
@@ -85,7 +85,7 @@ export default {
         }
     },
     mounted() {
-        this.getProductos()
+       // this.getProductos()
         this.getElementos()
     },
     methods: {
