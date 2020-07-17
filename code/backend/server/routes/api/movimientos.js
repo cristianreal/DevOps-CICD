@@ -26,11 +26,12 @@ router.post('/ingreso', urlencodedParser, (req, res) => {
         let fk_vendedor = req.body.fk_vendedor;
         let fk_proveedor = req.body.fk_proveedor;
         let detalle = req.body.detalle;
+        console.log(req.body);
         connection.query('call Ingreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+','+fk_proveedor+')', function (err, result, fields) {
             if (err) throw res.send('error: ' + err)
             detalle.forEach(async function(element){
-                connection.query('call Detalle_Crear('+element.cantidad+','+element.total+','+element.fk_producto+')', function (err, result, fields) {
-                    if (err) throw res.send('error: ' + err)
+                connection.query('call Detalle_Crear('+element.cantidad+','+element.total+','+element.fk_producto+')', function (err1, result1, fields1) {
+                    if (err1) throw res.send('error: ' + err1)
                 });
             });
             res.send("Ingreso agregado")

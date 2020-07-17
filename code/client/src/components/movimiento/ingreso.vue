@@ -152,7 +152,7 @@ export default {
                 fecha_movimiento:this.date,
                 fk_vendedor:this.pk_vendor,
                 fk_proveedor:this.Proveedor,
-                detalle: this.rowData,
+                detalle: this.rowData
             }).then(() => {
                 this.elemento = "Moviento Almacenado"             
                 this.testToast()
