@@ -136,8 +136,10 @@ export default {
             this.rowData.splice(no,1);
         },
          onChange(event) {
-            console.log(event.target.value)
+            console.table(event.target.value)
             let index= event.target.selectedIndex
+            console.log(index)
+
             if(index>0){
                 this.precio = this.rowData[index-1];
             }
