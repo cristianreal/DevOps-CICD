@@ -91,4 +91,13 @@ router.get('/detalle/:id', (req, res) => {
     });
 });
 
+//DELETE
+router.delete('/:id', (req, res) => {
+    connection.query('call Movimiento_Eliminar('+req.params.id+')', 
+    function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.send("Movimiento deleted")
+    });
+});
+
 module.exports = router;
