@@ -124,7 +124,7 @@ export default {
             var my_object = {
                 cantidad:this.cantidad,
                 producto:this.producto.nombre,
-                pk_producto:this.producto.pk_producto,
+                fk_producto:this.producto.pk_producto,
                 precio:this.precio,
                 subtotal: this.subtotal
             };
