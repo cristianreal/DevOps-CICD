@@ -12,7 +12,7 @@
       </div>
       <div class="form-group">
          <label class="col-form-label" for="provider">Proveedor</label>
-         <select class="custom-select" v-model="provider" id="provider" name="provider">
+         <select class="custom-select" v-model="Proveedor" id="Proveedor" name="Proveedor">
             <option>Seleccione un proveedor</option>
             <option v-for="(provider, index) in providers"
                v-bind:item="provider" 
@@ -21,7 +21,7 @@
                v-bind:value="provider.pk_proveedor">{{provider.nombre}} {{provider.apellido}}</option>
          </select>
       </div>
-      <button type="button" class="btn btn-primary" v-on:click="enviarInformacion">Guardar Lote</button>
+      <button type="button" class="btn btn-primary">Guardar Lote</button>
    </div>
 </div>
 </template>
@@ -71,20 +71,6 @@ export default {
                     console.error(error)
                 }
             )
-        },
-        add_row() {
-            //validarCodigo();
-            //calcularSubtotal();
-            var val_quantity = document.getElementById("quantity").value;
-            var val_productId = document.getElementById("productId").value;
-            var table = document.getElementById("data_table");
-            var table_len = (table.rows.length);
-            table.insertRow(table_len).outerHTML = "<tr id='row" + table_len + "'><td id='quantity" + table_len + "'>" + val_quantity + "</td><td id='productId" + table_len + "'>" + val_productId + "</td><td> <input type='button' value='Delete' id='delete_button" + table_len + "' class='btn btn-danger' onclick='delete_row(" + table_len + ")'></td></tr>";
-            this.quantity = "";
-            this.productId = "";
-
-            document.getElementById("delete_button" + table_len).style.visibility = "visible";
-
         }
     }
 };
