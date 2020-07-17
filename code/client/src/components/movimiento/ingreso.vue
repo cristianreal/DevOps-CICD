@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-
+        </div>
             <div class="col-lg-9">
                 <div style="overflow-y: scroll; height:460px;">
                     <table align='center' id="data_table" name="data_table" class="table table-hover">
@@ -65,8 +65,8 @@
                         </tr>
                     </table>
                 </div>
-            </div>
-        </div>
+            </div>       
+    </div>
     </div>
 </template>
 <script>
