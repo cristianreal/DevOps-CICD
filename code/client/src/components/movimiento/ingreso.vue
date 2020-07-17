@@ -108,6 +108,8 @@ export default {
                     console.error(error)
                 }
             )
+            console.log(this.providers)
+            console.log(this.products)
         },
         add_row() {
             //validarCodigo();
