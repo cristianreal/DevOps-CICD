@@ -24,11 +24,11 @@
                         <label class="col-form-label" for="brandproduct">Marca Producto</label>
                         <select class="custom-select" v-model="brandproduct" id="brandproduct" name="brandproduct">
                             <option selected>Seleccione la marca</option>
-                                <option v-for="(marca, index) in marcas"
-                                v-bind:item="marca" 
-                                v-bind:index="index" 
-                                v-bind:key="marca.pk_marca"
-                                v-bind:value="marca.pk_marca">{{marca.nombre}}</option>
+                            <option v-for="(marca, index) in marcas"
+                            v-bind:item="marca" 
+                            v-bind:index="index" 
+                            v-bind:key="marca.pk_marca"
+                            v-bind:value="marca.pk_marca">{{marca.nombre}}</option>
                         </select>
                     </div>
                     <div class="modal-footer">

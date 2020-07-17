@@ -7,6 +7,8 @@
       <p class="lead">Sistema de almacenamiento, acceso rapido.</p>
       <hr class="my-4">
       <div class="container">
+
+
         <div class="row">
           <div class="col-sm">
             <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
@@ -60,6 +62,8 @@
             </div>
           </div>
         </div>
+
+        
       </div>
    </div>
 </div>

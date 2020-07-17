@@ -24,7 +24,7 @@ import productoCrearComponent from '@/components/producto/crear'
 import productoEditarComponent from '@/components/producto/editar'
 import productoDetalleComponent from '@/components/producto/detalle'
 //----------- Movimiento ------------------------------
-import movimientoEntradaComponent from '@/components/movimiento/entrada'
+import movimientoIngresoComponent from '@/components/movimiento/ingreso'
 
 Vue.use(Router)
 
@@ -128,8 +128,8 @@ export default new Router({
             component: contenedor,
             children: [
                 {
-                    path: 'entrada',
-                    component: movimientoEntradaComponent
+                    path: 'ingreso',
+                    component: movimientoIngresoComponent
                 }
             ]
         }
