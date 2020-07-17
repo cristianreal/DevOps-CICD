@@ -31,7 +31,7 @@
                <label for="total">Total</label>
                <input type="number" step="0.01" class="form-control" v-model="total" id="total">
             </div>
-            <button type="button" class="btn btn-primary">Guardar Lote</button>
+            <button type="button" class="btn btn-primary"  v-on:click="createPost">Guardar Lote</button>
          </div>
       </div>
       <div class="col-lg-9">
