@@ -79,6 +79,10 @@ export default {
                     this.ingreso.seller = movimiento.vendedor
                     this.ingreso.proveedor = movimiento.proveedor
                     this.ingreso.total = movimiento.total
+                    this.date = movimiento.fecha_movimiento
+                    this.seller = movimiento.vendedor
+                    this.proveedor = movimiento.proveedor
+                    this.total = movimiento.total
                 }, error => {
                     console.error(error)
                 }
