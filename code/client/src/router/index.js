@@ -136,7 +136,7 @@ export default new Router({
                     component: movimientoIngresoComponent
                 },
                 {
-                    path: 'ingreso/:pkmovimiento',
+                    path: 'ingreso/detalle/:pkmovimiento',
                     component: movimientoIngresoDetailComponent
                 },
                 {

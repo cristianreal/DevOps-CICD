@@ -24,7 +24,7 @@
 						<td> {{post.proveedor}} </td>
 						<td> {{post.total}} </td>
 						<td>
-							<router-link :to="'/movimiento/ingreso/' + post.pk_movimiento" class="btn btn-secondary"  >Detalle</router-link>
+							<router-link :to="'/movimiento/ingreso/detalle/' + post.pk_movimiento" class="btn btn-secondary"  >Detalle</router-link>
 							<a class="btn btn-warning" @click="deletePost(post.pk_movimiento)"  >Eliminar</a>
 						</td>
 					</tr>
