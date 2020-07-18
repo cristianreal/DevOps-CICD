@@ -35,7 +35,7 @@
 
 <script>
 import axios from 'axios';
-const _PATH = "/api/movimientos/";
+const _PATH = "/api/movimientos/ingreso";
 
 export default {
     name: 'listar',
@@ -53,7 +53,7 @@ export default {
     methods: {
 
         getPosts() {
-            axios.get(this.url+"/ingreso").then(
+            axios.get(this.url).then(
                 result => {
                     this.ingresos = result.data[0]
                 }, error => {
