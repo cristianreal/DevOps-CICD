@@ -40,7 +40,10 @@ export default new Router({
         {
             path: '/',
             name: 'POST',
-            component: Home
+            component: Home,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/login',
@@ -67,7 +70,10 @@ export default new Router({
                     path: 'editar/:pkmarca',
                     component: marcaEditarComponent
                 }
-            ]
+            ],
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/proveedor/', 
