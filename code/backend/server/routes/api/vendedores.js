@@ -39,6 +39,22 @@ router.post('/', urlencodedParser, (req, res) => {
     }
 });
 
+router.post('/login', urlencodedParser, (req, res) => {
+    if(!req.body.email){
+        res.status(400)
+        res.json({
+            error: "Bad Data"
+        })
+    }else{
+        let email = req.body.email.replace("\'", "");
+        let password = req.body.password.replace("\'", "");
+        connection.query('call Login(\''+email+'\',\''+password+'\')', function (err, rows, fields) {
+            if (err) throw res.send('error: ' + err)
+            res.json(rows)
+        });
+    }
+});
+
 //OBTENER MARCA ESPECIFICA
 router.get('/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
