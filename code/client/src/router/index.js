@@ -204,8 +204,8 @@ router.beforeEach((to, from, next) => {
    //     else{
    //         next({ name: 'userboard'})
    //     }
-   // }else {
-   //     next()
+    }else {
+        next()
     }
 })
 
