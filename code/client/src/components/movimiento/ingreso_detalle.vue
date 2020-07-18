@@ -7,19 +7,19 @@
          <div style="max-width: 20rem;">
             <div class="form-group">
                <label class="col-form-label" for="date">Fecha</label>
-               <input type="text" class="form-control" v-model="date" placeholder="Default input" id="date" name="date" :value="ingreso.date">
+               <input type="text" class="form-control" v-model="date" placeholder="Default input" id="date" name="date" :value="date">
             </div>
             <div class="form-group">
                <label for="seller">Vendedor</label>
-               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="ingreso.seller">
+               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
             </div>
             <div class="form-group">
                <label for="proveedor">Proveedor</label>
-               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="proveedor" id="proveedor" name="proveedor" :value="ingreso.proveedor">
+               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="proveedor" id="proveedor" name="proveedor" :value="proveedor">
             </div>
             <div class="form-group">
                <label for="total">Total</label>
-               <input type="text" class="form-control" v-model="total" id="total" :value="ingreso.total">
+               <input type="text" class="form-control" v-model="total" id="total" :value="total">
             </div>
          </div>
       </div>
@@ -55,12 +55,10 @@ export default {
             error: '',
             text: '',
             id_movimiento: this.$route.params.pkmovimiento,
-            ingreso:{
-                date: '',
-                seller: '',
-                proveedor: '',
-                total: ''
-            },
+            date: '',
+            seller: '',
+            proveedor: '',
+            total: '',
             products:[],
             bare_url:  "http://" + this.$http + ":" + this.$port,
         }
@@ -75,10 +73,6 @@ export default {
                 result => {
                     let movimiento = result.data[0]
                     console.log(movimiento)
-                    this.ingreso.date = movimiento.fecha_movimiento
-                    this.ingreso.seller = movimiento.vendedor
-                    this.ingreso.proveedor = movimiento.proveedor
-                    this.ingreso.total = movimiento.total
                     this.date = movimiento.fecha_movimiento
                     this.seller = movimiento.vendedor
                     this.proveedor = movimiento.proveedor
