@@ -66,10 +66,10 @@ BEGIN
 END;
 	SELECT V.pk_vendedor, U.nombre, U.apellido, 
 			U.direccion, U.telefono, U.email, V.jornada 
-	FROM vendedor AS V WHERE V.email=cemail and V.pass=PASSWORD(cpassword)
+	FROM vendedor AS V 
 	INNER JOIN usuario AS U 
 	ON V.pk_vendedor = U.fk_vendedor AND V.pk_vendedor = cpk_vendedor
-	;
+	WHERE U.email=cemail and V.pass=PASSWORD(cpassword);
 END //
 DELIMITER ;
 -- ******************************************************************************
