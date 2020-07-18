@@ -15,6 +15,9 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+const _PATH = "/api/vendedores/";
+
     export default {
         name: 'Login',
         data() {
@@ -22,13 +25,14 @@
                 input: {
                     email: "",
                     password: ""
-                }
+                },
+                url: "http://" + this.$http + ":" + this.$port + _PATH
             }
         },
         methods: {
             login() {
                 if(this.input.email != "" && this.input.password != "") {
-                    axios.post(this.url, {
+                    axios.post(this.url+"/login", {
                     email: this.email,
                     password: this.password
                     }).then(result => {
