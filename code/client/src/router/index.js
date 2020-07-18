@@ -50,6 +50,11 @@ export default new Router({
             component: loginComponent
         },
         {
+            path: '/home',
+            name: "home",
+            component: Home
+        },
+        {
             path: '/marca/', 
             component: contenedor,
             children: [
