@@ -7,21 +7,20 @@
          <div style="max-width: 20rem;">
             <div class="form-group">
                <label class="col-form-label" for="date">Fecha</label>
-               <input type="text" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
+               <input type="text" class="form-control" v-model="date" placeholder="Default input" id="date" name="date" :value="ingreso.date">
             </div>
             <div class="form-group">
                <label for="seller">Vendedor</label>
-               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
+               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="ingreso.seller">
             </div>
             <div class="form-group">
                <label for="proveedor">Proveedor</label>
-               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="proveedor" id="proveedor" name="proveedor" :value="proveedor">
+               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="proveedor" id="proveedor" name="proveedor" :value="ingreso.proveedor">
             </div>
             <div class="form-group">
                <label for="total">Total</label>
-               <input type="number" step="0.01" class="form-control" v-model="total" id="total">
+               <input type="text" class="form-control" v-model="total" id="total" :value="ingreso.total">
             </div>
-            <button type="button" class="btn btn-primary"  v-on:click="createPost">Guardar Lote</button>
          </div>
       </div>
       <div class="col-lg-9">
@@ -56,6 +55,12 @@ export default {
             error: '',
             text: '',
             id_movimiento: this.$route.params.pkmovimiento,
+            ingreso:{
+                date: '',
+                seller: '',
+                proveedor: '',
+                total: ''
+            }
             products:[],
             bare_url:  "http://" + this.$http + ":" + this.$port,
         }
@@ -69,10 +74,11 @@ export default {
             axios.get(this.bare_url+"/api/movimientos/ingreso/"+this.id_movimiento).then(
                 result => {
                     let movimiento = result.data[0]
-                    this.date = movimiento.fecha_movimiento
-                    this.seller = movimiento.vendedor
-                    this.proveedor = movimiento.proveedor
-                    this.total = movimiento.total
+                    console.log(movimiento)
+                    this.ingreso.date = movimiento.fecha_movimiento
+                    this.ingreso.seller = movimiento.vendedor
+                    this.ingreso.proveedor = movimiento.proveedor
+                    this.ingreso.total = movimiento.total
                 }, error => {
                     console.error(error)
                 }
