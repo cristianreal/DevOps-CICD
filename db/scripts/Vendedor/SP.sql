@@ -24,7 +24,7 @@ END;
 	-- GENERO= 1->Masculino, 2->Femenino
 	-- TipoUsuario = 1->Admin, 2->Vendedor, 3->Proveedor
 	INSERT INTO vendedor (fecha_nacimiento, fecha_vinculacion, jornada, pass)
-	VALUES (cfecha_nacimiento, cfecha_vinculacion, cjornada, PASSWORD(pass));
+	VALUES (cfecha_nacimiento, cfecha_vinculacion, cjornada, PASSWORD(cpassword));
 
 	SELECT @ultimo_vendedor := MAX(pk_vendedor) FROM vendedor;
 

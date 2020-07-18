@@ -63,7 +63,7 @@
 
                     <div class="form-group">
                         <label class="col-form-label" for="pass">Password</label>
-                        <input type="password" class="form-control" v-model="pass" id="" name="pass">
+                        <input type="password" class="form-control" v-model="pass" id="pass" name="pass">
                     </div>
 
                     <div class="modal-footer">
