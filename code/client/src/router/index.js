@@ -183,7 +183,7 @@ router.beforeEach((to, from, next) => {
                 params: { nextUrl: to.fullPath }
             })
         } else {
-            next({ name: 'home'})
+            next()
  //           let user = JSON.parse(localStorage.getItem('user'))
  //           if(to.matched.some(record => record.meta.is_admin)) {
  //               if(user.is_admin == 1){
