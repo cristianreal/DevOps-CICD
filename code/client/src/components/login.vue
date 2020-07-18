@@ -32,6 +32,7 @@ const _PATH = "/api/vendedores/";
         methods: {
             login() {
                 if(this.input.email != "" && this.input.password != "") {
+                    console.log(this.url+"/login")
                     axios.post(this.url+"/login", {
                     email: this.email,
                     password: this.password
