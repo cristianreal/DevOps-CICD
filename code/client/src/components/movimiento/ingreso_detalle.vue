@@ -87,6 +87,7 @@ export default {
             axios.get(this.bare_url+"/api/movimientos/detalle/"+this.id_movimiento).then(
                 result => {
                     this.rowData = result.data[0]
+                    console.log(this.rowData)
                 }, error => {
                     console.error(error)
                 }
