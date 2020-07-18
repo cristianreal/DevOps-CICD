@@ -55,7 +55,7 @@ export default {
             error: '',
             text: '',
             id_movimiento: this.$route.params.pkmovimiento,
-            date: '',
+            date: 'hola',
             seller: '',
             proveedor: '',
             total: '',
@@ -64,7 +64,7 @@ export default {
         }
     },
     mounted() {
-        this.getMovimiento()
+       // this.getMovimiento()
        // this.getElementos()
     },
     methods: {
