@@ -58,7 +58,6 @@ export default {
             id_movimiento: this.$route.params.pkmovimiento,
             products:[],
             bare_url:  "http://" + this.$http + ":" + this.$port,
-            url: "http://" + this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {

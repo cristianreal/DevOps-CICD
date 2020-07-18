@@ -44,7 +44,7 @@ export default {
             ingresos: [],
             error: '',
             text: '',
-            url: "http://" + this.$http + ":" + this.$port
+            url: "http://" + this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {
