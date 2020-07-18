@@ -29,6 +29,7 @@ describe("marcas", function() {
                         direccion: "12av. 15-24",
                         telefono: "12345678",
                         email: "vendedor@gmail.com",
+                        pass: "123456",
                         genero: "1",
                         fecha_nacimiento: "2001-03-16",
                         fecha_vinculacion: "2001-03-16",
