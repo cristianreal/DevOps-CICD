@@ -74,6 +74,7 @@ export default {
             logout() {
                 this.authenticated = false;
                 localStorage.setItem('user',null)
+                console.log("Fuera");
             }
         }
 }
