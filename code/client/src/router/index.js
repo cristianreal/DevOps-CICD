@@ -179,6 +179,7 @@ router.beforeEach((to, from, next) => {
 
 
  if(to.matched.some(record => record.meta.requiresAuth)) {
+     console.log(localStorage.getItem('user'))
     if (localStorage.getItem('user') == null) {
         next({
           path: '/login',
