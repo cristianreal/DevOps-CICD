@@ -176,6 +176,9 @@ let router =  new Router({
 })
 
 router.beforeEach((to, from, next) => {
+
+
+ if(to.matched.some(record => record.meta.requiresAuth)) {
     if (!auth.loggedIn()) {
         next({
           path: '/login',
@@ -184,9 +187,10 @@ router.beforeEach((to, from, next) => {
       } else {
         next()
       }
-
-   /* if(to.matched.some(record => record.meta.requiresAuth)) {
-        if (localStorage.getItem('user') == null) {
+    }else {
+        next()
+    }
+  /*      if (localStorage.getItem('user') == null) {
             next({
                 path: '/login',
                 params: { nextUrl: to.fullPath }
