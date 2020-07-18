@@ -60,7 +60,7 @@ export default {
                 seller: '',
                 proveedor: '',
                 total: ''
-            }
+            },
             products:[],
             bare_url:  "http://" + this.$http + ":" + this.$port,
         }
