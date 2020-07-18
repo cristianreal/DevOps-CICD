@@ -68,8 +68,7 @@ END;
 			U.direccion, U.telefono, U.email, V.jornada 
 	FROM vendedor AS V 
 	INNER JOIN usuario AS U 
-	ON V.pk_vendedor = U.fk_vendedor
-	WHERE U.email=cemail;
+	ON V.pk_vendedor = U.fk_vendedor;
 END //
 DELIMITER ;
 -- ******************************************************************************
