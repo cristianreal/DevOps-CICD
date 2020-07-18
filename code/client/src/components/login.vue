@@ -34,12 +34,11 @@ const _PATH = "/api/vendedores/";
                 if(this.input.email != "" && this.input.password != "") {
                     console.log(this.url+"login")
                     axios.post(this.url+"login", {
-                    email: this.email,
-                    password: this.password
-                    }).then(() => {
-                        console.log("prueba")
-                       // let usuario = result.data[0]
-                       // console.log(usuario)
+                    email: this.input.email,
+                    password: this.input.password
+                    }).then(result => {
+                        let usuario = result.data[0]
+                        console.log(usuario)
                        /* let is_admin = response.data.user.is_admin
                         localStorage.setItem('user',JSON.stringify(response.data.user))
                         localStorage.setItem('jwt',response.data.token)
