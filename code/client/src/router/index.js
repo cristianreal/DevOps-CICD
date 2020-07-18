@@ -30,6 +30,8 @@ import movimientoIngresoDetailComponent from '@/components/movimiento/ingreso_de
 import movimientoEgresoComponent from '@/components/movimiento/egreso'
 import movimientoEgresoListComponent from '@/components/movimiento/egreso_listar'
 import movimientoEgresoDetailComponent from '@/components/movimiento/egreso_detalle.vue'
+//----------- Login ------------------------------
+import loginComponent from '@/components/login.vue'
 
 Vue.use(Router)
 
@@ -39,6 +41,11 @@ export default new Router({
             path: '/',
             name: 'POST',
             component: Home
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: loginComponent
         },
         {
             path: '/marca/', 
@@ -82,7 +89,8 @@ export default new Router({
                     path: 'editar/:pkproveedor',
                     component: proveedorEditarComponent
                 }
-            ]
+            ],
+            
         },
         {
             path: '/vendedor/', 
