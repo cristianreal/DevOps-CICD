@@ -64,23 +64,24 @@ export default {
         }
     },
     mounted() {
-       // this.getMovimiento()
+        this.getMovimiento()
        // this.getElementos()
     },
     methods: {
          getMovimiento() {
-            axios.get(this.bare_url+"/api/movimientos/ingreso/"+this.id_movimiento).then(
-                result => {
-                    let movimiento = result.data[0]
-                    console.log(movimiento)
-                    this.date = movimiento.fecha_movimiento
-                    this.seller = movimiento.vendedor
-                    this.proveedor = movimiento.proveedor
-                    this.total = movimiento.total
-                }, error => {
-                    console.error(error)
-                }
-            )
+             this.date = "Cambios"
+//            axios.get(this.bare_url+"/api/movimientos/ingreso/"+this.id_movimiento).then(
+//                result => {
+//                    let movimiento = result.data[0]
+//                    console.log(movimiento)
+//                    this.date = movimiento.fecha_movimiento
+//                    this.seller = movimiento.vendedor
+//                    this.proveedor = movimiento.proveedor
+//                    this.total = movimiento.total
+//                }, error => {
+//                    console.error(error)
+//                }
+//            )
          },
          getProductos(){
             axios.get(this.bare_url+"/api/productos").then(
