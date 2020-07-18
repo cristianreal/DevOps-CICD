@@ -84,7 +84,7 @@ export default {
             )
          },
          getDetalle(){
-            axios.get(this.bare_url+"/api/detalle/"+this.id_movimiento).then(
+            axios.get(this.bare_url+"/api/movimientos/detalle/"+this.id_movimiento).then(
                 result => {
                     this.rowData = result.data[0]
                 }, error => {
