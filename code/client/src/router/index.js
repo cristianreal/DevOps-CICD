@@ -26,6 +26,8 @@ import productoDetalleComponent from '@/components/producto/detalle'
 //----------- Movimiento ------------------------------
 import movimientoIngresoComponent from '@/components/movimiento/ingreso'
 import movimientoEgresoComponent from '@/components/movimiento/egreso'
+//------------ Login ------------------------------------
+import loginComponent from '@/components/login'
 
 Vue.use(Router)
 
@@ -35,6 +37,10 @@ export default new Router({
             path: '/',
             name: 'POST',
             component: Home
+        },
+        {
+            path: '/login',
+            component: loginComponent
         },
         {
             path: '/marca/', 

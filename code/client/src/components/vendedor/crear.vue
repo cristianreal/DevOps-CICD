@@ -4,7 +4,7 @@
             {{elemento}} Guardado
         </div>
 		<div class="jumbotron">
-			<h4 align="center" >Crear Proveedor</h4>
+			<h4 align="center" >Crear Vendedor</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -116,6 +116,7 @@ export default {
                 this.genderseller = ''
                 this.borndateseller = ''
                 this.initdateseller = ''
+                this.pass = ''
                 this.journalseller = ''
                 this.testToast()
             }).catch((error) => {
