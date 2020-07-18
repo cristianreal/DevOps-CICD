@@ -48,7 +48,7 @@ router.post('/login', urlencodedParser, (req, res) => {
     }else{
         let email = req.body.email.replace("\'", "");
         let password = req.body.password.replace("\'", "");
-        connection.query('call Login(\''+email+'\',\''+password+'\')', function (err, rows, fields) {
+        connection.query('call Vendedor_Login(\''+email+'\',\''+password+'\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.json(rows)
         });
