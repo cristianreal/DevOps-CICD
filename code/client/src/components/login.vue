@@ -38,8 +38,9 @@ const _PATH = "/api/vendedores/";
                     password: this.input.password
                     }).then(result => {
                         let usuario = result.data[0][0]
+                        console.log(usuario)
                         //let is_admin = response.data.user.is_admin
-                        localStorage.setItem('user',JSON.stringify(response.data[0]))
+                        localStorage.setItem('user',JSON.stringify(usuario))
 
                         if (localStorage.getItem('user') != null){
                             this.$emit('loggedIn')
