@@ -31,7 +31,7 @@
                     axios.post(this.url, {
                     email: this.email,
                     password: this.password
-                    }).then((result => {
+                    }).then(result => {
                         let usuario = result.data[0]
                         console.log(usuario)
                        /* let is_admin = response.data.user.is_admin
@@ -56,6 +56,7 @@
                         console.error(error)
                         return;
                     })
+                    
                 } else {
                     console.log("A email and password must be present");
                 }
