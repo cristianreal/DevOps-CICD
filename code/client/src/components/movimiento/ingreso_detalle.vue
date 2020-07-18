@@ -7,19 +7,19 @@
          <div style="max-width: 20rem;">
             <div class="form-group">
                <label class="col-form-label" for="date">Fecha</label>
-               <input type="text" class="form-control" v-model="date" placeholder="Default input" id="date" name="date" :value="date">
+               <input disabled type="text" class="form-control" v-model="date" placeholder="Default input" id="date" name="date" :value="date">
             </div>
             <div class="form-group">
                <label for="seller">Vendedor</label>
-               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
+               <input  disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
             </div>
             <div class="form-group">
                <label for="proveedor">Proveedor</label>
-               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="proveedor" id="proveedor" name="proveedor" :value="proveedor">
+               <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="proveedor" id="proveedor" name="proveedor" :value="proveedor">
             </div>
             <div class="form-group">
                <label for="total">Total</label>
-               <input type="text" class="form-control" v-model="total" id="total" :value="total">
+               <input  disabled type="text" class="form-control" v-model="total" id="total" :value="total">
             </div>
          </div>
       </div>
@@ -31,14 +31,12 @@
                   <th>Producto</th>
                   <th>Precio</th>
                   <th>Subtotal</th>
-                  <th>Acciones</th>
                </tr>
                <tr v-for="(item,index) in rowData" v-bind:key="index" >
                     <th scope="row">{{ item.cantidad }}</th>
                     <td>{{ item.producto }}</td>
                     <td>{{ item.precio }}</td>
-                    <td>{{ item.subtotal }}</td>
-               <td><input type="button" class='btn btn-danger' value="Quitar" v-on:click="delete_row(index)"></td>
+                    <td>{{ item.total }}</td>
                 </tr>
             </table>
          </div>
@@ -59,13 +57,13 @@ export default {
             seller: '',
             proveedor: '',
             total: '',
-            products:[],
+            rowData:[],
             bare_url:  "http://" + this.$http + ":" + this.$port,
         }
     },
     mounted() {
         this.getMovimiento()
-       // this.getElementos()
+        this.getDetalle()
     },
     methods: {
          getMovimiento() {
@@ -85,10 +83,10 @@ export default {
                 }
             )
          },
-         getProductos(){
-            axios.get(this.bare_url+"/api/productos").then(
+         getDetalle(){
+            axios.get(this.bare_url+"/api/detalle/"+this.id_movimiento).then(
                 result => {
-                    this.products = result.data[0]
+                    this.rowData = result.data[0]
                 }, error => {
                     console.error(error)
                 }
