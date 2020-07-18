@@ -69,16 +69,17 @@ export default {
     },
     methods: {
          getMovimiento() {
-             this.date = "Cambios"
             axios.get(this.bare_url+"/api/movimientos/ingreso/"+this.id_movimiento).then(
                 result => {
                     let movimiento = result.data[0]
-                    console.log(movimiento)
-                    this.date = "camibos #2"
-                    //this.date = movimiento.fecha_movimiento
-                    this.seller = movimiento.vendedor
-                    this.proveedor = movimiento.proveedor
-                    this.total = movimiento.total
+                    if(movimiento.length == 0){
+                        throw "No existe el producto indicado";    // throw a text
+                    }else{
+                    this.date = movimiento[0].fecha_movimiento
+                    this.seller = movimiento[0].vendedor
+                    this.proveedor = movimiento[0].proveedor
+                    this.total = movimiento[0].total
+                    }
                 }, error => {
                     console.error(error)
                 }
