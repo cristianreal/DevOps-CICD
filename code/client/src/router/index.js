@@ -26,32 +26,14 @@ import productoDetalleComponent from '@/components/producto/detalle'
 //----------- Movimiento ------------------------------
 import movimientoIngresoComponent from '@/components/movimiento/ingreso'
 import movimientoEgresoComponent from '@/components/movimiento/egreso'
-//------------ Login ------------------------------------
-import loginComponent from '@/components/login'
 
 Vue.use(Router)
 
 export default new Router({
     routes: [
-//        {
-//            path: '/',
-//            name: 'POST',
-//            component: Home
-//        },
         {
             path: '/',
-            redirect: {
-                name: "login"
-            }
-        },
-        {
-            path: '/login',
-            name: "login",
-            component: loginComponent
-        },
-        {
-            path: '/home',
-            name: "home",
+            name: 'POST',
             component: Home
         },
         {
