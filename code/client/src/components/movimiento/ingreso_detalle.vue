@@ -73,10 +73,10 @@ export default {
                     if(movimiento.length == 0){
                         throw "No existe el producto indicado";    // throw a text
                     }else{
-                    this.date = movimiento[0].fecha_movimiento
-                    this.seller = movimiento[0].vendedor
-                    this.proveedor = movimiento[0].proveedor
-                    this.total = movimiento[0].total
+                        this.date = movimiento[0].fecha_movimiento
+                        this.seller = movimiento[0].vendedor
+                        this.proveedor = movimiento[0].proveedor
+                        this.total = movimiento[0].total
                     }
                 }, error => {
                     console.error(error)
@@ -87,7 +87,10 @@ export default {
             axios.get(this.bare_url+"/api/movimientos/detalle/"+this.id_movimiento).then(
                 result => {
                     this.rowData = result.data[0]
-                    console.log(this.rowData)
+                    this.rowData.forEach( function(element){
+                        element.precio = parseFloat(element.precio).toFix(2)
+                        element.total = parseFloat(element.total).toFix(2)
+                    });
                 }, error => {
                     console.error(error)
                 }
