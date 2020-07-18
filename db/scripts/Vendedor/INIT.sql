@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS vendedor(
 	fecha_nacimiento	DATE,
 	fecha_vinculacion	DATE,
 	jornada				INT,
+	pass			VARCHAR(50),
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

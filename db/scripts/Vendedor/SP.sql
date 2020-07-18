@@ -11,7 +11,8 @@ CREATE PROCEDURE Vendedor_Crear
 	IN cgenero 				INT,
 	IN cfecha_nacimiento 	DATE,
    	IN cfecha_vinculacion 	DATE,
-   	IN cjornada				INT
+   	IN cjornada				INT,
+	IN cpassword			VARCHAR(50)
 )
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -22,8 +23,8 @@ END;
 	-- JORNADA = 1->Matutina, 2->Vespertina
 	-- GENERO= 1->Masculino, 2->Femenino
 	-- TipoUsuario = 1->Admin, 2->Vendedor, 3->Proveedor
-	INSERT INTO vendedor (fecha_nacimiento, fecha_vinculacion, jornada)
-	VALUES (cfecha_nacimiento, cfecha_vinculacion, cjornada);
+	INSERT INTO vendedor (fecha_nacimiento, fecha_vinculacion, jornada, pass)
+	VALUES (cfecha_nacimiento, cfecha_vinculacion, cjornada, PASSWORD(pass));
 
 	SELECT @ultimo_vendedor := MAX(pk_vendedor) FROM vendedor;
 

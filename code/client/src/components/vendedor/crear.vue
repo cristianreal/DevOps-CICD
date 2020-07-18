@@ -60,6 +60,12 @@
                             <option value="2">Vespertina</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label" for="pass">Password</label>
+                        <input type="password" class="form-control" v-model="pass" id="" name="pass">
+                    </div>
+
                     <div class="modal-footer">
                     <button  class="btn btn-primary"  v-on:click="createPost">Guardar</button>
                     </div>
@@ -98,7 +104,8 @@ export default {
                 genero: this.genderseller,
                 fecha_nacimiento: this.borndateseller,
                 fecha_vinculacion: this.initdateseller,
-                jornada: this.journalseller
+                jornada: this.journalseller,
+                pass: this.pass
             }).then(() => {
                 this.elemento = "Vendedor ["+this.nameseller+"]"
                 this.nameseller = ''
