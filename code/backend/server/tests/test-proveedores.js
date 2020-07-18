@@ -6,7 +6,7 @@ var expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe("marcas", function() {
+describe("proveedores", function() {
     describe("listar", function() {
             it('se verifica si la ruta para listar proveedores funciona', done => {
                 chai

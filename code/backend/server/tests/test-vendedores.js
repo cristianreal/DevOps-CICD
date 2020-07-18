@@ -6,7 +6,7 @@ var expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe("marcas", function() {
+describe("vendedores", function() {
     describe("listar", function() {
             it('se verifica si la ruta para listar vendedores funciona', done => {
                 chai
@@ -29,6 +29,7 @@ describe("marcas", function() {
                         direccion: "12av. 15-24",
                         telefono: "12345678",
                         email: "vendedor@gmail.com",
+                        pass: "123456",
                         genero: "1",
                         fecha_nacimiento: "2001-03-16",
                         fecha_vinculacion: "2001-03-16",

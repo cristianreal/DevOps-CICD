@@ -31,7 +31,8 @@ router.post('/', urlencodedParser, (req, res) => {
         let fecha_nacimiento = req.body.fecha_nacimiento.replace("\'", "");
         let fecha_vinculacion = req.body.fecha_vinculacion.replace("\'", "");
         let jornada = req.body.jornada.replace("\'", "");
-        connection.query('call Vendedor_Crear(\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+genero+',\''+fecha_nacimiento+'\',\''+fecha_vinculacion+'\','+jornada+')', function (err, rows, fields) {
+        let pass = req.body.pass.replace("\'", "");
+        connection.query('call Vendedor_Crear(\''+nombre+'\',\''+apellido+'\',\''+direccion+'\',\''+telefono+'\',\''+email+'\','+genero+',\''+fecha_nacimiento+'\',\''+fecha_vinculacion+'\','+jornada+',\''+pass+'\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Vendedor added")
         });

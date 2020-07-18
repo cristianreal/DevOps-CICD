@@ -14,6 +14,14 @@ router.get('/ingreso', (req, res) => {
     });
 });
 
+router.get('/ingreso/:id', (req, res) => {
+    let id = req.params.id.replace("\'", "");
+    connection.query('call Ingreso_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
 //ADD
 router.post('/ingreso', urlencodedParser, (req, res) => {
     if(!req.body.fecha_movimiento){
@@ -45,6 +53,14 @@ router.get('/egreso', (req, res) => {
     });
 });
 
+router.get('/egreso/:id', (req, res) => {
+    let id = req.params.id.replace("\'", "");
+    connection.query('call Egreso_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
 //ADD
 router.post('/egreso', urlencodedParser, (req, res) => {
     if(!req.body.fecha_movimiento){
@@ -66,6 +82,22 @@ router.post('/egreso', urlencodedParser, (req, res) => {
             res.send("Egreso agregado")
         });
     }
+});
+
+router.get('/detalle/:id', (req, res) => {
+    connection.query('call Egreso_Listar()', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
+//DELETE
+router.delete('/:id', (req, res) => {
+    connection.query('call Movimiento_Eliminar('+req.params.id+')', 
+    function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.send("Movimiento deleted")
+    });
 });
 
 module.exports = router;
