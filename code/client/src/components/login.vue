@@ -37,26 +37,25 @@ const _PATH = "/api/vendedores/";
                     email: this.input.email,
                     password: this.input.password
                     }).then(result => {
-                        let usuario = result.data[0]
-                        console.log(usuario)
-                       /* let is_admin = response.data.user.is_admin
-                        localStorage.setItem('user',JSON.stringify(response.data.user))
-                        localStorage.setItem('jwt',response.data.token)
+                        let usuario = result.data[0][0]
+                        //let is_admin = response.data.user.is_admin
+                        localStorage.setItem('user',JSON.stringify(response.data[0]))
 
-                        if (localStorage.getItem('jwt') != null){
+                        if (localStorage.getItem('user') != null){
                             this.$emit('loggedIn')
                             if(this.$route.params.nextUrl != null){
                                 this.$router.push(this.$route.params.nextUrl)
                             }
                             else {
-                                if(is_admin== 1){
+                                 this.$router.push('home')
+                             /*   if(is_admin== 1){
                                     this.$router.push('admin')
                                 }
                                 else {
                                     this.$router.push('dashboard')
-                                }
+                                }*/
                             }
-                        }*/
+                        }
                     }).catch((error) => {
                         console.error(error)
                         return;

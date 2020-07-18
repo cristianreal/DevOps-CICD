@@ -40,7 +40,6 @@ router.post('/', urlencodedParser, (req, res) => {
 });
 
 router.post('/login', urlencodedParser, (req, res) => {
-    console.log(req.body)
     if(!req.body.email){
         res.status(400)
         res.json({
