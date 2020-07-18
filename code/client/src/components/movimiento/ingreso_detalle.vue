@@ -75,7 +75,7 @@ export default {
                     let movimiento = result.data[0]
                     console.log(movimiento)
                     this.date = "camibos #2"
-                    this.date = movimiento.fecha_movimiento
+                    //this.date = movimiento.fecha_movimiento
                     this.seller = movimiento.vendedor
                     this.proveedor = movimiento.proveedor
                     this.total = movimiento.total
