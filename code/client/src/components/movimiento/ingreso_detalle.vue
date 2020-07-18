@@ -88,8 +88,8 @@ export default {
                 result => {
                     this.rowData = result.data[0]
                     this.rowData.forEach( function(element){
-                        element.precio = parseFloat(element.precio).toFix(2)
-                        element.total = parseFloat(element.total).toFix(2)
+                        element.precio = parseFloat(element.precio).toFixed(2)
+                        element.total = parseFloat(element.total).toFixed(2)
                     });
                 }, error => {
                     console.error(error)
