@@ -46,7 +46,7 @@
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/egreso" class="dropdown-item" >Registrar</router-link>
                         <router-link to="/movimiento/egreso/listar" class="dropdown-item" >Listar</router-link>
-                        <router-link v-if="authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>                    </div>
+                        <router-link v-on:click.native="logout()" >Logout</router-link>                    </div>
                 </li>
             </ul>
         </div>

@@ -44,7 +44,6 @@ const _PATH = "/api/vendedores/";
                         console.log(localStorage.getItem('user'))
                         if (localStorage.getItem('user') != null){
                             this.$emit('loggedIn')
-                            this.$emit('authenticated',true)
                             if(this.$route.params.nextUrl != null){
                                 this.$router.push(this.$route.params.nextUrl)
                             }
