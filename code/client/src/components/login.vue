@@ -28,7 +28,7 @@
         methods: {
             login() {
                 if(this.input.username != "" && this.input.password != "") {
-                   
+                   console.log("entre");
                 } else {
                     console.log("A username and password must be present");
                 }
