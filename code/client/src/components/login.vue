@@ -3,13 +3,13 @@
 		<div class="jumbotron">
             <h1>Login</h1>
             <div class="form-group">
-            <input type="text" name="username" v-model="input.username" placeholder="Username" />
+            <input type="text" class="form-control" name="username" v-model="input.username" placeholder="Username" />
             </div>
             <div class="form-group">
-            <input type="password" name="password" v-model="input.password" placeholder="Password" />
+            <input type="password" class="form-control" name="password" v-model="input.password" placeholder="Password" />
             </div>
             <div class="form-group">
-            <button type="button" v-on:click="login()">Login</button>
+            <button type="button"  class="btn btn-primary" v-on:click="login()">Login</button>
             </div>
         </div>
     </div>

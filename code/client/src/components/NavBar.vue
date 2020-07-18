@@ -48,6 +48,12 @@
                         <router-link to="/movimiento/egreso" class="dropdown-item" >Listar</router-link>
                     </div>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Status</a>
+                    <div class="dropdown-menu" style="">
+                        <router-link v-if="authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
@@ -55,6 +61,24 @@
 <script>
 
 export default {
-  name: 'navbar'
+    name: 'navbar',
+    data() {
+            return {
+                authenticated: false
+            }
+        },
+    mounted() {
+            if(!this.authenticated) {
+                this.$router.replace({ name: "login" });
+            }
+        },
+        methods: {
+            setAuthenticated(status) {
+                this.authenticated = status;
+            },
+            logout() {
+                this.authenticated = false;
+            }
+        }
 }
 </script>

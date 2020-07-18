@@ -33,13 +33,20 @@ Vue.use(Router)
 
 export default new Router({
     routes: [
+//        {
+//            path: '/',
+//            name: 'POST',
+//            component: Home
+//        },
         {
             path: '/',
-            name: 'POST',
-            component: Home
+            redirect: {
+                name: "login"
+            }
         },
         {
             path: '/login',
+            name: "login",
             component: loginComponent
         },
         {
