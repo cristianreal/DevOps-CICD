@@ -64,7 +64,7 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	SELECT V.pk_vendedor, U.nombre, U.apellido, 
+	SELECT U.pk_usuario, V.pk_vendedor, U.nombre, U.apellido, 
 			U.direccion, U.telefono, U.email, V.jornada 
 	FROM vendedor AS V 
 	INNER JOIN usuario AS U 
