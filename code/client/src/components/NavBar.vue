@@ -46,7 +46,7 @@
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/egreso" class="dropdown-item" >Registrar</router-link>
                         <router-link to="/movimiento/egreso/listar" class="dropdown-item" >Listar</router-link>
-                    </div>
+                        <router-link v-if="authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>                    </div>
                 </li>
             </ul>
         </div>
@@ -55,6 +55,24 @@
 <script>
 
 export default {
-  name: 'navbar'
+  name: 'navbar',
+  data() {
+            return {
+                authenticated: false
+            }
+  },
+  mounted() {
+            if(!this.authenticated) {
+                this.$router.replace({ name: "login" });
+            }
+    },
+     methods: {
+            setAuthenticated(status) {
+                this.authenticated = status;
+            },
+            logout() {
+                this.authenticated = false;
+            }
+        }
 }
 </script>

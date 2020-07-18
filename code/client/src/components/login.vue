@@ -38,17 +38,17 @@ const _PATH = "/api/vendedores/";
                     password: this.input.password
                     }).then(result => {
                         let usuario = result.data[0][0]
-                        console.log(usuario)
+                        //console.log(usuario)
                         //let is_admin = response.data.user.is_admin
                         localStorage.setItem('user',JSON.stringify(usuario))
                         console.log(localStorage.getItem('user'))
                         if (localStorage.getItem('user') != null){
-                            this.$emit('loggedIn')
+                            this.$emit('authenticated',true)
                             if(this.$route.params.nextUrl != null){
                                 this.$router.push(this.$route.params.nextUrl)
                             }
                             else {
-                                 this.$router.push('home')
+                                 this.$router.push('')
                              /*   if(is_admin== 1){
                                     this.$router.push('admin')
                                 }
