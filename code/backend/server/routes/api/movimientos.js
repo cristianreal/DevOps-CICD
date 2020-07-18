@@ -85,7 +85,7 @@ router.post('/egreso', urlencodedParser, (req, res) => {
 });
 
 router.get('/detalle/:id', (req, res) => {
-    connection.query('call Detalle_Movimiento()', function (err, rows, fields) {
+    connection.query('call Detalle_Movimiento('+req.params.id+')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
