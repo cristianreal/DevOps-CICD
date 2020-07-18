@@ -41,7 +41,7 @@ const _PATH = "/api/vendedores/";
                         console.log(usuario)
                         //let is_admin = response.data.user.is_admin
                         localStorage.setItem('user',JSON.stringify(usuario))
-
+                        console.log(localStorage.getItem('user'))
                         if (localStorage.getItem('user') != null){
                             this.$emit('loggedIn')
                             if(this.$route.params.nextUrl != null){
