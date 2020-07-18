@@ -38,7 +38,7 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ingresos</a>
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/ingreso" class="dropdown-item" >Registrar</router-link>
-                        <router-link to="/movimiento/ingreso" class="dropdown-item" >Listar</router-link>
+                        <router-link to="/movimiento/ingreso/listar" class="dropdown-item" >Listar</router-link>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

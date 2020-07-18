@@ -10,21 +10,22 @@
 						<th scope="col">Fecha</th>
 						<th scope="col">Vendedor</th>
 						<th scope="col">Proveedor</th>
+						<th scope="col">Total</th>
 						<th scope="col">Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="table-primary" v-for="(post, index) in posts" 
+					<tr class="table-primary" v-for="(post, index) in ingresos" 
                         v-bind:item="post" 
                         v-bind:index="index" 
-                        v-bind:key="post.pk_marca" >
-						<td> {{post.nombre}} </td>
-						<td> {{post.pagina_web}} </td>
-						<td> {{post.pais}} </td>
+                        v-bind:key="post.pk_movimiento" >
+						<td> {{post.fecha_movimiento}} </td>
+						<td> {{post.vendedor}} </td>
+						<td> {{post.proveedor}} </td>
+						<td> {{post.total}} </td>
 						<td>
-							<router-link :to="'/marca/detalle/' + post.pk_marca" class="btn btn-secondary"  >Detalle</router-link>
-							<router-link :to="'/marca/editar/' + post.pk_marca" class="btn btn-info"  >Editar</router-link>
-							<a class="btn btn-warning" @click="deletePost(post.pk_marca)"  >Eliminar</a>
+							<router-link :to="'/movimiento/ingreso/detalle/' + post.pk_movimiento" class="btn btn-secondary"  >Detalle</router-link>
+							<a class="btn btn-warning" @click="deletePost(post.pk_movimiento)"  >Eliminar</a>
 						</td>
 					</tr>
 				</tbody>
@@ -34,13 +35,13 @@
 
 <script>
 import axios from 'axios';
-const _PATH = "/api/marcas/";
+const _PATH = "/api/movimientos/ingreso";
 
 export default {
     name: 'listar',
     data() {
         return {
-            posts: [],
+            ingresos: [],
             error: '',
             text: '',
             url: "http://" + this.$http + ":" + this.$port + _PATH
@@ -54,14 +55,13 @@ export default {
         getPosts() {
             axios.get(this.url).then(
                 result => {
-                    this.posts = result.data[0]
+                    this.ingresos = result.data[0]
                 }, error => {
                     console.error(error)
                 }
             )
         },
         deletePost(id) {
-
             axios.delete(`${this.url}${id}`).then(() => {
                 this.getPosts()
             }).catch((error) => {

@@ -25,6 +25,7 @@ import productoEditarComponent from '@/components/producto/editar'
 import productoDetalleComponent from '@/components/producto/detalle'
 //----------- Movimiento ------------------------------
 import movimientoIngresoComponent from '@/components/movimiento/ingreso'
+import movimientoIngresoListComponent from '@/components/movimiento/ingreso_listar'
 import movimientoEgresoComponent from '@/components/movimiento/egreso'
 
 Vue.use(Router)
@@ -131,6 +132,10 @@ export default new Router({
                 {
                     path: 'ingreso',
                     component: movimientoIngresoComponent
+                },
+                {
+                    path: 'ingreso/listar',
+                    component: movimientoIngresoListComponent
                 },
                 {
                     path: 'egreso',
