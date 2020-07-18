@@ -45,7 +45,7 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Egresos</a>
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/egreso" class="dropdown-item" >Registrar</router-link>
-                        <router-link to="/movimiento/egreso" class="dropdown-item" >Listar</router-link>
+                        <router-link to="/movimiento/egreso/listar" class="dropdown-item" >Listar</router-link>
                     </div>
                 </li>
             </ul>

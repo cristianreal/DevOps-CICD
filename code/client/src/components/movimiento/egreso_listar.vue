@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<h1 align="center" class="display-3">Listar Ingresos</h1>
+		<h1 align="center" class="display-3">Listar Egresos</h1>
 		<!-- LIMIT CREATE -->
 		<hr>
 			<p class="error" v-if="error">{{error}}</p>
@@ -9,7 +9,6 @@
 					<tr class="table-secondary">
 						<th scope="col">Fecha</th>
 						<th scope="col">Vendedor</th>
-						<th scope="col">Proveedor</th>
 						<th scope="col">Total</th>
 						<th scope="col">Opciones</th>
 					</tr>
@@ -21,10 +20,9 @@
                         v-bind:key="post.pk_movimiento" >
 						<td> {{post.fecha_movimiento}} </td>
 						<td> {{post.vendedor}} </td>
-						<td> {{post.proveedor}} </td>
 						<td> {{post.total}} </td>
 						<td>
-							<router-link :to="'/movimiento/ingreso/detalle/' + post.pk_movimiento" class="btn btn-secondary"  >Detalle</router-link>
+							<router-link :to="'/movimiento/egreso/detalle/' + post.pk_movimiento" class="btn btn-secondary"  >Detalle</router-link>
 							<a class="btn btn-warning" @click="deletePost(post.pk_movimiento)"  >Eliminar</a>
 						</td>
 					</tr>
@@ -35,7 +33,7 @@
 
 <script>
 import axios from 'axios';
-const _PATH = "/api/movimientos/ingreso";
+const _PATH = "/api/movimientos/";
 
 export default {
     name: 'listar',
@@ -53,7 +51,7 @@ export default {
     methods: {
 
         getPosts() {
-            axios.get(this.url).then(
+            axios.get(this.url+"/egreso").then(
                 result => {
                     this.ingresos = result.data[0]
                 }, error => {
