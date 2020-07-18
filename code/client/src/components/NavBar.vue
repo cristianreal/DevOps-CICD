@@ -74,7 +74,7 @@ export default {
             logout() {
                 this.authenticated = false;
                 localStorage.setItem('user',null)
-                this.$emit('loggedOut')
+                this.$emit('loggedIn',false)
                 console.log("Fuera");
             }
         }
