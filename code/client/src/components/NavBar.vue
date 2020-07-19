@@ -38,23 +38,47 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ingresos</a>
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/ingreso" class="dropdown-item" >Registrar</router-link>
-                        <router-link to="/movimiento/ingreso" class="dropdown-item" >Listar</router-link>
+                        <router-link to="/movimiento/ingreso/listar" class="dropdown-item" >Listar</router-link>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Egresos</a>
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/egreso" class="dropdown-item" >Registrar</router-link>
-                        <router-link to="/movimiento/egreso" class="dropdown-item" >Listar</router-link>
+                        <router-link to="/movimiento/egreso/listar" class="dropdown-item" >Listar</router-link>
                     </div>
                 </li>
             </ul>
+        </div>
+
+        <div class="form-inline my-2 my-lg-0">
+            <router-link to="/login" class="dropdown-item" v-on:click.native="logout()" >Logout</router-link>                    
         </div>
     </nav>
 </template>
 <script>
 
 export default {
-  name: 'navbar'
+  name: 'navbar',
+  data() {
+            return {
+                authenticated: false
+            }
+        },
+    mounted() {
+            if (localStorage.getItem('user') != null){
+                this.authenticated = true;
+                this.$emit('refresh')
+            }
+    },
+     methods: {
+            logout() {
+                this.authenticated = false;
+                localStorage.removeItem('user');
+                this.$emit('loggedIn',false)
+                this.$router.push('/login').catch(()=>{});
+                this.$emit('refresh')
+            }
+        }
 }
 </script>

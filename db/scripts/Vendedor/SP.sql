@@ -51,6 +51,28 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+DROP PROCEDURE IF EXISTS Vendedor_Login;
+DELIMITER //
+CREATE PROCEDURE Vendedor_Login
+(
+	IN cemail				VARCHAR(50),
+	IN cpassword			VARCHAR(50)
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	SELECT U.pk_usuario, V.pk_vendedor, U.nombre, U.apellido, 
+			U.direccion, U.telefono, U.email, V.jornada 
+	FROM vendedor AS V 
+	INNER JOIN usuario AS U 
+	ON V.pk_vendedor = U.fk_vendedor
+	WHERE U.email=cemail and V.pass=PASSWORD(cpassword);
+END //
+DELIMITER ;
+-- ******************************************************************************
 DROP PROCEDURE IF EXISTS Vendedor_Buscar_Por_Id;
 DELIMITER //
 CREATE PROCEDURE Vendedor_Buscar_Por_Id
