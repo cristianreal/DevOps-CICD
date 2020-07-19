@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                <label for="seller">Vendedor</label>
-               <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
+               <input type="text" readonly class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller"  :value="input.nombre">
             </div>
             <div class="form-group">
                <label for="total">Total</label>
@@ -78,8 +78,10 @@ export default {
             cantidad: '1',
             precio: '0.00',
             subtotal: '0.00',
-            vendorName: 'Vendedor Prueba',
-            pk_vendor: '1',
+            input:{
+                nombre: 'Vendedor Prueba',
+                pk_usuario: '1'
+            },
             seller: 'venddor prueba',
             date: new Date().toISOString().slice(0,10),
             testButClicked: false,
@@ -90,6 +92,17 @@ export default {
     mounted() {
         this.getProductos()
         this.getElementos()
+        if (localStorage.getItem('user') != null){
+            let usuario = JSON.parse(localStorage.getItem('user'));
+            let nombre = usuario.nombre;
+            let pk_usuario = usuario.pk_usuario
+            this.input = {
+                nombre: nombre,
+                pk_usuario:pk_usuario
+            };
+            this.seller = nombre
+            this.$emit('refresh')
+        }
     },
     methods: {
          getElementos() {
@@ -120,7 +133,7 @@ export default {
             };
             this.rowData.push(my_object);
             this.total = parseFloat(Number(this.total) + Number(this.subtotal)).toFixed(2);
-            this.cantidad = '';
+            this.cantidad = '1';
             this.precio = '';
             this.producto = '';
             this.subtotal = '';
@@ -141,7 +154,7 @@ export default {
         createPost() {
             axios.post(this.url, {
                 fecha_movimiento:this.date,
-                fk_vendedor:this.pk_vendor,
+                fk_vendedor:this.input.pk_usuario,
                 detalle: this.rowData
             }).then(() => {
                 this.elemento = "Moviento Almacenado"             

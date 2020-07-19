@@ -29,6 +29,12 @@ const _PATH = "/api/vendedores/";
                 url: "http://" + this.$http + ":" + this.$port + _PATH
             }
         },
+        mounted(){
+             if (localStorage.getItem('user') != null){
+                this.$router.push('/').catch(()=>{});
+                this.$emit('refresh')
+             }
+        },
         methods: {
             login() {
                 if(this.input.email != "" && this.input.password != "") {
@@ -38,23 +44,16 @@ const _PATH = "/api/vendedores/";
                     password: this.input.password
                     }).then(result => {
                         let usuario = result.data[0][0]
-                        //console.log(usuario)
-                        //let is_admin = response.data.user.is_admin
                         localStorage.setItem('user',JSON.stringify(usuario))
-                        console.log(localStorage.getItem('user'))
                         if (localStorage.getItem('user') != null){
                             this.$emit('loggedIn')
-                            if(this.$route.params.nextUrl != null){
-                                this.$router.push(this.$route.params.nextUrl)
+                            if(this.$route.query.nextUrl != null){
+                                this.$router.push(this.$route.query.nextUrl).catch(()=>{});
+                                this.$emit('refresh')
                             }
                             else {
-                                 this.$router.push('')
-                             /*   if(is_admin== 1){
-                                    this.$router.push('admin')
-                                }
-                                else {
-                                    this.$router.push('dashboard')
-                                }*/
+                                this.$router.push('/').catch(()=>{});
+                                this.$emit('refresh')
                             }
                         }
                     }).catch((error) => {

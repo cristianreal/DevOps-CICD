@@ -46,10 +46,13 @@
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/egreso" class="dropdown-item" >Registrar</router-link>
                         <router-link to="/movimiento/egreso/listar" class="dropdown-item" >Listar</router-link>
-                        <router-link to="/login" v-on:click.native="logout()" >Logout</router-link>                    
                     </div>
                 </li>
             </ul>
+        </div>
+
+        <div class="form-inline my-2 my-lg-0">
+            <router-link to="/login" class="dropdown-item" v-on:click.native="logout()" >Logout</router-link>                    
         </div>
     </nav>
 </template>
@@ -61,21 +64,20 @@ export default {
             return {
                 authenticated: false
             }
-  },
-  mounted() {
-          /*  if(!this.authenticated) {
-                this.$router.replace({ name: "login" });
-            }*/
+        },
+    mounted() {
+            if (localStorage.getItem('user') != null){
+                this.authenticated = true;
+                this.$emit('refresh')
+            }
     },
      methods: {
-            setAuthenticated(status) {
-                this.authenticated = status;
-            },
             logout() {
                 this.authenticated = false;
-                localStorage.setItem('user','null')
+                localStorage.removeItem('user');
                 this.$emit('loggedIn',false)
-                console.log("Fuera");
+                this.$router.push('/login').catch(()=>{});
+                this.$emit('refresh')
             }
         }
 }
