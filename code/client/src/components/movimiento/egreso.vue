@@ -94,7 +94,7 @@ export default {
         this.getElementos()
         if (localStorage.getItem('user') != null){
             let usuario = JSON.parse(localStorage.getItem('user'));
-            let nombre = usuario.nombre;
+            let nombre = usuario.nombre + " "+usuario.apellido;
             let pk_usuario = usuario.pk_usuario
             this.input = {
                 nombre: nombre,
