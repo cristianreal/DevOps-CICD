@@ -71,6 +71,7 @@ export default {
                 this.authenticated = true;
                 let usuario = JSON.parse(localStorage.getItem('user'));
                 let nombre = usuario.nombre;
+                console.log("nmbre = " +nombre)
                 if(nombre == "ADMIN"){
                     this.administrador = true;
                 }
