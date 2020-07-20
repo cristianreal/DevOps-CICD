@@ -38,24 +38,27 @@ const _PATH = "/api/vendedores/";
         methods: {
             login() {
                 if(this.input.email != "" && this.input.password != "") {
-                    console.log(this.url+"login")
                     axios.post(this.url+"login", {
-                    email: this.input.email,
-                    password: this.input.password
+                        email: this.input.email,
+                        password: this.input.password
                     }).then(result => {
-                        let usuario = result.data[0][0]
+                        let respuesta = result.data[0];
+                        if(respuesta.length == 0){
+                            alert("El usuario/password es incorrecto");
+                            return;
+                        }
+                        let usuario = respuesta[0]
                         localStorage.setItem('user',JSON.stringify(usuario))
                         if (localStorage.getItem('user') != null){
                             this.$emit('loggedIn')
                             if(this.$route.query.nextUrl != null){
                                 this.$router.push(this.$route.query.nextUrl).catch(()=>{});
-                                this.$emit('refresh')
                             }
                             else {
                                 this.$router.push('/').catch(()=>{});
-                                this.$emit('refresh')
                             }
                         }
+                        this.$router.go()
                     }).catch((error) => {
                         console.error(error)
                         return;
