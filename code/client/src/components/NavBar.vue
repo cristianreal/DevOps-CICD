@@ -41,7 +41,7 @@
                         <router-link to="/movimiento/ingreso/listar" class="dropdown-item" >Listar</router-link>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" v-if="authenticated">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Egresos</a>
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/egreso" class="dropdown-item" >Registrar</router-link>
@@ -71,7 +71,6 @@ export default {
                 this.authenticated = true;
                 let usuario = JSON.parse(localStorage.getItem('user'));
                 let nombre = usuario.nombre;
-                console.log("nmbre = " +nombre)
                 if(nombre == "ADMIN"){
                     this.administrador = true;
                 }
