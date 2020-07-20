@@ -41,7 +41,7 @@
                         <router-link to="/movimiento/ingreso/listar" class="dropdown-item" >Listar</router-link>
                     </div>
                 </li>
-                <li class="nav-item dropdown" v-if="authenticated">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Egresos</a>
                     <div class="dropdown-menu" style="">
                         <router-link to="/movimiento/egreso" class="dropdown-item" >Registrar</router-link>
@@ -51,7 +51,7 @@
             </ul>
         </div>
 
-        <div class="form-inline my-2 my-lg-0">
+        <div class="form-inline my-2 my-lg-0"  v-if="authenticated">
             <router-link to="/login" class="dropdown-item" v-on:click.native="logout()" >Logout</router-link>                    
         </div>
     </nav>
