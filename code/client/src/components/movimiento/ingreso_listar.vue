@@ -3,7 +3,7 @@
 <template>
    <div class="container">
       <datatable
-         title="Listado de Egresos"
+         title="Listado de Ingresos"
          :columns="tableColumns1"
          :rows="posts"
          >
