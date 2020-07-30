@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label class="col-form-label" for="brandproduct">Marca Producto</label>
                         <select class="custom-select" v-model="brandproduct" id="brandproduct" name="brandproduct">
-                            <option selected>Seleccione la marca</option>
+                            <option>Seleccione la marca</option>
                             <option v-for="(marca, index) in marcas"
                             v-bind:item="marca" 
                             v-bind:index="index" 
@@ -48,6 +48,7 @@ export default {
             error: '',
             text: '',
             elemento: '',
+            brandproduct: 'Seleccione la marca',
             marcas: [],
             testButClicked: false,
             urlMarcas: "http://" + this.$http + ":" + this.$port +"/api/marcas/",

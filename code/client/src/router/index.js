@@ -25,16 +25,30 @@ import productoEditarComponent from '@/components/producto/editar'
 import productoDetalleComponent from '@/components/producto/detalle'
 //----------- Movimiento ------------------------------
 import movimientoIngresoComponent from '@/components/movimiento/ingreso'
+import movimientoIngresoListComponent from '@/components/movimiento/ingreso_listar'
+import movimientoIngresoDetailComponent from '@/components/movimiento/ingreso_detalle'
 import movimientoEgresoComponent from '@/components/movimiento/egreso'
+import movimientoEgresoListComponent from '@/components/movimiento/egreso_listar'
+import movimientoEgresoDetailComponent from '@/components/movimiento/egreso_detalle.vue'
+//----------- Login ------------------------------
+import loginComponent from '@/components/login.vue'
 
 Vue.use(Router)
 
-export default new Router({
+let router =  new Router({
     routes: [
         {
             path: '/',
-            name: 'POST',
-            component: Home
+            name: 'home',
+            component: Home,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: loginComponent
         },
         {
             path: '/marca/', 
@@ -56,7 +70,10 @@ export default new Router({
                     path: 'editar/:pkmarca',
                     component: marcaEditarComponent
                 }
-            ]
+            ],
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/proveedor/', 
@@ -78,7 +95,11 @@ export default new Router({
                     path: 'editar/:pkproveedor',
                     component: proveedorEditarComponent
                 }
-            ]
+            ],
+            meta: {
+                requiresAuth: true
+            }
+            
         },
         {
             path: '/vendedor/', 
@@ -100,7 +121,10 @@ export default new Router({
                     path: 'editar/:pkvendedor',
                     component: vendedorEditarComponent
                 }
-            ]
+            ],
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/producto/', 
@@ -122,7 +146,10 @@ export default new Router({
                     path: 'editar/:pkproducto',
                     component: productoEditarComponent
                 }
-            ]
+            ],
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/movimiento/', 
@@ -133,10 +160,48 @@ export default new Router({
                     component: movimientoIngresoComponent
                 },
                 {
+                    path: 'ingreso/detalle/:pkmovimiento',
+                    component: movimientoIngresoDetailComponent
+                },
+                {
+                    path: 'ingreso/listar',
+                    component: movimientoIngresoListComponent
+                },
+                {
                     path: 'egreso',
                     component: movimientoEgresoComponent
+                },
+                {
+                    path: 'egreso/detalle/:pkmovimiento',
+                    component: movimientoEgresoDetailComponent
+                },
+                {
+                    path: 'egreso/listar',
+                    component: movimientoEgresoListComponent
                 }
-            ]
+            ],
+            meta: {
+                requiresAuth: true
+            }
         }
     ]
 })
+
+router.beforeEach((to, from, next) => {
+
+
+ if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem('user') == null) {
+        next({
+            path: '/login',
+            query: { nextUrl: to.fullPath }
+        })
+      } else {
+        next()
+      }
+    }else {
+        next()
+    }
+})
+
+export default router

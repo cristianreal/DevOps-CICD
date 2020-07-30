@@ -3,7 +3,7 @@
 <template>
    <div class="container">
       <datatable
-         title="Listado de Ingresos"
+         title="Listado de Egresos"
          :columns="tableColumns1"
          :rows="posts"
          >
@@ -12,7 +12,7 @@
          </th>
          <template slot="tbody-tr" scope="props">
             <td>
-               <router-link :to="'/movimiento/ingreso/detalle/' + props.row.pk_movimiento" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
+               <router-link :to="'/movimiento/egreso/detalle/' + props.row.pk_movimiento" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
                <button class="btn red darken-2 waves-effect waves-light compact-btn"
                   @click="(e) => deletePost(props.row.pk_movimiento, e)">
                <i class="material-icons white-text">delete</i>
@@ -57,12 +57,6 @@ export default {
 					html: false
 				},
 				{
-					label: "Proveedor",
-					field: "proveedor",
-					numeric: false,
-					html: false
-				},
-				{
 					label: "Total",
 					field: "total",
 					numeric: true,
@@ -74,13 +68,13 @@ export default {
 	mounted() {
 		this.getPosts()
 	},
-    components: {
+	components: {
 		"datatable": DataTable
 	},
 	methods: {
 
 		getPosts() {
-			axios.get(this.url + "/ingreso").then(
+			axios.get(this.url + "/egreso").then(
 				result => {
 					this.posts = result.data[0]
 				}, error => {

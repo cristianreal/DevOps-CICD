@@ -43,7 +43,7 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	SELECT P.pk_proveedor, U.nombre, U.apellido,
+	SELECT U.pk_usuario, P.pk_proveedor, U.nombre, U.apellido,
 			U.direccion, U.telefono, U.email, 
 			P.pagina_web, P.pais, P.ciudad 
 	FROM proveedor AS P 

@@ -3,7 +3,7 @@
 		<div class="jumbotron">
             <h1>Login</h1>
             <div class="form-group">
-            <input type="text" class="form-control" name="username" v-model="input.username" placeholder="Username" />
+            <input type="text" class="form-control" name="email" v-model="input.email" placeholder="email" />
             </div>
             <div class="form-group">
             <input type="password" class="form-control" name="password" v-model="input.password" placeholder="Password" />
@@ -15,27 +15,57 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+const _PATH = "/api/vendedores/";
+
     export default {
         name: 'Login',
         data() {
             return {
                 input: {
-                    username: "",
+                    email: "",
                     password: ""
-                }
+                },
+                url: "http://" + this.$http + ":" + this.$port + _PATH
             }
+        },
+        mounted(){
+             if (localStorage.getItem('user') != null){
+                this.$router.push('/').catch(()=>{});
+                this.$emit('refresh')
+             }
         },
         methods: {
             login() {
-                if(this.input.username != "" && this.input.password != "") {
-                    if(this.input.username == "Admin" && this.input.password == "123456") {
-                        this.$emit("authenticated", true);
-                        this.$router.replace({ name: "secure" });
-                    } else {
-                        console.log("The username and / or password is incorrect");
-                    }
+                if(this.input.email != "" && this.input.password != "") {
+                    axios.post(this.url+"login", {
+                        email: this.input.email,
+                        password: this.input.password
+                    }).then(result => {
+                        let respuesta = result.data[0];
+                        if(respuesta.length == 0){
+                            alert("El usuario/password es incorrecto");
+                            return;
+                        }
+                        let usuario = respuesta[0]
+                        localStorage.setItem('user',JSON.stringify(usuario))
+                        if (localStorage.getItem('user') != null){
+                            this.$emit('loggedIn')
+                            if(this.$route.query.nextUrl != null){
+                                this.$router.push(this.$route.query.nextUrl).catch(()=>{});
+                            }
+                            else {
+                                this.$router.push('/').catch(()=>{});
+                            }
+                        }
+                        this.$router.go()
+                    }).catch((error) => {
+                        console.error(error)
+                        return;
+                    })
+                    
                 } else {
-                    console.log("A username and password must be present");
+                    console.log("A email and password must be present");
                 }
             }
         }

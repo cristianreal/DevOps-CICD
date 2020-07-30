@@ -280,6 +280,7 @@ export default {
         return {
             error: '',
             text: '',
+			country: 'Guatemala',
             elemento: '',
             testButClicked: false,
             url: "http://" + this.$http + ":" + this.$port + _PATH
