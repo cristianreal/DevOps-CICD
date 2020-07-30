@@ -1,5 +1,3 @@
-
-
 <template>
    <div class="container">
       <datatable
@@ -7,19 +5,20 @@
          :columns="tableColumns1"
          :rows="tableRows1"
          >
-      <th slot="thead-tr">
-         Actions
-      </th>
-      <template slot="tbody-tr" scope="props">
-         <td>
-            <router-link :to="'/producto/detalle/' + props.row.pk_producto" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
-            <router-link :to="'/producto/editar/' + props.row.pk_producto" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">edit</i></router-link>
-            <button class="btn red darken-2 waves-effect waves-light compact-btn"
-               @click="(e) => deletePost(props.row.pk_producto, e)">
-            <i class="material-icons white-text">delete</i>
-            </button>
-         </td>
-      </template>
+         <th slot="thead-tr">
+            Actions
+         </th>
+         <template slot="tbody-tr" scope="props">
+            <td>
+               <router-link :to="'/producto/detalle/' + props.row.pk_producto" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
+               <router-link :to="'/producto/editar/' + props.row.pk_producto" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">edit</i></router-link>
+               <button class="btn red darken-2 waves-effect waves-light compact-btn"
+                  @click="(e) => deletePost(props.row.pk_producto, e)">
+               <i class="material-icons white-text">delete</i>
+               </button>
+            </td>
+         </template>
+      </datatable>
    </div>
 </template>
 
@@ -56,7 +55,7 @@ export default {
 				{
 					label: "Precio",
 					field: "precio",
-					numeric: false,
+					numeric: true,
 					html: false
 				},
 				{
