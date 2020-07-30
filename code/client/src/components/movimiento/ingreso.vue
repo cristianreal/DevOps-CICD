@@ -89,6 +89,7 @@ export default {
             cantidad: '1',
             precio: '0.00',
             subtotal: '0.00',
+            Proveedor: 'Seleccione un proveedor',
             input:{
                 nombre: 'Vendedor Prueba',
                 pk_usuario: '1'

@@ -1,74 +1,101 @@
+
+
 <template>
-	<div class="container">
-		<h1 align="center" class="display-3">Listar Ingresos</h1>
-		<!-- LIMIT CREATE -->
-		<hr>
-			<p class="error" v-if="error">{{error}}</p>
-			<table class="table table-hover">
-				<thead>
-					<tr class="table-secondary">
-						<th scope="col">Fecha</th>
-						<th scope="col">Vendedor</th>
-						<th scope="col">Proveedor</th>
-						<th scope="col">Total</th>
-						<th scope="col">Opciones</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="table-primary" v-for="(post, index) in ingresos" 
-                        v-bind:item="post" 
-                        v-bind:index="index" 
-                        v-bind:key="post.pk_movimiento" >
-						<td> {{post.fecha_movimiento}} </td>
-						<td> {{post.vendedor}} </td>
-						<td> {{post.proveedor}} </td>
-						<td> {{post.total}} </td>
-						<td>
-							<router-link :to="'/movimiento/ingreso/detalle/' + post.pk_movimiento" class="btn btn-secondary"  >Detalle</router-link>
-							<a class="btn btn-warning" @click="deletePost(post.pk_movimiento)"  >Eliminar</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</template>
+   <div class="container">
+      <datatable
+         title="Listado de Ingresos"
+         :columns="tableColumns1"
+         :rows="posts"
+         >
+         <th slot="thead-tr">
+            Actions
+         </th>
+         <template slot="tbody-tr" scope="props">
+            <td>
+               <router-link :to="'/movimiento/ingreso/detalle/' + props.row.pk_movimiento" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
+               <button class="btn red darken-2 waves-effect waves-light compact-btn"
+                  @click="(e) => deletePost(props.row.pk_movimiento, e)">
+               <i class="material-icons white-text">delete</i>
+               </button>
+            </td>
+         </template>
+      </datatable>
+   </div>
+</template>
 
 <script>
+
+
 import axios from 'axios';
+import DataTable from "vue-materialize-datatable";
 const _PATH = "/api/movimientos/";
 
 export default {
-    name: 'listar',
-    data() {
-        return {
-            ingresos: [],
-            error: '',
-            text: '',
-            url: "http://" + this.$http + ":" + this.$port + _PATH
-        }
-    },
-    mounted() {
-        this.getPosts()
-    },
-    methods: {
+	name: 'listar',
+	data() {
+		return {
+			posts: [],
+			error: '',
+			text: '',
+			url: "http://" + this.$http + ":" + this.$port + _PATH,
+			tableColumns1: [{
+					label: "Id",
+					field: "pk_movimiento",
+					numeric: true,
+					html: false
+				},
+				{
+					label: "Fecha",
+					field: "fecha_movimiento",
+					numeric: false,
+					html: false
+				},
+				{
+					label: "Vendedor",
+					field: "vendedor",
+					numeric: false,
+					html: false
+				},
+				{
+					label: "Proveedor",
+					field: "proveedor",
+					numeric: false,
+					html: false
+				},
+				{
+					label: "Total",
+					field: "total",
+					numeric: true,
+					html: false
+				}
+			]
+		}
+	},
+	mounted() {
+		this.getPosts()
+	},
+    components: {
+		"datatable": DataTable
+	},
+	methods: {
 
-        getPosts() {
-            axios.get(this.url+"/ingreso").then(
-                result => {
-                    this.ingresos = result.data[0]
-                }, error => {
-                    console.error(error)
-                }
-            )
-        },
-        deletePost(id) {
-            axios.delete(`${this.url}${id}`).then(() => {
-                this.getPosts()
-            }).catch((error) => {
-                console.error(error)
-            })
+		getPosts() {
+			axios.get(this.url + "/ingreso").then(
+				result => {
+					this.posts = result.data[0]
+				}, error => {
+					console.error(error)
+				}
+			)
+		},
+		deletePost(id) {
+			axios.delete(`${this.url}${id}`).then(() => {
+				this.getPosts()
+			}).catch((error) => {
+				console.error(error)
+			})
 
-        }
-    }
+		}
+	}
 };
 </script>

@@ -315,6 +315,8 @@ export default {
             error: '',
             text: '',
             elemento: '',
+            genderbuyer: '1',
+            country: 'Guatemala',
             testButClicked: false,
             url: "http://" + this.$http + ":" + this.$port + _PATH
         }

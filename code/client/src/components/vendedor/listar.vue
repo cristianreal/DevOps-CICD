@@ -1,77 +1,110 @@
 <template>
-	<div class="container">
-		<h1 align="center" class="display-3">Listar Vendedores</h1>
-		<!-- LIMIT CREATE -->
-		<hr>
-			<p class="error" v-if="error">{{error}}</p>
-			<table class="table table-hover">
-				<thead>
-					<tr class="table-secondary">
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Telefono</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Direccion</th>
-                        <th scope="col">Jornada</th>
-                        <th scope="col">Opciones</th>
-                    </tr>
-				</thead>
-				<tbody>
-					<tr class="table-primary" v-for="(post, index) in posts" 
-                        v-bind:item="post" 
-                        v-bind:index="index" 
-                        v-bind:key="post.pk_vendedor" >
-						<td> {{post.nombre }} {{post.apellido }}</td>
-                        <td> {{post.telefono }}</td>
-                        <td> {{post.email }}</td>
-                        <td> {{post.direccion }}</td>
-                        <td  v-if="post.jornada == 1"> Matutina </td>
-                        <td  v-else> Vespertina </td>
-						<td>
-							<router-link :to="'/vendedor/detalle/' + post.pk_vendedor" class="btn btn-secondary"  >Detalle</router-link>
-							<router-link :to="'/vendedor/editar/' + post.pk_vendedor" class="btn btn-info"  >Editar</router-link>
-							<a class="btn btn-warning" @click="deletePost(post.pk_vendedor)"  >Eliminar</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</template>
+   <div class="container">
+      <datatable
+         title="Listado de Vendedores"
+         :columns="tableColumns1"
+         :rows="posts"
+         >
+         <th slot="thead-tr">
+            Actions
+         </th>
+         <template slot="tbody-tr" scope="props">
+            <td>
+               <router-link :to="'/vendedor/detalle/' + props.row.pk_vendedor" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
+               <router-link :to="'/vendedor/editar/' + props.row.pk_vendedor" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">edit</i></router-link>
+               <button class="btn red darken-2 waves-effect waves-light compact-btn"
+                  @click="(e) => deletePost(props.row.pk_vendedor, e)">
+               <i class="material-icons white-text">delete</i>
+               </button>
+            </td>
+         </template>
+      </datatable>
+   </div>
+</template>
 
 <script>
+
+
 import axios from 'axios';
+import DataTable from "vue-materialize-datatable";
 const _PATH = "/api/vendedores/";
 
 export default {
-    name: 'listar',
-    data() {
-        return {
-            posts: [],
-            error: '',
-            text: '',
-            url: "http://" + this.$http + ":" + this.$port + _PATH
-        }
-    },
-    mounted() {
-        this.getPosts()
-    },
-    methods: {
-        getPosts() {
-            axios.get(this.url).then(
-                result => {
-                    this.posts = result.data[0]
-                }, error => {
-                    console.error(error)
-                }
-            )
-        },
-        deletePost(id) {
-            axios.delete(`${this.url}${id}`).then(() => {
-                this.getPosts()
-            }).catch((error) => {
-                console.error(error)
-            })
+	name: 'listar',
+	data() {
+		return {
+			posts: [],
+			error: '',
+			text: '',
+			url: "http://" + this.$http + ":" + this.$port + _PATH,
+			tableColumns1: [{
+					label: "Id",
+					field: "pk_vendedor",
+					numeric: true,
+					html: false
+				},
+				{
+					label: "Nombre",
+					field: "nombreCompleto",
+					numeric: false,
+					html: false
+				},
+				{
+					label: "Telefono",
+					field: "telefono",
+					numeric: false,
+					html: false
+				},
+				{
+					label: "Email",
+					field: "email",
+					numeric: false,
+					html: false
+				},
+				{
+					label: "Direccion",
+					field: "direccion",
+					numeric: false,
+					html: false
+				},
+				{
+					label: "Jornada",
+					field: "jornadaValor",
+					numeric: false,
+					html: false
+				}
+			]
+		}
+	},
+	components: {
+		"datatable": DataTable
+	},
+	mounted() {
+		this.getPosts()
+	},
+	methods: {
+		getPosts() {
+			axios.get(this.url).then(
+				result => {
+					this.posts = result.data[0]
+					this.posts = this.posts.map(function (obj) {
+						obj.nombreCompleto = obj.nombre + " " + obj.apellido;
+						obj.jornadaValor = (obj.jornada == 1) ? "Matutina" : "Vespertina";
+						return obj;
+					});
+				}, error => {
+					console.error(error)
+				}
+			)
+		},
+		deletePost(id) {
+			axios.delete(`${this.url}${id}`).then(() => {
+				this.getPosts()
+			}).catch((error) => {
+				console.error(error)
+			})
 
-        }
-    }
+		}
+	}
 };
 </script>
