@@ -27,7 +27,24 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	SELECT pk_producto, nombre, descripcion, precio, (SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as Marca FROM producto as p;
+	SELECT 
+	pk_producto, 
+	nombre, 
+	descripcion, 
+	precio, 
+	/* Marca */
+	(SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as Marca,
+	/* Cantidad */
+	(Select 
+		( SELECT ( 
+			SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=p.pk_producto 
+			) as cantidad FROM movimiento as m1 where m1.tipo_movimiento = 1) 
+		- 
+		( SELECT ( 
+			SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=p.pk_producto ) 
+			as cantidad FROM movimiento as m1 where m1.tipo_movimiento = 2) 
+	) as existencia
+	FROM producto as p;
 END //
 DELIMITER ;
 -- ******************************************************************************
@@ -46,6 +63,38 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+DROP PROCEDURE IF EXISTS Producto_Detalle_Movimientos;
+DELIMITER //
+CREATE PROCEDURE Producto_Detalle_Movimientos(
+	IN cpk_producto		INT
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+Select 
+	pk_movimiento,
+	fecha_movimiento,
+	case 
+		when tipo_movimiento=1 then 'Ingreso'
+		when tipo_movimiento=2 then 'Egreso'
+	end as tipo_movimiento,
+	case
+ 		when tipo_movimiento=1 then (SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=cpk_producto)
+		when tipo_movimiento=2 then 0
+	end as cantidadIngreso,
+	case
+ 		when tipo_movimiento=1 then 0
+		when tipo_movimiento=2 then (SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=cpk_producto)
+	end as catidadEgreso
+FROM movimiento as m1;
+
+END //
+DELIMITER ;
+-- ******************************************************************************
+
 DROP PROCEDURE IF EXISTS Producto_Modificar;
 DELIMITER //
 CREATE PROCEDURE Producto_Modificar
