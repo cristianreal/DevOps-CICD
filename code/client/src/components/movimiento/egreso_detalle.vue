@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-   <h3 align="center">Detalle de ingreso - Movimiento #{{ id_movimiento }}</h3>
+   <h3 align="center">Detalle de egreso - Movimiento #{{ id_movimiento }}</h3>
     <hr class="my-4">
    <div class="row">
       <div class="col-lg-3" >

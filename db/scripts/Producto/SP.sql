@@ -35,15 +35,10 @@ END;
 	/* Marca */
 	(SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as Marca,
 	/* Cantidad */
-	(Select 
-		( SELECT ( 
-			SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=p.pk_producto 
-			) as cantidad FROM movimiento as m1 where m1.tipo_movimiento = 1) 
-		- 
-		( SELECT ( 
-			SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=p.pk_producto ) 
-			as cantidad FROM movimiento as m1 where m1.tipo_movimiento = 2) 
-	) as existencia
+	((SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 1 ) and d1.fk_producto=p.pk_producto)
+	-
+	(SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 2 ) and d1.fk_producto=p.pk_producto)
+	)as existencia
 	FROM producto as p;
 END //
 DELIMITER ;
@@ -59,7 +54,19 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	SELECT pk_producto, nombre, descripcion, precio, p.fk_marca, (SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as marca FROM producto as p WHERE pk_producto=cpk_producto;
+	SELECT 
+	pk_producto, 
+	nombre, 
+	descripcion, 
+	precio, 
+	p.fk_marca, 
+	(SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as marca, 
+		/* Cantidad */
+	((SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 1 ) and d1.fk_producto=p.pk_producto)
+	-
+	(SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 2 ) and d1.fk_producto=p.pk_producto)
+	)as existencia
+	FROM producto as p WHERE pk_producto=cpk_producto;
 END //
 DELIMITER ;
 -- ******************************************************************************
@@ -76,10 +83,10 @@ BEGIN
 END;
 Select 
 	pk_movimiento,
-	fecha_movimiento,
+	DATE_FORMAT(fecha_movimiento, "%d-%m-%y") as fecha_movimiento,
 	case 
-		when tipo_movimiento=1 then 'Ingreso'
-		when tipo_movimiento=2 then 'Egreso'
+		when tipo_movimiento=1 then 'ingreso'
+		when tipo_movimiento=2 then 'egreso'
 	end as tipo_movimiento,
 	case
  		when tipo_movimiento=1 then (SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=cpk_producto)
@@ -89,7 +96,7 @@ Select
  		when tipo_movimiento=1 then 0
 		when tipo_movimiento=2 then (SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=cpk_producto)
 	end as catidadEgreso
-FROM movimiento as m1;
+FROM movimiento as m1 where m1.pk_movimiento in (SELECT d1.fk_movimiento FROM detalle as d1 where d1.fk_producto=cpk_producto);
 
 END //
 DELIMITER ;
