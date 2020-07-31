@@ -38,7 +38,16 @@ router.get('/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
     connection.query('call Producto_Buscar_Por_Id('+id+')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
-        res.json(rows)
+
+        let obj = {
+            productos: rows,
+            detalle: []
+        }
+        connection.query('call Producto_Detalle_Movimientos('+id+')', function (err, result, fields) {          
+            if (err) throw res.send('error: ' + err)
+            obj.detalle = result
+            res.json(obj)
+        });
     });
 });
 

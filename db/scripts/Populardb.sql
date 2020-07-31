@@ -21,8 +21,8 @@ CALL Proveedor_Crear('Fernando','Abad', 'Costa Rica', '42135687', 'fer@gmail.com
 call Producto_Crear('Producto A','Sirve para muchas cosas',15.23,1);
 call Producto_Crear('Producto B','Sirve para muchas cosas',19,2);
 call Ingreso_Movimiento('2020-07-15',2,6);
-call Detalle_Crear(5,123,1);
-call Detalle_Crear(5,245,2);
+call Detalle_Crear(50,123,1);
+call Detalle_Crear(85,245,2);
 call Egreso_Movimiento('2020-07-16',2);
 call Detalle_Crear(3,78,1);
-call Detalle_Crear(2,896,2);
+call Detalle_Crear(1,896,2);
