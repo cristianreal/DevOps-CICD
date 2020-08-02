@@ -79,7 +79,7 @@ export default {
         getProducto() {
             axios.get(this.url+"/"+this.id_producto).then(
                 result => {
-                    this.productos = result.data[0]
+                    this.productos = result.data.productos[0]
                     if(this.productos.length == 0){
                         throw "No existe el producto indicado";    // throw a text
                     }else{
