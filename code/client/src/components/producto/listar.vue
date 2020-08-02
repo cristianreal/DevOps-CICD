@@ -63,6 +63,12 @@ export default {
 					field: "Marca",
 					numeric: false,
 					html: false
+				},
+				{
+					label: "Existencia",
+					field: "existencia",
+					numeric: false,
+					html: false
 				}
 			],
 			tableRows1: []
@@ -80,6 +86,10 @@ export default {
 			axios.get(this.url).then(
 				result => {
 					this.tableRows1 = result.data[0]
+					this.tableRows1 = this.tableRows1.map(function (obj) {
+						obj.existencia = obj.existencia==null?0:obj.existencia;
+						return obj;
+					});
 				}, error => {
 					console.error(error)
 				}

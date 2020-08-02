@@ -14,6 +14,7 @@ source ./scripts/Detalle/SP.sql
 source ./scripts/Movimiento/SP.sql
 source ./scripts/Proveedor/SP.sql
 source ./scripts/Vendedor/SP.sql
+source ./scripts/Reportes/SP.sql
 -- FILL TABLES
 source ./scripts/Populardb.sql
 -- show tables;

@@ -64,12 +64,6 @@ export default {
 					field: "direccionCompleta",
 					numeric: false,
 					html: false
-				},
-				{
-					label: "Jornada",
-					field: "jornadaValor",
-					numeric: false,
-					html: false
 				}
 			]
 		}

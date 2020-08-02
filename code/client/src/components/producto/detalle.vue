@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div class="jumbotron">
-			<h4 align="center" >Editar Producto</h4>
+			<h4 align="center" >Detalle Producto</h4>
                     <div class="form-group">
                         <label class="col-form-label" for="nameproduct">Nombre Producto</label>
                         <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="nameproduct" :value="producto.nombre" id="nameproduct" name="nameproduct">
@@ -28,11 +28,31 @@
                                 v-bind:value="marca.pk_marca">{{marca.nombre}}</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label" for="quantity">Existencia</label>
+                        <input disabled  type="number" placeholder="0" step="1" class="form-control" v-model="quantity" id="quantity" name="quantity">
+                    </div>
 		</div>
+        <datatable
+         title="Listado de Movimientos"
+         :columns="tableColumns1"
+         :rows="tableRows1"
+         >
+         <th slot="thead-tr">
+            Actions
+         </th>
+         <template slot="tbody-tr" scope="props">
+            <td>
+               <router-link :to="'/movimiento/'+props.row.tipo_movimiento+'/detalle/' + props.row.pk_movimiento" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
+            </td>
+         </template>
+      </datatable>
     </div>
 </template>
 <script>
 import axios from 'axios';
+import DataTable from "vue-materialize-datatable";
 const _PATH = "/api/productos";
 
 export default {
@@ -53,13 +73,42 @@ export default {
             testButClicked: false,
             id_producto: this.$route.params.pkproducto,
             urlMarcas: "http://" + this.$http + ":" + this.$port +"/api/marcas/",
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            url: "http://" + this.$http + ":" + this.$port + _PATH,
+            tableColumns1: [{
+			label: "Id",
+			field: "pk_movimiento",
+			numeric: false,
+			html: false
+			},
+			{
+				label: "Fecha",
+				field: "fecha_movimiento",
+				numeric: false,
+				html: false
+			},
+			{
+				label: "Ingreso",
+				field: "cantidadIngreso",
+				numeric: true,
+				html: false
+			},
+            {
+				label: "Egreso",
+				field: "catidadEgreso",
+				numeric: true,
+				html: false
+			}
+			],
+			tableRows1: []
         }
     },
     mounted() {
         this.getMarcas()
         this.getProducto()
     },
+    components: {
+		"datatable": DataTable
+	},
     methods: {
          getMarcas() {
             axios.get(this.urlMarcas).then(
@@ -73,7 +122,8 @@ export default {
         getProducto() {
             axios.get(this.url+"/"+this.id_producto).then(
                 result => {
-                    this.productos = result.data[0]
+                    this.productos = result.data.productos[0]
+                    this.tableRows1 = result.data.detalle[0]
                     if(this.productos.length == 0){
                         throw "No existe el producto indicado";    // throw a text
                     }else{
@@ -82,6 +132,7 @@ export default {
                         this.descriptionproduct = this.productos[0].descripcion;
                         this.priceproduct = this.productos[0].precio;
                         this.brandproduct = this.productos[0].fk_marca;
+                        this.quantity = this.productos[0].existencia;
                     }
                 }, error => {
                     console.error(error)
