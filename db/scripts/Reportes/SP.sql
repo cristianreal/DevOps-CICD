@@ -51,39 +51,140 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
-'''
-
-
-
-
-'''
-DROP PROCEDURE IF EXISTS Reporte_Productos_Sin_Existencia;
+DROP PROCEDURE IF EXISTS Reporte_Producto_Movimientos_Especifico_Mes;
 DELIMITER //
-CREATE PROCEDURE Reporte_Productos_Sin_Existencia()
+CREATE PROCEDURE Reporte_Producto_Movimientos_Especifico_Mes(IN cpk_producto INT, IN mes INT )
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
+Select 
+	pk_movimiento,
+	(DATE(NOW()) - INTERVAL mes MONTH) mes,
+	case 
+		when tipo_movimiento=1 then 'ingreso'
+		when tipo_movimiento=2 then 'egreso'
+	end as tipo_movimiento,
+	case
+ 		when tipo_movimiento=1 then (SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=cpk_producto)
+		when tipo_movimiento=2 then 0
+	end as cantidadIngreso,
+	case
+ 		when tipo_movimiento=1 then 0
+		when tipo_movimiento=2 then (SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=cpk_producto)
+	end as catidadEgreso
+FROM movimiento as m1 where m1.pk_movimiento in (SELECT d1.fk_movimiento FROM detalle as d1 where d1.fk_producto=cpk_producto) and
+ fecha_movimiento between 
+ (DATE(NOW()) - INTERVAL mes MONTH) 
+ and 
+ (DATE(NOW()) - INTERVAL (mes-1) MONTH);
 
-	SELECT * FROM movimiento
-	WHERE YEAR(date_created) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
-	AND MONTH(date_created) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
-
-	SELECT 
-	pk_producto, 
-	nombre, 
-	descripcion, 
-	precio, 
-	p.fk_marca, 
-	(SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as marca, 
-		/* Cantidad */
-	IFNULL(((SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 1 ) and d1.fk_producto=p.pk_producto)
-	-
-	(SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 2 ) and d1.fk_producto=p.pk_producto)
-	),0) as existencia
-	FROM producto as p having existencia = 0;
+END //
+DELIMITER ;
+-- ******************************************************************************
+DROP PROCEDURE IF EXISTS Reporte_Productos_Sin_Ventas;
+DELIMITER //
+CREATE PROCEDURE Reporte_Productos_Sin_Ventas(IN mes INT)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+Select 
+	*,
+	(
+	 SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  
+	d1.fk_producto=p.pk_producto
+	and 
+	d1.fk_movimiento in
+	(
+		Select
+		m1.pk_movimiento
+		from movimiento as m1
+		where
+		fecha_movimiento between 
+		(DATE(NOW()) - INTERVAL mes MONTH) 
+		and 
+		(DATE(NOW()))
+		and tipo_movimiento = 2
+	)) as Egreso
+	FROM
+	producto as p having
+	Egreso=0;
+END //
+DELIMITER ;
+-- ******************************************************************************
+DROP PROCEDURE IF EXISTS Reporte_Productos_Top_Ventas;
+DELIMITER //
+CREATE PROCEDURE Reporte_Productos_Top_Ventas(IN mes INT, IN N INT)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+Select 
+	*,
+	(
+	 SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  
+	d1.fk_producto=p.pk_producto
+	and 
+	d1.fk_movimiento in
+	(
+		Select
+		m1.pk_movimiento
+		from movimiento as m1
+		where
+		fecha_movimiento between 
+		(DATE(NOW()) - INTERVAL mes MONTH) 
+		and 
+		(DATE(NOW()))
+		and tipo_movimiento = 2
+	)) as Egreso
+	FROM
+	producto as p having
+	Egreso >0
+	order by Egreso desc
+	limit N;
+END //
+DELIMITER ;
+-- ******************************************************************************
+DROP PROCEDURE IF EXISTS Reporte_Productos_Top_Caros;
+DELIMITER //
+CREATE PROCEDURE Reporte_Productos_Top_Caros(IN N INT)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	Select 
+	*
+	from
+	producto as p 
+	order by precio desc
+	limit N;
+END //
+DELIMITER ;
+-- ******************************************************************************
+DROP PROCEDURE IF EXISTS Reporte_Productos_Top_Baratos;
+DELIMITER //
+CREATE PROCEDURE Reporte_Productos_Top_Baratos(IN N INT)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	Select 
+	*
+	from
+	producto as p 
+	order by precio asc
+	limit N;
 END //
 DELIMITER ;
 -- ******************************************************************************
