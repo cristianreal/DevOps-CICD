@@ -25,9 +25,9 @@
             <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
               <div class="card-header"> <i class="material-icons white-text">article</i> Reporte 2 </div>
               <div class="card-body">
-               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+               <p class="card-text"> Reporte de los productos con menos de 50 unidades en existencia.</p>
                 <ul class="list-group">
-                      <router-link to="/marca/listar" class="list-group-item list-group-item-action" >Visitar</router-link>
+                      <router-link to="/reportes/reporte2/50" class="list-group-item list-group-item-action" >Visitar</router-link>
                 </ul>           
               </div>
             </div>

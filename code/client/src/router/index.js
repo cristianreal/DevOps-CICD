@@ -35,6 +35,7 @@ import loginComponent from '@/components/login.vue'
 //----------- Reportes ------------------------------
 import menuReporteComponent from '@/components/reportes/menu.vue'
 import reporte1ReporteComponent from '@/components/reportes/reporte1.vue'
+import reporte2ReporteComponent from '@/components/reportes/reporte2.vue'
 
 Vue.use(Router)
 
@@ -200,8 +201,9 @@ let router =  new Router({
                     component: reporte1ReporteComponent
                 },
                 {
-                    path: 'ingreso/listar',
-                    component: movimientoIngresoListComponent
+                    path: 'reporte2/:limite',
+                    component: reporte2ReporteComponent,
+                    name: 'reporte2'
                 },
                 {
                     path: 'egreso',

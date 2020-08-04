@@ -43,6 +43,21 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+DROP PROCEDURE IF EXISTS Producto_Total;
+DELIMITER //
+CREATE PROCEDURE Producto_Total()
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	SELECT 
+	count(*) as total
+	FROM producto as p;
+END //
+DELIMITER ;
+-- ******************************************************************************
 DROP PROCEDURE IF EXISTS Producto_Buscar_Por_Id;
 DELIMITER //
 CREATE PROCEDURE Producto_Buscar_Por_Id(

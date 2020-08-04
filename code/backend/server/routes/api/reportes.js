@@ -15,9 +15,10 @@ router.get('/reporte1', (req, res) => {
     });
 });
 
-// Productos con menos productos del limite
-router.get('/reporte2', (req, res) => {
-    connection.query('call Reporte_Productos_Debajo_Limite('+req.body.limite+')', function (err, rows, fields) {
+// Productos con menos cantidad del limite
+router.get('/reporte2/:limite', (req, res) => {
+    let limite = req.params.limite;
+    connection.query('call Reporte_Productos_Debajo_Limite('+limite+')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });

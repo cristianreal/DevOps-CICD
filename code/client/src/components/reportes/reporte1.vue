@@ -1,3 +1,5 @@
+
+
 <template>
    <div class="container">
       <datatable
@@ -14,6 +16,12 @@
             </td>
          </template>
       </datatable>
+      <GChart
+         type="PieChart"
+         @ready="onChartReady"
+         :data="chartData"
+         :options="chartOptions"
+         />
    </div>
 </template>
 
@@ -66,7 +74,16 @@ export default {
 					html: false
 				}
 			],
-			tableRows1: []
+			tableRows1: [],
+			chartData: [
+				['Tipo', 'Cantidad']
+			],
+			chartOptions: {
+				chart: {
+					title: 'Existencias de productos',
+					subtitle: 'Estado de inventario'
+				}
+			}
 		}
 	},
 	mounted() {
@@ -81,6 +98,20 @@ export default {
 			axios.get(this.url).then(
 				result => {
 					this.tableRows1 = result.data[0]
+				}, error => {
+					console.error(error)
+				}
+			)
+		},
+		onChartReady() {
+			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/productos/total"
+			axios.get(urlReporte).then(
+				result => {
+					let valores = result.data[0][0];
+					let cantidadProductosSinExistencia =  this.tableRows1.length;
+					let cantidadProductosConExistencia = valores.total - cantidadProductosSinExistencia;
+					this.chartData.push(["Con existencia", cantidadProductosConExistencia]);
+					this.chartData.push(["Sin existencia", cantidadProductosSinExistencia]);
 				}, error => {
 					console.error(error)
 				}

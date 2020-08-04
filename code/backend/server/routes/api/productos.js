@@ -33,6 +33,15 @@ router.post('/', urlencodedParser, (req, res) => {
     }
 });
 
+// Cantidad de productos disponibles
+router.get('/total', (req, res) => {
+    connection.query('call Producto_Total()', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
+
 //OBTENER producto ESPECIFICo
 router.get('/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
