@@ -1,3 +1,4 @@
+-- ################ Reporte 1 ###################################################
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Reporte_Productos_Sin_Existencia;
 DELIMITER //
@@ -23,6 +24,7 @@ END;
 	FROM producto as p having existencia = 0;
 END //
 DELIMITER ;
+-- ################ Reporte 2 ###################################################
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Reporte_Productos_Debajo_Limite;
 DELIMITER //
@@ -50,6 +52,7 @@ END;
 	FROM producto as p having existencia <= cLimite;
 END //
 DELIMITER ;
+-- ################ Reporte 3 ###################################################
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Reporte_Producto_Movimientos_Especifico_Mes;
 DELIMITER //
@@ -83,6 +86,7 @@ FROM movimiento as m1 where m1.pk_movimiento in (SELECT d1.fk_movimiento FROM de
 
 END //
 DELIMITER ;
+-- ################ Reporte 4 ###################################################
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Reporte_Productos_Sin_Ventas;
 DELIMITER //
@@ -116,6 +120,7 @@ Select
 	Egreso=0;
 END //
 DELIMITER ;
+-- ################ Reporte 5 ###################################################
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Reporte_Productos_Top_Ventas;
 DELIMITER //
@@ -151,6 +156,7 @@ Select
 	limit N;
 END //
 DELIMITER ;
+-- ################ Reporte 6 ###################################################
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Reporte_Productos_Top_Caros;
 DELIMITER //
@@ -169,6 +175,7 @@ END;
 	limit N;
 END //
 DELIMITER ;
+-- ################ Reporte 7 ###################################################
 -- ******************************************************************************
 DROP PROCEDURE IF EXISTS Reporte_Productos_Top_Baratos;
 DELIMITER //
@@ -188,3 +195,39 @@ END;
 END //
 DELIMITER ;
 -- ******************************************************************************
+-- ################ Reporte 8 ###################################################
+-- ******************************************************************************
+DROP PROCEDURE IF EXISTS Reporte_Productos_Top_Menos_Ventas;
+DELIMITER //
+CREATE PROCEDURE Reporte_Productos_Top_Menos_Ventas(IN mes INT, IN N INT)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+Select 
+	*,
+	(
+	 SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  
+	d1.fk_producto=p.pk_producto
+	and 
+	d1.fk_movimiento in
+	(
+		Select
+		m1.pk_movimiento
+		from movimiento as m1
+		where
+		fecha_movimiento between 
+		(DATE(NOW()) - INTERVAL mes MONTH) 
+		and 
+		(DATE(NOW()))
+		and tipo_movimiento = 2
+	)) as Egreso
+	FROM
+	producto as p having
+	Egreso >0
+	order by Egreso asc
+	limit N;
+END //
+DELIMITER ;
