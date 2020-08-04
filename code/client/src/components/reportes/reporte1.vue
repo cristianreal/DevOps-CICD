@@ -1,7 +1,7 @@
 <template>
    <div class="container">
       <datatable
-         title="Listado de Productos"
+         title="Listado de productos sin existencia"
          :columns="tableColumns1"
          :rows="tableRows1"
          >
@@ -11,11 +11,6 @@
          <template slot="tbody-tr" scope="props">
             <td>
                <router-link :to="'/producto/detalle/' + props.row.pk_producto" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
-               <router-link :to="'/producto/editar/' + props.row.pk_producto" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">edit</i></router-link>
-               <button class="btn red darken-2 waves-effect waves-light compact-btn"
-                  @click="(e) => deletePost(props.row.pk_producto, e)">
-               <i class="material-icons white-text">delete</i>
-               </button>
             </td>
          </template>
       </datatable>
@@ -25,7 +20,7 @@
 <script>
 import axios from 'axios';
 import DataTable from "vue-materialize-datatable";
-const _PATH = "/api/productos/";
+const _PATH = "/api/reportes/reporte1";
 
 export default {
 	name: 'listar',
@@ -90,14 +85,6 @@ export default {
 					console.error(error)
 				}
 			)
-		},
-		deletePost(id) {
-			axios.delete(`${this.url}${id}`).then(() => {
-				this.getPosts()
-			}).catch((error) => {
-				console.error(error)
-			})
-
 		}
 	}
 };

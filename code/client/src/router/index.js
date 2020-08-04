@@ -32,6 +32,9 @@ import movimientoEgresoListComponent from '@/components/movimiento/egreso_listar
 import movimientoEgresoDetailComponent from '@/components/movimiento/egreso_detalle.vue'
 //----------- Login ------------------------------
 import loginComponent from '@/components/login.vue'
+//----------- Reportes ------------------------------
+import menuReporteComponent from '@/components/reportes/menu.vue'
+import reporte1ReporteComponent from '@/components/reportes/reporte1.vue'
 
 Vue.use(Router)
 
@@ -162,6 +165,39 @@ let router =  new Router({
                 {
                     path: 'ingreso/detalle/:pkmovimiento',
                     component: movimientoIngresoDetailComponent
+                },
+                {
+                    path: 'ingreso/listar',
+                    component: movimientoIngresoListComponent
+                },
+                {
+                    path: 'egreso',
+                    component: movimientoEgresoComponent
+                },
+                {
+                    path: 'egreso/detalle/:pkmovimiento',
+                    component: movimientoEgresoDetailComponent
+                },
+                {
+                    path: 'egreso/listar',
+                    component: movimientoEgresoListComponent
+                }
+            ],
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/reportes/', 
+            component: contenedor,
+            children: [
+                {
+                    path: 'menu',
+                    component: menuReporteComponent
+                },
+                {
+                    path: 'reporte1',
+                    component: reporte1ReporteComponent
                 },
                 {
                     path: 'ingreso/listar',

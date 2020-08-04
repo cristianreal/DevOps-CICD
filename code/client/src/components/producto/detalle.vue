@@ -48,8 +48,9 @@
             </td>
          </template>
       </datatable>
-        <GChart
-            type="ColumnChart"
+       <GChart
+            type="BarChart"
+            @ready="onChartReady"
             :data="chartData"
             :options="chartOptions"
         />
@@ -79,11 +80,12 @@ export default {
             id_producto: this.$route.params.pkproducto,
             urlMarcas: "http://" + this.$http + ":" + this.$port +"/api/marcas/",
             url: "http://" + this.$http + ":" + this.$port + _PATH,
-            tableColumns1: [{
-			label: "Id",
-			field: "pk_movimiento",
-			numeric: false,
-			html: false
+            tableColumns1: [
+            {
+                label: "Id",
+                field: "pk_movimiento",
+                numeric: false,
+                html: false
 			},
 			{
 				label: "Fecha",
@@ -105,19 +107,16 @@ export default {
 			}
 			],
 			tableRows1: [],
-            chartData: [
-                ['Year', 'Sales', 'Expenses', 'Profit'],
-                ['2014', 1000, 400, 200],
-                ['2015', 1170, 460, 250],
-                ['2016', 660, 1120, 300],
-                ['2017', 1030, 540, 350]
-            ],
-            chartOptions: {
-                chart: {
-                title: 'Company Performance',
-                subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-                }
-            },
+             chartData: [
+            ['Fecha', 'Ingresos', 'Egresos']
+        ],
+        chartOptions: {
+            chart: {
+            title: 'Company Performance',
+            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            chartArea: {width: '50%'},
+            }
+        }
         }
     },
     mounted() {
@@ -156,6 +155,23 @@ export default {
                     console.error(error)
                 }
             )
+        },
+        onChartReady () {
+            let urlReporte =  "http://" + this.$http + ":" + this.$port +"/api/reportes/reporte3"
+            function request(obj, no, callback){
+                axios.get(urlReporte+"/"+obj.id_producto+"/"+no).then(
+                    result => {
+                        let valores =result.data[0][0];
+                        obj.chartData.push([valores.fecha,valores.ingreso, valores.egreso]);
+                        if(no>0){
+                            callback(obj, no-1, callback)
+                        }
+                        }, error => {
+                            console.error(error)
+                        }
+                )
+            }
+            request(this, 3, request)
         }
     }
 };

@@ -24,9 +24,10 @@ router.get('/reporte2', (req, res) => {
 });
 
 // Ingresos y egresos de un producto en determinado mes.
-router.get('/reporte3/:id', (req, res) => {
+router.get('/reporte3/:id/:mes', (req, res) => {
     let id = req.params.id;
-    connection.query('call Reporte_Producto_Movimientos_Especifico_Mes('+id+','+req.body.mes+')', function (err, rows, fields) {
+    let mes = req.params.mes;
+    connection.query('call Reporte_Producto_Movimientos_Especifico_Mes('+id+','+mes+')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });

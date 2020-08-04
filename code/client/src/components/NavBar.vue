@@ -48,6 +48,9 @@
                         <router-link to="/movimiento/egreso/listar" class="dropdown-item" >Listar</router-link>
                     </div>
                 </li>
+                <li class="nav-item dropdown">
+                    <router-link to="/reportes/menu" class="nav-link" >Reportes</router-link>
+                </li>
             </ul>
         </div>
 
