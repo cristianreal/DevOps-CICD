@@ -36,9 +36,9 @@
             <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
               <div class="card-header"><i class="material-icons white-text">article</i> Reporte 3 </div>
               <div class="card-body">
-               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+               <p class="card-text"> Reporte de productos sin ventas en los ultimos 2 meses.</p>
                 <ul class="list-group">
-                      <router-link to="/marca/listar" class="list-group-item list-group-item-action" >Visitar</router-link>
+                      <router-link to="/reportes/reporte3/2" class="list-group-item list-group-item-action" >Visitar</router-link>
                 </ul> 
               </div>
             </div>
@@ -48,11 +48,11 @@
         <div class="row">
           <div class="col-sm">
             <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
-              <div class="card-header"> <i class="material-icons white-text">supervised_user_circle</i> Proveedores </div>
+              <div class="card-header"> <i class="material-icons white-text">article</i> Reporte 4 </div>
               <div class="card-body">
+                <p class="card-text"> Top 10 de productos con mas ventas en los 2 ultimos meses.</p>
                 <ul class="list-group">
-                      <router-link to="/proveedor/crear" class="list-group-item list-group-item-action" >Crear</router-link>
-                      <router-link to="/proveedor/listar" class="list-group-item list-group-item-action" >Listar</router-link>
+                      <router-link to="/reportes/reporte4/2" class="list-group-item list-group-item-action" >Visitar</router-link>
                 </ul> 
               </div>
             </div>

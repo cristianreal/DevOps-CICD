@@ -35,16 +35,18 @@ router.get('/reporte3/:id/:mes', (req, res) => {
 });
 
 // Productos sin ventas en los ultimos N meses
-router.get('/reporte4', (req, res) => {
-    connection.query('call Reporte_Productos_Sin_Ventas('+req.body.mes+')', function (err, rows, fields) {
+router.get('/reporte4/:mes', (req, res) => {
+    let mes = req.params.mes;
+    connection.query('call Reporte_Productos_Sin_Ventas('+mes+')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
 });
 
 // TOP Productos con mas ventas en los ultimos N meses
-router.get('/reporte5', (req, res) => {
-    connection.query('call Reporte_Productos_Top_Ventas('+req.body.mes+','+req.body.n+')', function (err, rows, fields) {
+router.get('/reporte5/:mes', (req, res) => {
+    let mes = req.params.mes;
+    connection.query('call Reporte_Productos_Top_Ventas('+mes+',10)', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });

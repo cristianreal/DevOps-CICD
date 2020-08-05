@@ -36,6 +36,8 @@ import loginComponent from '@/components/login.vue'
 import menuReporteComponent from '@/components/reportes/menu.vue'
 import reporte1ReporteComponent from '@/components/reportes/reporte1.vue'
 import reporte2ReporteComponent from '@/components/reportes/reporte2.vue'
+import reporte3ReporteComponent from '@/components/reportes/reporte3.vue'
+import reporte4ReporteComponent from '@/components/reportes/reporte4.vue'
 
 Vue.use(Router)
 
@@ -206,12 +208,12 @@ let router =  new Router({
                     name: 'reporte2'
                 },
                 {
-                    path: 'egreso',
-                    component: movimientoEgresoComponent
+                    path: 'reporte3/:mes',
+                    component: reporte3ReporteComponent
                 },
                 {
-                    path: 'egreso/detalle/:pkmovimiento',
-                    component: movimientoEgresoDetailComponent
+                    path: 'reporte4/:mes',
+                    component: reporte4ReporteComponent
                 },
                 {
                     path: 'egreso/listar',

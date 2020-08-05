@@ -110,7 +110,17 @@ BEGIN
     SHOW ERRORS;
 END;
 Select 
-	*,
+	pk_producto, 
+	nombre, 
+	descripcion, 
+	precio, 
+	p.fk_marca, 
+	(SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as marca, 
+		/* Cantidad */
+	IFNULL(((SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 1 ) and d1.fk_producto=p.pk_producto)
+	-
+	(SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 2 ) and d1.fk_producto=p.pk_producto)
+	),0) as existencia,
 	(
 	 SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  
 	d1.fk_producto=p.pk_producto
@@ -144,7 +154,17 @@ BEGIN
     SHOW ERRORS;
 END;
 Select 
-	*,
+	pk_producto, 
+	nombre, 
+	descripcion, 
+	precio, 
+	p.fk_marca, 
+	(SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as marca, 
+		/* Cantidad */
+	IFNULL(((SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 1 ) and d1.fk_producto=p.pk_producto)
+	-
+	(SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 2 ) and d1.fk_producto=p.pk_producto)
+	),0) as existencia,
 	(
 	 SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  
 	d1.fk_producto=p.pk_producto
@@ -180,7 +200,17 @@ BEGIN
     SHOW ERRORS;
 END;
 	Select 
-	*
+	pk_producto, 
+	nombre, 
+	descripcion, 
+	precio, 
+	p.fk_marca, 
+	(SELECT m.nombre FROM marca as m WHERE m.pk_marca = p.fk_marca) as marca, 
+		/* Cantidad */
+	IFNULL(((SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 1 ) and d1.fk_producto=p.pk_producto)
+	-
+	(SELECT sum(d1.cantidad)  as cantidad  FROM detalle as d1 where  d1.fk_movimiento in (SELECT m1.pk_movimiento FROM movimiento as m1 where m1.tipo_movimiento = 2 ) and d1.fk_producto=p.pk_producto)
+	),0) as existencia
 	from
 	producto as p 
 	order by precio desc
