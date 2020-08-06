@@ -24,9 +24,9 @@
                      <!-- Marcas -->
                      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <a class="span" data-toggle="collapse" data-target="#collapse-marcas" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="collapseExample">Marcas</a>
-                        <a class="d-flex align-items-center text-muted" href="#">
+                        <div class="d-flex align-items-center text-muted" >
                         <span class="material-icons">local_offer</span>
-                        </a>
+                        </div>
                      </h6>
                      <div class="collapse" id="collapse-marcas">
                         <ul class="nav flex-column mb-2">
@@ -41,9 +41,9 @@
                      <!-- Vendedores -->
                      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <a class="span" data-toggle="collapse" data-target="#collapse-vendedores" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="collapseExample">Vendedores</a>
-                        <a class="d-flex align-items-center text-muted" href="#">
+                        <div class="d-flex align-items-center text-muted">
                         <span class="material-icons">supervisor_account</span>
-                        </a>
+                        </div>
                      </h6>
                      <div class="collapse" id="collapse-vendedores">
                         <ul class="nav flex-column mb-2">
@@ -58,9 +58,9 @@
                      <!-- Proveedores -->
                      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <a class="span" data-toggle="collapse" data-target="#collapse-proveedores" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="collapseExample">Proveedores</a>
-                        <a class="d-flex align-items-center text-muted" href="#">
+                        <div class="d-flex align-items-center text-muted">
                         <span class="material-icons">supervised_user_circle</span>
-                        </a>
+                        </div>
                      </h6>
                      <div class="collapse" id="collapse-proveedores">
                         <ul class="nav flex-column mb-2">
@@ -75,9 +75,9 @@
                      <!-- Productos -->
                      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <a class="span" data-toggle="collapse" data-target="#collapse-productos" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="collapseExample">Productos</a>
-                        <a class="d-flex align-items-center text-muted" href="#">
+                        <div class="d-flex align-items-center text-muted">
                         <span class="material-icons">category</span>
-                        </a>
+                        </div>
                      </h6>
                      <div class="collapse" id="collapse-productos">
                         <ul class="nav flex-column mb-2">
@@ -92,18 +92,18 @@
                      <!-- Reportes -->
                      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <router-link to="/reportes/menu" class="span" role="button" aria-haspopup="true" aria-expanded="false">Reportes</router-link>
-                        <a class="d-flex align-items-center text-muted" href="#">
+                        <div class="d-flex align-items-center text-muted">
                         <span class="material-icons">analytics</span>
-                        </a>
+                        </div>
                      </h6>
                   </div>
                   <!--    No admin -->
                   <!-- Ingresos -->
                   <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                      <a class="span" data-toggle="collapse" data-target="#collapse-ingresos" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="collapseExample">Ingresos</a>
-                     <a class="d-flex align-items-center text-muted" href="#">
+                     <div class="d-flex align-items-center text-muted" >
                      <span class="material-icons">compare_arrows</span>
-                     </a>
+                     </div>
                   </h6>
                   <div class="collapse" id="collapse-ingresos">
                      <ul class="nav flex-column mb-2">
@@ -118,9 +118,9 @@
                   <!-- Egresos -->
                   <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                      <a class="span" data-toggle="collapse" data-target="#collapse-egresos" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="collapseExample">Egresos</a>
-                     <a class="d-flex align-items-center text-muted" href="#">
+                     <div class="d-flex align-items-center text-muted">
                      <span class="material-icons">compare_arrows</span>
-                     </a>
+                     </div>
                   </h6>
                   <div class="collapse" id="collapse-egresos">
                      <ul class="nav flex-column mb-2">
