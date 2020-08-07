@@ -49,14 +49,9 @@ router.get('/:id', (req, res) => {
         if (err) throw res.send('error: ' + err)
 
         let obj = {
-            productos: rows,
-            detalle: []
+            productos: rows
         }
-        connection.query('call Producto_Detalle_Movimientos('+id+')', function (err, result, fields) {          
-            if (err) throw res.send('error: ' + err)
-            obj.detalle = result
-            res.json(obj)
-        });
+        res.json(obj)
     });
 });
 

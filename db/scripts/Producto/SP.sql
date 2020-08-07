@@ -96,22 +96,58 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
+
 Select 
-	pk_movimiento,
-	DATE_FORMAT(fecha_movimiento, "%d-%m-%y") as fecha_movimiento,
-	case 
-		when tipo_movimiento=1 then 'ingreso'
-		when tipo_movimiento=2 then 'egreso'
-	end as tipo_movimiento,
+m1.pk_movimiento ,
+DATE_FORMAT(m1.fecha_movimiento, "%d-%m-%y") as fecha_movimiento,
+case 
+		when m1.tipo_movimiento=1 then 'ingreso'
+		when m1.tipo_movimiento=2 then 'egreso'
+end as tipo_movimiento,
+/* ------------------ */
 	case
- 		when tipo_movimiento=1 then (SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=cpk_producto)
-		when tipo_movimiento=2 then 0
+ 		when m1.tipo_movimiento=1 then (SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  d1.fk_producto=cpk_producto and d1.fk_movimiento=m1.pk_movimiento)
+		when m1.tipo_movimiento=2 then 0
 	end as cantidadIngreso,
 	case
- 		when tipo_movimiento=1 then 0
-		when tipo_movimiento=2 then (SELECT sum(d1.cantidad) FROM detalle as d1 where  d1.fk_movimiento=m1.pk_movimiento and d1.fk_producto=cpk_producto)
-	end as catidadEgreso
-FROM movimiento as m1 where m1.pk_movimiento in (SELECT d1.fk_movimiento FROM detalle as d1 where d1.fk_producto=cpk_producto);
+ 		when m1.tipo_movimiento=1 then 0
+		when m1.tipo_movimiento=2 then (SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  d1.fk_producto=cpk_producto and d1.fk_movimiento=m1.pk_movimiento)
+	end as catidadEgreso,
+/* ------------------ */
+	(
+	 (SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  
+	d1.fk_producto=cpk_producto
+	and 
+	d1.fk_movimiento in
+	(
+		Select
+		m2.pk_movimiento
+		from movimiento as m2
+		where
+		fecha_movimiento <= m1.fecha_movimiento
+		and tipo_movimiento = 1
+	))
+	-
+	 (SELECT IFNULL(sum(d1.cantidad),0) FROM detalle as d1 where  
+	d1.fk_producto=cpk_producto
+	and 
+	d1.fk_movimiento in
+	(
+		Select
+		m2.pk_movimiento
+		from movimiento as m2
+		where
+		fecha_movimiento <= m1.fecha_movimiento
+		and tipo_movimiento = 2
+	))
+	) as existencia
+
+FROM movimiento as m1 where
+	m1.fecha_movimiento <= 
+	(DATE(NOW()) ) and m1.pk_movimiento in(
+		Select d1.fk_movimiento from detalle as d1 where d1.fk_producto = cpk_producto
+	) order by m1.fecha_movimiento asc
+	;
 
 END //
 DELIMITER ;

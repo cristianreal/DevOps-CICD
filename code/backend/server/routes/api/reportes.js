@@ -76,5 +76,14 @@ router.get('/reporte8', (req, res) => {
     });
 });
 
+// TOP Productos con menos ventas en los ultimos N meses
+router.get('/reporte9/:id', (req, res) => {
+    let id = req.params.id;
+    connection.query('call Reporte_Movimientos('+id+')', function (err, rows, fields) {
+        if (err) throw res.send('error: ' + err)
+        res.json(rows)
+    });
+});
+
 
 module.exports = router;
