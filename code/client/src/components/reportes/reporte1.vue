@@ -19,8 +19,6 @@
       <GChart
          type="PieChart"
          @ready="onChartReady"
-         :data="chartData"
-         :options="chartOptions"
          />
    </div>
 </template>
@@ -74,17 +72,8 @@ export default {
 					html: false
 				}
 			],
-			tableRows1: [],
-			chartData: [
-				['Tipo', 'Cantidad']
-			],
-			chartOptions: {
-				chart: {
-					title: 'Existencias de productos',
-					subtitle: 'Estado de inventario'
-				}
+			tableRows1: []
 			}
-		}
 	},
 	mounted() {
 		this.getPosts()
@@ -103,15 +92,32 @@ export default {
 				}
 			)
 		},
-		onChartReady() {
+		onChartReady(chart,google) {
 			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/productos/total"
+			const options = {
+                height: 500,
+				title: 'Productos con existencia disponible en el inventario',
+				subtitle: 'Estado de inventario',
+				is3D: true,
+				chartArea: {
+					width: '75%'
+				},
+				legend: {
+					position: 'bottom'
+				}
+			};
+            let chartData= [
+				['Tipo', 'Cantidad']
+			];
 			axios.get(urlReporte).then(
 				result => {
 					let valores = result.data[0][0];
 					let cantidadProductosSinExistencia =  this.tableRows1.length;
 					let cantidadProductosConExistencia = valores.total - cantidadProductosSinExistencia;
-					this.chartData.push(["Con existencia", cantidadProductosConExistencia]);
-					this.chartData.push(["Sin existencia", cantidadProductosSinExistencia]);
+					chartData.push(["Con existencia", cantidadProductosConExistencia]);
+					chartData.push(["Sin existencia", cantidadProductosSinExistencia]);
+					var data = google.visualization.arrayToDataTable(chartData);
+					chart.draw(data, options)
 				}, error => {
 					console.error(error)
 				}

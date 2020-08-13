@@ -82,17 +82,7 @@ export default {
                html: false
             }
          ],
-         tableRows1: [],
-         chartData: [
-            ['Tipo', 'Cantidad']
-         ],
-         chartOptions: {
-            chart: {
-               title: 'Existencias de productos',
-               subtitle: 'Estado de inventario',
-               is3D: true
-            }
-         }
+         tableRows1: []
       }
    },
    mounted() {
@@ -112,15 +102,32 @@ export default {
             }
          )
       },
-      onChartReady() {
+      onChartReady(chart, google) {
          let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/productos/total"
+         const options = {
+                height: 500,
+				title: 'Existencias de productos',
+               subtitle: 'Estado de inventario',
+               is3D: true,
+				chartArea: {
+					width: '75%'
+				},
+				legend: {
+					position: 'bottom'
+				}
+			};
+            let chartData= [
+            ['Tipo', 'Cantidad']
+			];         
          axios.get(urlReporte).then(
             result => {
                let valores = result.data[0][0];
                let cantidadProductosSinExistencia = this.tableRows1.length;
                let cantidadProductosConExistencia = valores.total - cantidadProductosSinExistencia;
-               this.chartData.push(["Productos con ventas en los ultimos "    + this.mes + " meses", cantidadProductosConExistencia]);
-               this.chartData.push(["Productos sin ninguna venta en los ultimos "          + this.mes + " meses", cantidadProductosSinExistencia]);
+               chartData.push(["Productos con ventas en los ultimos "    + this.mes + " meses", cantidadProductosConExistencia]);
+               chartData.push(["Productos sin ninguna venta en los ultimos "          + this.mes + " meses", cantidadProductosSinExistencia]);
+               var data = google.visualization.arrayToDataTable(chartData);
+					chart.draw(data, options)
             }, error => {
                console.error(error)
             }

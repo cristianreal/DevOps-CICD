@@ -66,9 +66,7 @@ export default {
 				precio: '',
 				marca: ''
 			},
-			testButClicked: false,
 			id_producto: this.$route.params.pkproducto,
-			urlMarcas: "http://" + this.$http + ":" + this.$port + "/api/marcas/",
 			url: "http://" + this.$http + ":" + this.$port + _PATH,
 			tableColumns1: [{
 				label: "Id",
@@ -97,10 +95,6 @@ export default {
 				html: false
 			}],
 			tableRows1: [],
-			tableRowsLinear: [],
-			chartDataLinear: [
-				['Fecha', 'Existencias'],
-			],
 			chartOptionsLinear: {
 				chart: {
 					hAxis: {
@@ -132,7 +126,8 @@ export default {
 	},
 	methods: {
 		getMarcas() {
-			axios.get(this.urlMarcas).then(result => {
+            let urlMarcas = "http://" + this.$http + ":" + this.$port + "/api/marcas/";
+			axios.get(urlMarcas).then(result => {
 				this.marcas = result.data[0]
 			}, error => {
 				console.error(error)
@@ -162,8 +157,16 @@ export default {
 				title: 'Historial Movimientos',
 				subtitle: 'Ingresos y Egresos a lo largo del tiempo',
 				chartArea: {
-					width: '85%'
+					width: '75%'
 				},
+                hAxis: {
+						title: 'Movimientos',
+						minValue: ''
+					},
+					vAxis: {
+						title: 'Existencia',
+						minValue: 0
+					},
 				legend: {
 					position: 'bottom'
 				}

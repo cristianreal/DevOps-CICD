@@ -1,0 +1,31 @@
+version: "2.0"
+
+services:
+  node-backend:
+    build: backend
+    container_name: node
+    ports:
+      - 5000:5000
+    environment:
+      - DB_USER=root
+      - DB_PASS=123456
+      - DB_DATABASE=test_proyectoeps
+      - DB_HOST=34.68.157.78
+
+  vue-frontend:
+    build:
+      context: client
+      args:
+        - buildno=5
+        - gitcommithash=cdc3b19
+        - vue=asdfasdf
+    container_name: vue
+    ports:
+      - 8086:80
+    environment:
+      - VUE_APP_API_IP=node-prueba
+    depends_on:
+      - node-backend
+    links:
+      - "node-backend:node"
+    

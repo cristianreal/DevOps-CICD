@@ -1,12 +1,20 @@
 <template>
    <div>
-      <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <nav class="navbar navbar-nav  navbar-expand-md navbar-dark sticky-top bg-dark flex-md-nowrap p-0" >
          <router-link to="/" class="navbar-brand col-sm-3 col-md-2 mr-0"  >Sistema de Almacenamiento</router-link>
-         <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-               <router-link to="/login" class="nav-link" v-on:click.native="logout()" v-if="authenticated">Sign out</router-link>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" v-if="authenticated">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse" id="navbarSupportedContent" v-if="authenticated">
+         <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+               <router-link to="/" class="nav-link">Home</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link to="/login"  class="nav-link" v-on:click.native="logout()" >Cerrar Sesion</router-link>
             </li>
          </ul>
+           </div>
       </nav>
       <div class="container-fluid" >
          <div class="row">
@@ -70,7 +78,16 @@
                            </li>
                         </ul>
                      </div>
-                     <!-- Productos -->
+                     <!-- Reportes -->
+                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <router-link to="/reportes/menu" class="span" role="button" aria-haspopup="true" aria-expanded="false">Reportes</router-link>
+                        <div class="d-flex align-items-center text-muted">
+                        <span class="material-icons">analytics</span>
+                        </div>
+                     </h6>
+                  </div>
+                  <!--    No admin -->
+                  <!-- Productos -->
                      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <a class="span" data-toggle="collapse" data-target="#collapse-productos" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="collapseExample">Productos</a>
                         <div class="d-flex align-items-center text-muted">
@@ -86,16 +103,7 @@
                               <router-link to="/producto/listar" class="nav-link"  >Listar</router-link>
                            </li>
                         </ul>
-                     </div>
-                     <!-- Reportes -->
-                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <router-link to="/reportes/menu" class="span" role="button" aria-haspopup="true" aria-expanded="false">Reportes</router-link>
-                        <div class="d-flex align-items-center text-muted">
-                        <span class="material-icons">analytics</span>
-                        </div>
-                     </h6>
                   </div>
-                  <!--    No admin -->
                   <!-- Ingresos -->
                   <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                      <a class="span" data-toggle="collapse" data-target="#collapse-ingresos" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="collapseExample">Ingresos</a>
@@ -130,6 +138,13 @@
                         </li>
                      </ul>
                   </div>
+                  <!-- Cerrar Sesion -->
+                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <router-link to="/login" class="span" role="button" aria-haspopup="true" aria-expanded="false" v-on:click.native="logout()" v-if="authenticated">Cerrar Sesion</router-link>
+                        <div class="d-flex align-items-center text-muted">
+                        <span class="material-icons">exit_to_app</span>
+                        </div>
+                     </h6>
                </div>
             </nav>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">

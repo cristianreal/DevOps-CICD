@@ -31,8 +31,6 @@
       <GChart
          type="PieChart"
          @ready="onChartReady"
-         :data="chartData"
-         :options="chartOptions"
          />
    </div>
 </template>
@@ -82,17 +80,7 @@ export default {
                html: false
             }
          ],
-         tableRows1: [],
-         chartData: [
-            ['Tipo', 'Cantidad']
-         ],
-         chartOptions: {
-            chart: {
-               title: 'Existencias de productos',
-               subtitle: 'Estado de inventario',
-               is3D: true
-            }
-         }
+         tableRows1: []
       }
    },
    mounted() {
@@ -112,15 +100,32 @@ export default {
             }
          )
       },
-      onChartReady() {
+      onChartReady(chart, google) {
          let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/productos/total"
+         const options = {
+                height: 500,
+				title: 'Existencias de productos',
+            subtitle: 'Estado de inventario',
+            is3D: true,
+				chartArea: {
+					width: '75%'
+				},
+				legend: {
+					position: 'bottom'
+				}
+			};
+            let chartData= [
+            ['Tipo', 'Cantidad']
+			];
          axios.get(urlReporte).then(
             result => {
                let valores = result.data[0][0];
                let cantidadProductosSinExistencia = this.tableRows1.length;
                let cantidadProductosConExistencia = valores.total - cantidadProductosSinExistencia;
-               this.chartData.push(["Mas de " + this.limite + " unidades", cantidadProductosConExistencia]);
-               this.chartData.push(["Menos de " + this.limite + " unidades", cantidadProductosSinExistencia]);
+               chartData.push(["Mas de " + this.limite + " unidades", cantidadProductosConExistencia]);
+               chartData.push(["Menos de " + this.limite + " unidades", cantidadProductosSinExistencia]);
+               var data = google.visualization.arrayToDataTable(chartData);
+					chart.draw(data, options)
             }, error => {
                console.error(error)
             }
