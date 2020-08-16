@@ -4,19 +4,19 @@
          <h4 align="center" >Detalle Producto</h4>
          <div class="form-group">
             <label class="col-form-label" for="nameproduct">Nombre Producto</label>
-            <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="nameproduct" :value="producto.nombre" id="nameproduct" name="nameproduct">
+            <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="producto.nombre" id="nameproduct" name="nameproduct">
          </div>
          <div class="form-group">
             <label class="col-form-label" for="descriptionproduct">Descripcion Producto</label>
-            <input disabled type="text" class="form-control" placeholder="Ingrese el apellido" v-model="descriptionproduct" id="descriptionproduct" name="descriptionproduct">
+            <input disabled type="text" class="form-control" placeholder="Ingrese el apellido" v-model="producto.descripcion" id="descriptionproduct" name="descriptionproduct">
          </div>
          <div class="form-group">
             <label class="col-form-label" for="priceproduct">Precio Producto</label>
-            <input disabled  type="number" placeholder="0.00" step="0.01" class="form-control" v-model="priceproduct" id="priceproduct" name="priceproduct">
+            <input disabled  type="number" placeholder="0.00" step="0.01" class="form-control" v-model="producto.precio" id="priceproduct" name="priceproduct">
          </div>
          <div class="form-group">
             <label class="col-form-label" for="brandproduct">Marca Producto</label>
-            <select disabled class="custom-select" v-model="brandproduct" id="brandproduct" name="brandproduct">
+            <select disabled class="custom-select" 											   v-model="producto.fk_marca" id="brandproduct" name="brandproduct">
                <option selected>Seleccione la marca</option>
                <option v-for="(marca, index) in marcas"
                   v-bind:item="marca" 
@@ -27,23 +27,23 @@
          </div>
          <div class="form-group">
             <label class="col-form-label" for="quantity">Existencia</label>
-            <input disabled  type="number" placeholder="0" step="1" class="form-control" v-model="quantity" id="quantity" name="quantity">
+            <input disabled  type="number" placeholder="0" step="1" class="form-control" 		v-model="producto.existencia" id="quantity" name="quantity">
          </div>
       </div>
-         <datatable title="Listado de Movimientos" :columns="tableColumns1" :rows="tableRows1" >
-            <th slot="thead-tr">
-               Actions
-            </th>
-            <template slot="tbody-tr" scope="props">
-               <td>
-                  <router-link :to="'/movimiento/'+props.row.tipo_movimiento+'/detalle/' + props.row.pk_movimiento" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
-               </td>
-            </template>
-         </datatable>
-         <GChart
-            type="LineChart"
-            @ready="onChartReadyLine"
-            />
+      <datatable title="Listado de Movimientos" :columns="tableColumns1" :rows="tableRows1" :perPage="[5, 10, 15, 20]" >
+         <th slot="thead-tr">
+            Actions
+         </th>
+         <template slot="tbody-tr" scope="props">
+            <td>
+               <router-link :to="'/movimiento/'+props.row.tipo_movimiento+'/detalle/' + props.row.pk_movimiento" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
+            </td>
+         </template>
+      </datatable>
+      <GChart
+         type="LineChart"
+         @ready="onChartReadyLine"
+         />
       <GChart
          type="BarChart"
          @ready="onChartReady"
@@ -59,15 +59,12 @@ export default {
 	data() {
 		return {
 			marcas: [],
-			productos: [],
 			producto: {
 				name: '',
 				descripcion: '',
 				precio: '',
 				marca: ''
 			},
-			id_producto: this.$route.params.pkproducto,
-			url: "http://" + this.$http + ":" + this.$port + _PATH,
 			tableColumns1: [{
 				label: "Id",
 				field: "pk_movimiento",
@@ -94,39 +91,19 @@ export default {
 				numeric: true,
 				html: false
 			}],
-			tableRows1: [],
-			chartOptionsLinear: {
-				chart: {
-					hAxis: {
-						title: 'Movimientos',
-						minValue: ''
-					},
-					vAxis: {
-						title: 'Existencia',
-						minValue: 0
-					},
-					title: 'Company Performance',
-					subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-					chartArea: {
-						width: '50%'
-					},
-					legend: {
-						position: 'bottom'
-					}
-				}
-			}
+			tableRows1: []
 		}
 	},
 	mounted() {
-		this.getMarcas()
-		this.getProducto()
+		this.getMarcas();
+		this.getProducto();
 	},
 	components: {
 		"datatable": DataTable
 	},
 	methods: {
 		getMarcas() {
-            let urlMarcas = "http://" + this.$http + ":" + this.$port + "/api/marcas/";
+			let urlMarcas = "http://" + this.$http + ":" + this.$port + "/api/marcas/";
 			axios.get(urlMarcas).then(result => {
 				this.marcas = result.data[0]
 			}, error => {
@@ -134,65 +111,70 @@ export default {
 			})
 		},
 		getProducto() {
-			axios.get(this.url + "/" + this.id_producto).then(result => {
-				this.productos = result.data.productos[0]
-				if (this.productos.length == 0) {
+			let id_producto= this.$route.params.pkproducto;
+			let url = "http://" + this.$http + ":" + this.$port + _PATH + "/" + id_producto;
+			axios.get(url).then(result => {
+				let productos = result.data.productos[0]
+				if (productos.length == 0) {
+					this.$toast.error('No existe el producto indicado!', 'Error', {
+						position: "topCenter"
+					});
 					throw "No existe el producto indicado"; // throw a text
 				} else {
-					this.producto = this.productos[0];
-					this.nameproduct = this.productos[0].nombre;
-					this.descriptionproduct = this.productos[0].descripcion;
-					this.priceproduct = this.productos[0].precio;
-					this.brandproduct = this.productos[0].fk_marca;
-					this.quantity = this.productos[0].existencia;
+					this.producto = productos[0];
 				}
 			}, error => {
 				console.error(error)
+				this.$toast.error('Existe un error al obtener los valores del sistema, comuniquese con el administrador!', 'Error', {
+					position: "topCenter"
+				});
 			})
 		},
-        onChartReadyLine(chart, google) {
-			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/reportes/reporte9/"+this.id_producto
+		onChartReadyLine(chart, google) {
+			let id_producto= this.$route.params.pkproducto;
+			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/reportes/reporte9/" + id_producto
 			const options = {
-                height: 500,
+				height: 500,
 				title: 'Historial Movimientos',
 				subtitle: 'Ingresos y Egresos a lo largo del tiempo',
 				chartArea: {
 					width: '75%'
 				},
-                hAxis: {
-						title: 'Movimientos',
-						minValue: ''
-					},
-					vAxis: {
-						title: 'Existencia',
-						minValue: 0
-					},
+				hAxis: {
+					title: 'Movimientos',
+					minValue: ''
+				},
+				vAxis: {
+					title: 'Existencia',
+					minValue: 0
+				},
 				legend: {
 					position: 'bottom'
 				}
 			};
-            let chartData= [
+			let chartData = [
 				['Fecha', 'Existencias'],
 			];
-            axios.get(urlReporte).then(result => {
-					let valores = result.data[0];
-                    this.tableRows1 = valores;
-                    if (valores.length == 0) {
-                        chartData.push(["No data", 0]);
-                    }
-                    valores.forEach(elemento => {
-                        chartData.push([elemento.fecha_movimiento, elemento.existencia]);
-                    });
-					var data = google.visualization.arrayToDataTable(chartData);
-					chart.draw(data, options)
-				}, error => {
-					console.error(error)
-				})
-        },
+			axios.get(urlReporte).then(result => {
+				let valores = result.data[0];
+				this.tableRows1 = valores;
+				if (valores.length == 0) {
+					chartData.push(["No data", 0]);
+				}
+				valores.forEach(elemento => {
+					chartData.push([elemento.fecha_movimiento, elemento.existencia]);
+				});
+				var data = google.visualization.arrayToDataTable(chartData);
+				chart.draw(data, options)
+			}, error => {
+				console.error(error)
+			})
+		},
 		onChartReady(chart, google) {
+			let id_producto= this.$route.params.pkproducto;
 			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/reportes/reporte3"
 			const options = {
-                height: 500,
+				height: 500,
 				title: 'Movimientos en los ultimos tres meses',
 				subtitle: 'Ingresos y Egresos',
 				chartArea: {
@@ -202,15 +184,15 @@ export default {
 					position: 'bottom'
 				}
 			};
-            let chartData= [
+			let chartData = [
 				['Fecha', 'Ingresos', 'Egresos']
 			];
-			function request(obj, no, callback) {
-				axios.get(urlReporte + "/" + obj.id_producto + "/" + no).then(result => {
+			function request(no, callback) {
+				axios.get(urlReporte + "/" + id_producto + "/" + no).then(result => {
 					let valores = result.data[0][0];
 					chartData.push([valores.fecha, valores.ingreso, valores.egreso]);
 					if (no > 0) {
-						callback(obj, no - 1, callback)
+						callback(no - 1, callback)
 					} else {
 						var data = google.visualization.arrayToDataTable(chartData);
 						chart.draw(data, options)
@@ -219,7 +201,7 @@ export default {
 					console.error(error)
 				})
 			}
-			request(this, 3, request)
+			request(3, request)
 		}
 	}
 };
