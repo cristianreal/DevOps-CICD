@@ -5,8 +5,11 @@ import VueGoogleCharts from 'vue-google-charts'
 
 
 Vue.config.productionTip = false
-Vue.prototype.$http = process.env.VUE_APP_API_IP;
-Vue.prototype.$port = process.env.VUE_APP_API_PORT;
+//Vue.prototype.$http = process.env.VUE_APP_API_IP;
+//Vue.prototype.$port = process.env.VUE_APP_API_PORT;
+Vue.prototype.$http = "localhost";
+Vue.prototype.$port = "5000";
+
 Vue.use(VueGoogleCharts)
 
 new Vue({

@@ -10,14 +10,6 @@ export default {
   name: 'app',
   components: {
     NavBar
-  },
-  data() {
-    return {
-      x1: Math.ceil(Math.random() * 100), 
-      x2: Math.ceil(Math.random() * 100),
-      guess: "",
-      message: ""
-    }
   }
 }
 </script>
