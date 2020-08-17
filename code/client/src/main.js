@@ -4,17 +4,19 @@ import router from './router'
 import VueGoogleCharts from 'vue-google-charts'
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueIziToast from "vue-izitoast";
+import DataTable from "vue-materialize-datatable";
 import "izitoast/dist/css/iziToast.css";
 
-Vue.config.productionTip = false
-//Vue.prototype.$http = process.env.VUE_APP_API_IP;
-//Vue.prototype.$port = process.env.VUE_APP_API_PORT;
+Vue.config.productionTip = false;
 Vue.prototype.$http = "localhost";
 Vue.prototype.$port = "5000";
 
 Vue.use(VueIziToast);
 Vue.use(VueGoogleCharts)
 Vue.use(VueSweetalert2);
+
+Vue.component('datatable', DataTable)
+
 new Vue({
   render: h => h(App), router
 }).$mount('#app')

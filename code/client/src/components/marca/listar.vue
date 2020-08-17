@@ -24,7 +24,6 @@
 
 <script>
 import axios from 'axios';
-import DataTable from "vue-materialize-datatable";
 const _PATH = "/api/marcas/";
 
 export default {
@@ -65,11 +64,7 @@ export default {
 	mounted() {
 		this.getPosts()
 	},
-    components: {
-		"datatable": DataTable
-	},
 	methods: {
-
 		getPosts() {
 			axios.get(this.url).then(
 				result => {
@@ -80,7 +75,6 @@ export default {
 			)
 		},
 		deletePost(id) {
-
 			axios.delete(`${this.url}${id}`).then(() => {
 				this.getPosts()
 			}).catch((error) => {
