@@ -1,7 +1,9 @@
+
+
 <template>
    <div class="container">
       <datatable
-         title="Listado de Productos"
+         title="Listado de productos sin existencia"
          :columns="tableColumns1"
          :rows="tableRows1"
          >
@@ -11,21 +13,20 @@
          <template slot="tbody-tr" scope="props">
             <td>
                <router-link :to="'/producto/detalle/' + props.row.pk_producto" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">visibility</i></router-link>
-               <router-link :to="'/producto/editar/' + props.row.pk_producto" class="btn red darken-2 waves-effect waves-light compact-btn"  ><i class="material-icons white-text">edit</i></router-link>
-               <button class="btn red darken-2 waves-effect waves-light compact-btn"
-                  @click="(e) => deletePost(props.row.pk_producto, e)">
-               <i class="material-icons white-text">delete</i>
-               </button>
             </td>
          </template>
       </datatable>
+      <GChart
+         type="PieChart"
+         @ready="onChartReady"
+         />
    </div>
 </template>
 
 <script>
 import axios from 'axios';
 import DataTable from "vue-materialize-datatable";
-const _PATH = "/api/productos/";
+const _PATH = "/api/reportes/reporte1";
 
 export default {
 	name: 'listar',
@@ -72,7 +73,7 @@ export default {
 				}
 			],
 			tableRows1: []
-		}
+			}
 	},
 	mounted() {
 		this.getPosts()
@@ -91,13 +92,36 @@ export default {
 				}
 			)
 		},
-		deletePost(id) {
-			axios.delete(`${this.url}${id}`).then(() => {
-				this.getPosts()
-			}).catch((error) => {
-				console.error(error)
-			})
-
+		onChartReady(chart,google) {
+			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/productos/total"
+			const options = {
+                height: 500,
+				title: 'Productos con existencia disponible en el inventario',
+				subtitle: 'Estado de inventario',
+				is3D: true,
+				chartArea: {
+					width: '75%'
+				},
+				legend: {
+					position: 'bottom'
+				}
+			};
+            let chartData= [
+				['Tipo', 'Cantidad']
+			];
+			axios.get(urlReporte).then(
+				result => {
+					let valores = result.data[0][0];
+					let cantidadProductosSinExistencia =  this.tableRows1.length;
+					let cantidadProductosConExistencia = valores.total - cantidadProductosSinExistencia;
+					chartData.push(["Con existencia", cantidadProductosConExistencia]);
+					chartData.push(["Sin existencia", cantidadProductosSinExistencia]);
+					var data = google.visualization.arrayToDataTable(chartData);
+					chart.draw(data, options)
+				}, error => {
+					console.error(error)
+				}
+			)
 		}
 	}
 };

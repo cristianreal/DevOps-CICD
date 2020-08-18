@@ -44,7 +44,8 @@ const _PATH = "/api/vendedores/";
                     }).then(result => {
                         let respuesta = result.data[0];
                         if(respuesta.length == 0){
-                            alert("El usuario/password es incorrecto");
+                            this.$swal('El usuario/password es incorrecto!!!');
+                            this.input.password = "";
                             return;
                         }
                         let usuario = respuesta[0]
@@ -65,7 +66,7 @@ const _PATH = "/api/vendedores/";
                     })
                     
                 } else {
-                    console.log("A email and password must be present");
+                    this.$swal('Es obligatorio ingresar el email y password!!!');
                 }
             }
         }
