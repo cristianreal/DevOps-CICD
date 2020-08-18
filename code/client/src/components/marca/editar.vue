@@ -4,7 +4,7 @@
             {{elemento}} Editado
         </div>
 		<div class="jumbotron">
-			<h3 align="center" class="display-4">Editar Marca</h3>
+			<h3 align="center" class="display-4">Editar Marca #{{id_marca}}</h3>
 			<hr class="my-1">
 				<div class="form-group">
 					<label class="col-form-label" for="namebrand">Nombre de marca</label>
@@ -272,10 +272,10 @@
 
 <script>
 import axios from 'axios';
-const _PATH = "/api/marcas/";
+const _PATH = "/api/marcas";
 
 export default {
-    name: 'crear',
+    name: 'editar',
     data() {
         return {
             marcas: [],

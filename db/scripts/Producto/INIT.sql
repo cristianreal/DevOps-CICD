@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS producto;
+CREATE TABLE producto(
+	pk_producto		INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nombre			VARCHAR(50),
+	descripcion		VARCHAR(50),
+	precio			FLOAT,
+	fk_marca		INT,
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

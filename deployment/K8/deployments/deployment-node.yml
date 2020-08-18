@@ -22,6 +22,6 @@ spec:
         - name: "DB_DATABASE"
           value: "test_proyectoeps"
         - name: "DB_HOST"
-          value: "104.197.198.192"
+          value: "34.72.118.55"
         ports:
         - containerPort: 5000

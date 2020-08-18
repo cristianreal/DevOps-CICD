@@ -11,7 +11,8 @@ CREATE PROCEDURE Vendedor_Crear
 	IN cgenero 				INT,
 	IN cfecha_nacimiento 	DATE,
    	IN cfecha_vinculacion 	DATE,
-   	IN cjornada				INT
+   	IN cjornada				INT,
+	IN cpassword			VARCHAR(50)
 )
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -19,11 +20,11 @@ BEGIN
     ROLLBACK;
     SHOW ERRORS;
 END;
-	#JORNADA = 1->Matutina, 2->Vespertina
-	#GENERO= 1->Masculino, 2->Femenino
-	#TipoUsuario = 1->Admin, 2->Vendedor, 3->Proveedor
-	INSERT INTO vendedor (fecha_nacimiento, fecha_vinculacion, jornada)
-	VALUES (cfecha_nacimiento, cfecha_vinculacion, cjornada);
+	-- JORNADA = 1->Matutina, 2->Vespertina
+	-- GENERO= 1->Masculino, 2->Femenino
+	-- TipoUsuario = 1->Admin, 2->Vendedor, 3->Proveedor
+	INSERT INTO vendedor (fecha_nacimiento, fecha_vinculacion, jornada, pass)
+	VALUES (cfecha_nacimiento, cfecha_vinculacion, cjornada, PASSWORD(cpassword));
 
 	SELECT @ultimo_vendedor := MAX(pk_vendedor) FROM vendedor;
 
@@ -47,6 +48,28 @@ END;
 	U.direccion, U.telefono, U.email, V.jornada 
 	FROM vendedor AS V 
 	INNER JOIN usuario AS U ON V.pk_vendedor = U.fk_vendedor;
+END //
+DELIMITER ;
+-- ******************************************************************************
+DROP PROCEDURE IF EXISTS Vendedor_Login;
+DELIMITER //
+CREATE PROCEDURE Vendedor_Login
+(
+	IN cemail				VARCHAR(50),
+	IN cpassword			VARCHAR(50)
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    SHOW ERRORS;
+END;
+	SELECT U.pk_usuario, V.pk_vendedor, U.nombre, U.apellido, 
+			U.direccion, U.telefono, U.email, V.jornada 
+	FROM vendedor AS V 
+	INNER JOIN usuario AS U 
+	ON V.pk_vendedor = U.fk_vendedor
+	WHERE U.email=cemail and V.pass=PASSWORD(cpassword);
 END //
 DELIMITER ;
 -- ******************************************************************************
