@@ -1,1 +1,3 @@
 code/script.sh
+deployment/Terraform/.terraform
+deployment/Terraform/plan.out

@@ -4,7 +4,7 @@
             {{elemento}} Guardado
         </div>
 		<div class="jumbotron">
-			<h4 align="center" >Editar vendedor #{{id_vendedor}}</h4>
+			<h4 align="center" >Detalle vendedor #{{id_vendedor}}</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">

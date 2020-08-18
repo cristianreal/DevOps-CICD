@@ -4,7 +4,7 @@
             {{elemento}} Guardado
         </div>
 		<div class="jumbotron">
-			<h4 align="center" >Crear Proveedor</h4>
+			<h4 align="center" >Crear Vendedor</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -60,6 +60,12 @@
                             <option value="2">Vespertina</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label" for="pass">Password</label>
+                        <input type="password" class="form-control" v-model="pass" id="pass" name="pass">
+                    </div>
+
                     <div class="modal-footer">
                     <button  class="btn btn-primary"  v-on:click="createPost">Guardar</button>
                     </div>
@@ -79,6 +85,8 @@ export default {
             error: '',
             text: '',
             elemento: '',
+            genderseller: '1',
+            journalseller: '1',
             initdateseller: new Date().toISOString().slice(0,10),
             testButClicked: false,
             url: "http://" + this.$http + ":" + this.$port + _PATH
@@ -98,7 +106,8 @@ export default {
                 genero: this.genderseller,
                 fecha_nacimiento: this.borndateseller,
                 fecha_vinculacion: this.initdateseller,
-                jornada: this.journalseller
+                jornada: this.journalseller,
+                pass: this.pass
             }).then(() => {
                 this.elemento = "Vendedor ["+this.nameseller+"]"
                 this.nameseller = ''
@@ -109,6 +118,7 @@ export default {
                 this.genderseller = ''
                 this.borndateseller = ''
                 this.initdateseller = ''
+                this.pass = ''
                 this.journalseller = ''
                 this.testToast()
             }).catch((error) => {

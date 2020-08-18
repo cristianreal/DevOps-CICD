@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
     connection.query('call Marca_Listar()', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
-        //console.log('The solution is: ', rows[0].name)
     });
 });
 
@@ -24,10 +23,11 @@ router.post('/', urlencodedParser, (req, res) => {
     }else{
         connection.query('call Marca_Crear(\''+req.body.name+'\',\''+req.body.country+'\',\''+req.body.webpage+'\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
-            res.send("name added")
+            res.send("MARCA ADDED")
         });
     }
 });
+
 
 //OBTENER MARCA ESPECIFICA
 router.get('/:id', (req, res) => {
