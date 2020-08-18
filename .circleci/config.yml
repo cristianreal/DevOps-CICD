@@ -58,6 +58,7 @@ jobs:
             gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
             gcloud --quiet config set project ${PROJECT_ID}
             gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+            gcloud components install kubectl
       - run:          
           name: Apply kubernetes files to the cluster
           command: |
