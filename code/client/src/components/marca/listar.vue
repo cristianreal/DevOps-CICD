@@ -27,7 +27,7 @@ import axios from 'axios';
 const _PATH = "/api/marcas/";
 
 export default {
-	name: 'listar',
+	name: 'marca-listar',
 	data() {
 		return {
 			posts: [],
