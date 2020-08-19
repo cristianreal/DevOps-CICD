@@ -1,8 +1,5 @@
 <template>
 	<div class="container">
-        <div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Guardado
-        </div>
 		<div class="jumbotron">
 			<h4 align="center" >Crear Vendedor</h4>
             <div class="row">
@@ -82,20 +79,13 @@ export default {
     name: 'crear',
     data() {
         return {
-            error: '',
-            text: '',
-            elemento: '',
             genderseller: '1',
             journalseller: '1',
             initdateseller: new Date().toISOString().slice(0,10),
-            testButClicked: false,
             url: "http://" + this.$http + ":" + this.$port + _PATH
         }
     },
     methods: {
-        testToast() {
-            this.testButClicked = true;
-        },
         createPost() {
             axios.post(this.url, {
                 nombre: this.nameseller,
@@ -109,7 +99,10 @@ export default {
                 jornada: this.journalseller,
                 pass: this.pass
             }).then(() => {
-                this.elemento = "Vendedor ["+this.nameseller+"]"
+                this.$toast.success( "Vendedor ["+this.nameseller+"] Guardado", 'Success', {
+					position: "topCenter"
+				});
+                this.elemento = 
                 this.nameseller = ''
                 this.lastnameseller = ''
                 this.dirseller = ''
@@ -120,18 +113,10 @@ export default {
                 this.initdateseller = ''
                 this.pass = ''
                 this.journalseller = ''
-                this.testToast()
             }).catch((error) => {
                 console.error(error)
                 return;
             })
-        }
-    },
-    watch: {
-        testButClicked(val) {
-            if (val) {
-                setTimeout(() => this.testButClicked = false, 1000);
-            }
         }
     }
 };

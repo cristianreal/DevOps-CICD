@@ -9,7 +9,7 @@ import "izitoast/dist/css/iziToast.css";
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = "localhost";
-Vue.prototype.$port = "5000";
+Vue.prototype.$port = "80";
 
 Vue.use(VueIziToast);
 Vue.use(VueGoogleCharts)
