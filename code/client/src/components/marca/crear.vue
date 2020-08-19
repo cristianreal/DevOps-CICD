@@ -1,8 +1,5 @@
 <template>
 	<div class="container">
-		<div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Guardado
-        </div>
 		<div class="jumbotron">
 			<h4 align="center" >Crear Marca</h4>
 			<hr class="my-1">
@@ -278,40 +275,30 @@ export default {
     name: 'crear',
     data() {
         return {
-            error: '',
-            text: '',
 			country: 'Guatemala',
-            elemento: '',
-            testButClicked: false,
             url: "http://" + this.$http + ":" + this.$port + _PATH
         }
     },
     methods: {
-        testToast() {
-            this.testButClicked = true;
-        },
         createPost() {
             axios.post(this.url, {
                 name: this.namebrand,
                 country: this.country,
                 webpage: this.webpage
             }).then(() => {
-                this.elemento = "Marca ["+this.namebrand+"]"
+				this.$toast.success( "Marca ["+this.namebrand+"] Guardado", 'Success', {
+					position: "topCenter"
+				});
                 this.namebrand = ''
                 this.country= ''
                 this.webpage= ''
-                this.testToast()
             }).catch((error) => {
                 console.error(error)
+				this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 return;
             })
-        }
-    },
-    watch: {
-        testButClicked(val) {
-            if (val) {
-                setTimeout(() => this.testButClicked = false, 1000);
-            }
         }
     }
 };

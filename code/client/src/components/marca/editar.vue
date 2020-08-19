@@ -1,18 +1,15 @@
 <template>
 	<div class="container">
-		<div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Editado
-        </div>
 		<div class="jumbotron">
 			<h3 align="center" class="display-4">Editar Marca #{{id_marca}}</h3>
 			<hr class="my-1">
 				<div class="form-group">
 					<label class="col-form-label" for="namebrand">Nombre de marca</label>
-					<input type="text" class="form-control" placeholder="Ingrese el nombre de la marca"  v-model="namebrand" id="namebrand" name="namebrand" :value="marca.nombre">
+					<input type="text" class="form-control" placeholder="Ingrese el nombre de la marca"  v-model="marca.nombre" id="namebrand" name="namebrand">
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="country">Pais de origen</label>
-						<select class="custom-select" id="country" v-model="country" name="country" >
+						<select class="custom-select" id="country" v-model="marca.pais" name="country" >
 							<option value="Afganistan">Afghanistan</option>
 							<option value="Albania">Albania</option>
 							<option value="Algeria">Algeria</option>
@@ -263,7 +260,7 @@
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="webpage">Pagina web</label>
-						<input type="text" class="form-control" placeholder="Ingrese la pagina oficial de la marca" v-model="webpage"  id="webpage" name="webpage" :value="marca.pagina_web">
+						<input type="text" class="form-control" placeholder="Ingrese la pagina oficial de la marca" v-model="marca.pagina_web"  id="webpage" name="webpage">
 						</div>
 						<button  class="btn btn-primary"  v-on:click="createPost">Guardar</button>
 					</div>
@@ -278,16 +275,11 @@ export default {
     name: 'editar',
     data() {
         return {
-            marcas: [],
             marca: {
                 nombre : '',
                 pais: '',
                 pagina_web: ''
             },
-            error: '',
-            text: '',
-            elemento: '',
-            testButClicked: false,
             id_marca: this.$route.params.pkmarca,
             url: "http://" + this.$http + ":" + this.$port + _PATH
         }
@@ -296,20 +288,14 @@ export default {
         this.obtenerMarca()
     },
     methods: {
-        testToast() {
-            this.testButClicked = true;
-        },
         obtenerMarca() {
             axios.get(this.url+"/"+this.id_marca).then(
                 result => {
-                    this.marcas = result.data[0]
-                    if(this.marcas.length == 0){
+                    let marcas = result.data[0]
+                    if(marcas.length == 0){
                         throw "No existe la marca indicada";    // throw a text
                     }else{
-                        this.marca = this.marcas[0];
-                        this.namebrand = this.marcas[0].nombre;
-                        this.country = this.marcas[0].pais;
-                        this.webpage = this.marcas[0].pagina_web;
+                        this.marca = marcas[0];
                     }
                 }, error => {
                     console.error(error)
@@ -318,23 +304,20 @@ export default {
         },
         createPost() {
             axios.put(this.url+"/"+this.id_marca, {
-                name: this.namebrand,
-                country: this.country,
-                webpage: this.webpage
+                name: this.marca.nombre,
+                country: this.marca.pais,
+                webpage: this.marca.pagina_web
             }).then(() => {
-                this.elemento = "Marca #"+this.id_marca
-                this.testToast()
+				this.$toast.success( "Marca #"+this.id_marca+" Editado", 'Success', {
+					position: "topCenter"
+				});
             }).catch((error) => {
                 console.error(error)
+				this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 return;
             })
-        }
-    },
-    watch: {
-        testButClicked(val) {
-            if (val) {
-                setTimeout(() => this.testButClicked = false, 1000);
-            }
         }
     }
 };
