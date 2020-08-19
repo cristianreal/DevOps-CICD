@@ -1,25 +1,12 @@
 <template>
-  <div id="app">
     <NavBar/>
-    <div class="container">  
-        <router-view></router-view>
-    </div>
-  </div>
 </template>
-
 <script>
 import NavBar from './components/NavBar.vue'
-
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     NavBar
   }
 }
 </script>
-console.log(process.env.API_IP);
-<style>
-#Contenido {
-  margin-top: 15px;
-}
-</style>

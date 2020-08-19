@@ -1,3 +1,2 @@
-DROP DATABASE IF EXISTS test_proyectoeps;
-CREATE DATABASE test_proyectoeps;
+CREATE DATABASE IF NOT EXISTS test_proyectoeps;
 source ./scripts/InitScript.sql

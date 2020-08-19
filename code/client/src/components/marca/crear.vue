@@ -4,7 +4,7 @@
             {{elemento}} Guardado
         </div>
 		<div class="jumbotron">
-			<h3 align="center" class="display-4">Crear Marca</h3>
+			<h4 align="center" >Crear Marca</h4>
 			<hr class="my-1">
 				<div class="form-group">
 					<label class="col-form-label" for="namebrand">Nombre de marca</label>
@@ -280,6 +280,7 @@ export default {
         return {
             error: '',
             text: '',
+			country: 'Guatemala',
             elemento: '',
             testButClicked: false,
             url: "http://" + this.$http + ":" + this.$port + _PATH
