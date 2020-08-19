@@ -1,8 +1,5 @@
 <template>
 	<div class="container">
-        <div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Guardado
-        </div>
 		<div class="jumbotron">
 			<h4 align="center" >Crear Producto</h4>
                     <div class="form-group">
@@ -45,12 +42,8 @@ export default {
     name: 'crear',
     data() {
         return {
-            error: '',
-            text: '',
-            elemento: '',
             brandproduct: 'Seleccione la marca',
             marcas: [],
-            testButClicked: false,
             urlMarcas: "http://" + this.$http + ":" + this.$port +"/api/marcas/",
             url: "http://" + this.$http + ":" + this.$port + _PATH
         }
@@ -65,11 +58,11 @@ export default {
                     this.marcas = result.data[0]
                 }, error => {
                     console.error(error)
+                    this.$toast.error('Hubo un error al obtener los valores del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 }
             )
-        },
-        testToast() {
-            this.testButClicked = true;
         },
         createPost() {
             axios.post(this.url, {
@@ -78,23 +71,20 @@ export default {
                precio: this.priceproduct,
                marca: this.brandproduct
             }).then(() => {
-                this.elemento = "Producto ["+this.namebuyer+"]"
+                this.$toast.success( "Producto ["+this.namebuyer+"] Guardado", 'Success', {
+					position: "topCenter"
+				});
                 this.nameproduct=  ''
                 this.descriptionproduct= ''
                 this.priceproduct= ''
                 this.brandproduct= ''              
-                this.testToast()
             }).catch((error) => {
                 console.error(error)
+                this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 return;
             })
-        }
-    },
-    watch: {
-        testButClicked(val) {
-            if (val) {
-                setTimeout(() => this.testButClicked = false, 1000);
-            }
         }
     }
 };

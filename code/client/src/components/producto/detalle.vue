@@ -52,8 +52,8 @@
 </template>
 <script>
 import axios from 'axios';
-import DataTable from "vue-materialize-datatable";
 const _PATH = "/api/productos";
+
 export default {
 	name: 'crear',
 	data() {
@@ -97,9 +97,6 @@ export default {
 	mounted() {
 		this.getMarcas();
 		this.getProducto();
-	},
-	components: {
-		"datatable": DataTable
 	},
 	methods: {
 		getMarcas() {

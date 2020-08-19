@@ -1,41 +1,38 @@
 <template>
 	<div class="container">
-        <div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Guardado
-        </div>
 		<div class="jumbotron">
 			<h4 align="center" >Detalle Proveedor #{{id_proveedor}}</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-form-label" for="namebuyer">Nombre proveedor</label>
-                        <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="namebuyer" id="namebuyer" name="namebuyer" :value="proveedor.nombre">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="proveedor.nombre" id="namebuyer" name="namebuyer">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="lastnamebuyer">Apellido proveedor</label>
-                        <input disabled type="text" class="form-control" placeholder="Ingrese el apellido" v-model="lastnamebuyer" id="lastnamebuyer" name="lastnamebuyer">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese el apellido" v-model="proveedor.apellido" id="lastnamebuyer" name="lastnamebuyer">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="dirbuyer">Direccion domiciliar</label>
-                        <input disabled type="text" class="form-control" placeholder="Ingrese la direccion de su domicilio" v-model="dirbuyer" id="dirbuyer" name="dirbuyer">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese la direccion de su domicilio" v-model="proveedor.direccion" id="dirbuyer" name="dirbuyer">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="telbuyer">Telefono</label>
-                        <input disabled type="text" class="form-control" placeholder="Ingrese el numero de telefono" v-model="telbuyer" id="telbuyer" name="telbuyer">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese el numero de telefono" v-model="proveedor.telefono" id="telbuyer" name="telbuyer">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
 						<label class="col-form-label" for="emailbuyer">Email</label>
-						<input disabled type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="emailbuyer" id="emailbuyer" name="emailbuyer">
+						<input disabled type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="proveedor.email" id="emailbuyer" name="emailbuyer">
 					</div>
                     <div class="form-group">
                         <label class="col-form-label" for="webpage">Pagina web</label>
-                        <input disabled type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="webpage" id="webpage" name="webpage">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese la direccion de correo electronico" v-model="proveedor.pagina_web" id="webpage" name="webpage">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="country">Pais</label>
-                        <select disabled class="custom-select" id="country" v-model="country" name="country" >
+                        <select disabled class="custom-select" id="country" v-model="proveedor.pais" name="country" >
                             <option value="Afganistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
                             <option value="Algeria">Algeria</option>
@@ -286,7 +283,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="city">Ciudad</label>
-                        <input disabled type="text" class="form-control" placeholder="Ingrese su ciudad"  v-model="city" id="city" name="city">
+                        <input disabled type="text" class="form-control" placeholder="Ingrese su ciudad"  v-model="proveedor.ciudad" id="city" name="city">
                     </div>
                 </div>
             </div>
@@ -301,21 +298,16 @@ export default {
     name: 'editar',
     data() {
         return {
-            proveedores: [],
             proveedor: {
                 nombre : '',
                 apellido: '',
                 direccion: '',
                 telefono: '',
                 email: '',
-                webpage: '',
+                pagina_web: '',
                 pais: '',
                 ciudad: ''
             },
-            error: '',
-            text: '',
-            elemento: '',
-            testButClicked: false,
             id_proveedor: this.$route.params.pkproveedor,
             url: "http://" + this.$http + ":" + this.$port + _PATH
         }
@@ -324,37 +316,25 @@ export default {
         this.obtenerProveedor()
     },
     methods: {
-        testToast() {
-            this.testButClicked = true;
-        },
         obtenerProveedor() {
             axios.get(this.url+"/"+this.id_proveedor).then(
                 result => {
-                    this.proveedores = result.data[0]
-                    if(this.proveedores.length == 0){
+                    let proveedores = result.data[0]
+                    if(proveedores.length == 0){
+                        this.$toast.error('No existe el proveedor indicado!', 'Error', {
+							position: "topCenter"
+						});
                         throw "No existe el proveedor indicado";    // throw a text
                     }else{
-                        this.proveedor = this.proveedores[0];
-                        this.namebuyer = this.proveedores[0].nombre;
-                        this.lastnamebuyer = this.proveedores[0].apellido;
-                        this.dirbuyer = this.proveedores[0].direccion;
-                        this.telbuyer = this.proveedores[0].telefono;
-                        this.emailbuyer = this.proveedores[0].email;
-                        this.webpage = this.proveedores[0].pagina_web;
-                        this.country = this.proveedores[0].pais;
-                        this.city = this.proveedores[0].ciudad;
+                        this.proveedor = proveedores[0];
                     }
                 }, error => {
                     console.error(error)
+                    this.$toast.error('Hubo un error al obtener los valores del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 }
             )
-        }
-    },
-    watch: {
-        testButClicked(val) {
-            if (val) {
-                setTimeout(() => this.testButClicked = false, 1000);
-            }
         }
     }
 };
