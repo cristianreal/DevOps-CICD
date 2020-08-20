@@ -8,7 +8,7 @@ import DataTable from "vue-materialize-datatable";
 import "izitoast/dist/css/iziToast.css";
 
 Vue.config.productionTip = false;
-Vue.prototype.$http = "localhost";
+Vue.prototype.$http = "poliformas.com.gt";
 Vue.prototype.$port = "80";
 
 Vue.use(VueIziToast);
