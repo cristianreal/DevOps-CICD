@@ -12,7 +12,12 @@ jobs:
             docker build -t christianreal/backend-nodejs:${CIRCLE_SHA1} .
             docker run --name service-nodejs --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker exec -it service-nodejs npm test
-  ci:
+      - run:
+          name: "Test Frontend"
+          command: |
+            cd ${HOME}/project/code/client
+            docker build -t christianreal/frontend-vuejs:${CIRCLE_SHA1} -f Dockerfile.test . 
+  continous_integration_delivey:
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -33,26 +38,7 @@ jobs:
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker push christianreal/frontend-vuejs:${CIRCLE_SHA1}
-  cd:
-    machine:
-      image: ubuntu-1604:201903-01
-    steps:
-      - checkout
-      - run:
-          name: "Instalar terraform & Crear archivo de credenciales."  
-          command: |
-            sudo bash deployment/Terraform/script.sh
-            echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
-      - run:
-          name: "Desplegar infraestructura con terraform"
-          command: |
-            cd deployment/Terraform
-            export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
-            export TF_VAR_project_id=${PROJECT_ID}
-            terraform init 
-            terraform plan -out plan.out
-            terraform apply plan.out
-  deploy:
+  continous_deployment:
     docker: 
       - image: google/cloud-sdk    
     steps:      
@@ -76,6 +62,25 @@ jobs:
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
             kubectl apply -f deployment/K8/services/clusterip
             kubectl apply -f deployment/K8/services/service-ingress.yml 
+  infrastructure_deployment:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - run:
+          name: "Instalar terraform & Crear archivo de credenciales."  
+          command: |
+            sudo bash deployment/Terraform/script.sh
+            echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
+      - run:
+          name: "Desplegar infraestructura con terraform"
+          command: |
+            cd deployment/Terraform
+            export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
+            export TF_VAR_project_id=${PROJECT_ID}
+            terraform init 
+            terraform plan -out plan.out
+            terraform apply plan.out
 workflows:
   version: 2
   pipeline-principal:
@@ -85,20 +90,23 @@ workflows:
               branches:
                 only:
                   - developer
-      - ci:
+                  - master
+      - continous_integration_delivery:
+          requires:
+            - test
           filters:
               branches:
                 only:
                   - master
-      - cd:
+      - continous_deployment:
+          requires:
+            - continous_integration_delivery
+          filters:
+              branches:
+                only:
+                  - master
+      - infrastructure_deployment:
           filters:
               branches:
                 only:
                   - infrastructure
-      - deploy:
-          requires:
-            - ci
-          filters:
-              branches:
-                only:
-                  - master
