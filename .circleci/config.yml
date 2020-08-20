@@ -17,7 +17,7 @@ jobs:
           command: |
             cd ${HOME}/project/code/client
             docker build -t christianreal/frontend-vuejs:${CIRCLE_SHA1} -f Dockerfile.test . 
-  continous_integration_delivey:
+  continous_integration_delivery:
     machine:
       image: ubuntu-1604:201903-01
     steps:
