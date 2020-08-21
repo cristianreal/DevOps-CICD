@@ -105,10 +105,15 @@ jobs:
             gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
             gcloud --quiet config set project ${PROJECT_ID}
             gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+            for cluster in  $(gcloud container clusters list --project  ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))")
+            do
+              echo "$cluster"
+              export CLUSTER=$cluster
+            done
       - run:          
           name: Apply kubernetes files to the cluster
           command: |
-            gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
+            gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
 workflows:
   version: 2
