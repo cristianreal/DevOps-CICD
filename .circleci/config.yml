@@ -66,7 +66,11 @@ jobs:
       - run:          
           name: Apply kubernetes files to the cluster
           command: |
-            gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
+            for cluster in  $(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))")
+            do
+              export CLUSTER=$cluster
+            done
+            gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
             kubectl apply -f deployment/K8/deployments
             kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
@@ -108,14 +112,14 @@ jobs:
       - run:          
           name: Apply kubernetes files to the cluster
           command: |
-            echo ${PROJECT_ID}
             for cluster in  $(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))")
             do
-              echo "$cluster"
               export CLUSTER=$cluster
             done
             gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+            kubectl get svc --namespace ingress-nginx ingress-nginx-controller -o jsonpath='{..ip}'
+
 workflows:
   version: 2
   pipeline-principal:
