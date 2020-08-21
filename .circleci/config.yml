@@ -120,8 +120,6 @@ workflows:
                 only:
                   - developer
       - continous_integration_delivery:
-          requires:
-            - test
           filters:
               branches:
                 only:
@@ -143,4 +141,5 @@ workflows:
             - infrastructure_deployment
           filters:
               branches:
+                only:
                   - infrastructure
