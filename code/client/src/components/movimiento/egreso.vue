@@ -80,8 +80,8 @@ export default {
             },
             seller: 'venddor prueba',
             date: new Date().toISOString().slice(0,10),
-            bare_url:  "http://" + this.$http + ":" + this.$port,
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            bare_url:   this.$http + ":" + this.$port,
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {

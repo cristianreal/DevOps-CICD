@@ -30,7 +30,7 @@ export default {
 	name: 'listar',
 	data() {
 		return {
-			url: "http://" + this.$http + ":" + this.$port + _PATH,
+			url:  this.$http + ":" + this.$port + _PATH,
 			tableColumns1: [{
 					label: "Id",
 					field: "pk_producto",

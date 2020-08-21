@@ -31,7 +31,7 @@ export default {
 	data() {
 		return {
 			posts: [],
-			url: "http://" + this.$http + ":" + this.$port + _PATH,
+			url:  this.$http + ":" + this.$port + _PATH,
 			tableColumns1: [{
 					label: "Id",
 					field: "pk_marca",

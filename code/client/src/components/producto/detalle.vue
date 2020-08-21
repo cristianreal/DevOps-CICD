@@ -100,7 +100,7 @@ export default {
 	},
 	methods: {
 		getMarcas() {
-			let urlMarcas = "http://" + this.$http + ":" + this.$port + "/api/marcas/";
+			let urlMarcas =  this.$http + ":" + this.$port + "/api/marcas/";
 			axios.get(urlMarcas).then(result => {
 				this.marcas = result.data[0]
 			}, error => {
@@ -109,7 +109,7 @@ export default {
 		},
 		getProducto() {
 			let id_producto= this.$route.params.pkproducto;
-			let url = "http://" + this.$http + ":" + this.$port + _PATH + "/" + id_producto;
+			let url =  this.$http + ":" + this.$port + _PATH + "/" + id_producto;
 			axios.get(url).then(result => {
 				let productos = result.data.productos[0]
 				if (productos.length == 0) {
@@ -129,7 +129,7 @@ export default {
 		},
 		onChartReadyLine(chart, google) {
 			let id_producto= this.$route.params.pkproducto;
-			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/reportes/reporte9/" + id_producto
+			let urlReporte =  this.$http + ":" + this.$port + "/api/reportes/reporte9/" + id_producto
 			const options = {
 				height: 500,
 				title: 'Historial Movimientos',
@@ -169,7 +169,7 @@ export default {
 		},
 		onChartReady(chart, google) {
 			let id_producto= this.$route.params.pkproducto;
-			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/reportes/reporte3"
+			let urlReporte =  this.$http + ":" + this.$port + "/api/reportes/reporte3"
 			const options = {
 				height: 500,
 				title: 'Movimientos en los ultimos tres meses',
