@@ -11,8 +11,13 @@ jobs:
             cd ${HOME}/project/code/backend
             docker build -t christianreal/backend-nodejs:${CIRCLE_SHA1} .
             docker run --name service-nodejs --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
-            docker exec -it service-nodejs npm test
-  ci:
+            docker exec -it service-nodejs npm test 
+      - run:
+          name: "Test Frontend"
+          command: |
+            cd ${HOME}/project/code/client
+            docker build -t christianreal/frontend-vuejs:test1${CIRCLE_SHA1} -f Dockerfile.test . 
+  continous_integration_delivery:
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -28,12 +33,46 @@ jobs:
             cd ${HOME}/project/code/client
             docker build -t christianreal/frontend-vuejs:${CIRCLE_SHA1} . 
       - run:
+          name: "Test Backend"
+          command: |
+            cd ${HOME}/project/code/backend
+            docker run --name service-nodejs --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
+            docker exec -it service-nodejs npm test 
+      - run:
+          name: "Test Frontend"
+          command: |
+            ${HOME}/project/code/client
+            docker build -t christianreal/frontend-vuejs:test1${CIRCLE_SHA1} -f Dockerfile.test . 
+      - run:
           name: "Push images to registry"
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker push christianreal/frontend-vuejs:${CIRCLE_SHA1}
-  cd:
+  continous_deployment:
+    docker: 
+      - image: google/cloud-sdk    
+    steps:      
+      - checkout
+      - run:          
+          name: Auth gCloud SDK 
+          command: |
+            #!/bin/sh
+            set -e
+            echo ${CREDENTIALS} > ${HOME}/gcp-key.json
+            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+            gcloud --quiet config set project ${PROJECT_ID}
+            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - run:          
+          name: Apply kubernetes files to the cluster
+          command: |
+            gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
+            kubectl apply -f deployment/K8/deployments
+            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
+            kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
+            kubectl apply -f deployment/K8/services/clusterip
+            kubectl apply -f deployment/K8/services/service-ingress.yml 
+  infrastructure_deployment:
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -52,7 +91,7 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
-  deploy:
+  configure_infrastructure:
     docker: 
       - image: google/cloud-sdk    
     steps:      
@@ -71,11 +110,6 @@ jobs:
           command: |
             gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
-            kubectl apply -f deployment/K8/deployments
-            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
-            kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
-            kubectl apply -f deployment/K8/services/clusterip
-            kubectl apply -f deployment/K8/services/service-ingress.yml 
 workflows:
   version: 2
   pipeline-principal:
@@ -85,20 +119,28 @@ workflows:
               branches:
                 only:
                   - developer
-      - ci:
+      - continous_integration_delivery:
+          requires:
+            - test
           filters:
               branches:
                 only:
                   - master
-      - cd:
+      - continous_deployment:
+          requires:
+            - continous_integration_delivery
+          filters:
+              branches:
+                only:
+                  - master
+      - infrastructure_deployment:
           filters:
               branches:
                 only:
                   - infrastructure
-      - deploy:
+      - configure_infrastructure:
           requires:
-            - ci
+            - infrastructure_deployment
           filters:
               branches:
-                only:
-                  - master
+                  - infrastructure
