@@ -50,8 +50,8 @@ export default {
                 fk_marca: ''
             },
             id_producto: this.$route.params.pkproducto,
-            urlMarcas: "http://" + this.$http + ":" + this.$port +"/api/marcas/",
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            urlMarcas:  this.$http + ":" + this.$port +"/api/marcas/",
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {

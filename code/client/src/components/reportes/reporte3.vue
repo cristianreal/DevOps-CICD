@@ -89,7 +89,7 @@ export default {
    },
    methods: {
       getPosts() {
-         let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/reportes/reporte4/" + this.mes
+         let urlReporte =  this.$http + ":" + this.$port + "/api/reportes/reporte4/" + this.mes
          axios.get(urlReporte).then(
             result => {
                this.tableRows1 = result.data[0]
@@ -102,7 +102,7 @@ export default {
          )
       },
       onChartReady(chart, google) {
-         let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/productos/total"
+         let urlReporte =  this.$http + ":" + this.$port + "/api/productos/total"
          const options = {
                 height: 500,
 				title: 'Existencias de productos',

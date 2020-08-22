@@ -82,7 +82,7 @@ export default {
             genderseller: '1',
             journalseller: '1',
             initdateseller: new Date().toISOString().slice(0,10),
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     methods: {

@@ -311,7 +311,7 @@ export default {
         return {
             genderbuyer: '1',
             country: 'Guatemala',
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     methods: {

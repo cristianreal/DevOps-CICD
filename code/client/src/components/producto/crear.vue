@@ -44,8 +44,8 @@ export default {
         return {
             brandproduct: 'Seleccione la marca',
             marcas: [],
-            urlMarcas: "http://" + this.$http + ":" + this.$port +"/api/marcas/",
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            urlMarcas:  this.$http + ":" + this.$port +"/api/marcas/",
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {
