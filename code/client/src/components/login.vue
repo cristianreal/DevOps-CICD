@@ -26,7 +26,7 @@ const _PATH = "/api/vendedores/";
                     email: "",
                     password: ""
                 },
-                url: "http://" + this.$http + ":" + this.$port + _PATH
+                url: this.$http + ":" + this.$port + _PATH
             }
         },
         mounted(){

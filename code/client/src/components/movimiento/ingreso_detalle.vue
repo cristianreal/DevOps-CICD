@@ -1,48 +1,50 @@
 <template>
-<div class="container">
-   <h3 align="center">Detalle de ingreso - Movimiento #{{ id_movimiento }}</h3>
-    <hr class="my-4">
-   <div class="row">
-      <div class="col-lg-3" >
-         <div style="max-width: 20rem;">
-            <div class="form-group">
-               <label class="col-form-label" for="date">Fecha</label>
-               <input disabled type="text" class="form-control" v-model="date" placeholder="Default input" id="date" name="date" :value="date">
+   <div class="container">
+      <h3 align="center">Detalle de ingreso - Movimiento #{{ id_movimiento }}</h3>
+      <hr class="my-4">
+      <div class="row">
+         <div class="col-lg-3" >
+            <div style="max-width: 20rem;">
+               <div class="form-group">
+                  <label class="col-form-label" for="date">Fecha</label>
+                  <input disabled type="text" class="form-control" v-model="ingreso.fecha_movimiento" placeholder="Default input" id="date" name="date">
+               </div>
+               <div class="form-group">
+                  <label for="seller">Vendedor</label>
+                  <input  disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="ingreso.vendedor" id="seller" name="seller" >
+               </div>
+               <div class="form-group">
+                  <label for="proveedor">Proveedor</label>
+                  <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="ingreso.proveedor" id="proveedor" name="proveedor" >
+               </div>
+               <div class="form-group">
+                  <label for="total">Total</label>
+                  <input  disabled type="text" class="form-control" v-model="ingreso.total" id="total" >
+               </div>
             </div>
-            <div class="form-group">
-               <label for="seller">Vendedor</label>
-               <input  disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="seller">
-            </div>
-            <div class="form-group">
-               <label for="proveedor">Proveedor</label>
-               <input disabled type="text" class="form-control" placeholder="Ingrese el nombre" v-model="proveedor" id="proveedor" name="proveedor" :value="proveedor">
-            </div>
-            <div class="form-group">
-               <label for="total">Total</label>
-               <input  disabled type="text" class="form-control" v-model="total" id="total" :value="total">
+         </div>
+         <div class="col-lg-9">
+            <div style="overflow-y: scroll; height:460px;">
+               <table align='center' id="data_table" name="data_table" class="table table-hover">
+                  <tr>
+                     <th>Cantidad</th>
+                     <th>Producto</th>
+                     <th>Precio</th>
+                     <th>Subtotal</th>
+                  </tr>
+                  <tr v-for="(item,index) in rowData" v-bind:key="index" >
+                     <th scope="row">{{ item.cantidad }}</th>
+                     <td>{{ item.producto }}</td>
+                     <td>{{ item.precio }}</td>
+                     <td>{{ item.total }}</td>
+                  </tr>
+               </table>
             </div>
          </div>
       </div>
-      <div class="col-lg-9">
-         <div style="overflow-y: scroll; height:460px;">
-            <table align='center' id="data_table" name="data_table" class="table table-hover">
-               <tr>
-                  <th>Cantidad</th>
-                  <th>Producto</th>
-                  <th>Precio</th>
-                  <th>Subtotal</th>
-               </tr>
-               <tr v-for="(item,index) in rowData" v-bind:key="index" >
-                    <th scope="row">{{ item.cantidad }}</th>
-                    <td>{{ item.producto }}</td>
-                    <td>{{ item.precio }}</td>
-                    <td>{{ item.total }}</td>
-                </tr>
-            </table>
-         </div>
-      </div>
-</div>
+   </div>
 </template>
+
 <script>
 import axios from 'axios';
 
@@ -50,15 +52,15 @@ export default {
     name: 'crear',
     data() {
         return {
-            error: '',
-            text: '',
             id_movimiento: this.$route.params.pkmovimiento,
-            date: 'hola',
-            seller: '',
-            proveedor: '',
-            total: '',
+            ingreso:{
+                fecha_movimiento: '',
+                vendedor: '',
+                proveedor: '',
+                total:''
+            },
             rowData:[],
-            bare_url:  "http://" + this.$http + ":" + this.$port,
+            bare_url:   this.$http + ":" + this.$port,
         }
     },
     mounted() {
@@ -71,15 +73,18 @@ export default {
                 result => {
                     let movimiento = result.data[0]
                     if(movimiento.length == 0){
-                        throw "No existe el producto indicado";    // throw a text
+                         this.$toast.error('No existe el movimiento indicado!', 'Error', {
+							position: "topCenter"
+						});
+                        throw "No existe el movimiento indicado";    // throw a text
                     }else{
-                        this.date = movimiento[0].fecha_movimiento
-                        this.seller = movimiento[0].vendedor
-                        this.proveedor = movimiento[0].proveedor
-                        this.total = movimiento[0].total
+                        this.ingreso = movimiento[0]
                     }
                 }, error => {
                     console.error(error)
+                    this.$toast.error('Hubo un error al obtener los valores del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 }
             )
          },

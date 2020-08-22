@@ -1,8 +1,5 @@
 <template>
 	<div class="container">
-        <div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Guardado
-        </div>
 		<div class="jumbotron">
 			<h4 align="center" >Crear Proveedor</h4>
             <div class="row">
@@ -312,19 +309,12 @@ export default {
     name: 'crear',
     data() {
         return {
-            error: '',
-            text: '',
-            elemento: '',
             genderbuyer: '1',
             country: 'Guatemala',
-            testButClicked: false,
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     methods: {
-        testToast() {
-            this.testButClicked = true;
-        },
         createPost() {
             axios.post(this.url, {
                 nombre: this.namebuyer,
@@ -337,7 +327,10 @@ export default {
                 pais: this.country,
                 ciudad: this.city
             }).then(() => {
-                this.elemento = "Proveedor ["+this.namebuyer+"]"
+                this.$toast.success( "Proveedor ["+this.namebuyer+"] Guardado", 'Success', {
+					position: "topCenter"
+				});
+                this.elemento = 
                 this.namebuyer = ''
                 this.lastnamebuyer = ''
                 this.dirbuyer = ''
@@ -347,18 +340,13 @@ export default {
                 this.webpage = ''
                 this.country = ''
                 this.city = ''
-                this.testToast()
+                this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+				});
             }).catch((error) => {
                 console.error(error)
                 return;
             })
-        }
-    },
-    watch: {
-        testButClicked(val) {
-            if (val) {
-                setTimeout(() => this.testButClicked = false, 1000);
-            }
         }
     }
 };

@@ -1,28 +1,25 @@
 <template>
 	<div class="container">
-        <div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}} Editado
-        </div>
 		<div class="jumbotron">
 			<h4 align="center" >Editar Producto</h4>
                     <div class="form-group">
                         <label class="col-form-label" for="nameproduct">Nombre Producto</label>
-                        <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="nameproduct" :value="producto.nombre" id="nameproduct" name="nameproduct">
+                        <input type="text" class="form-control" placeholder="Ingrese el nombre" v-model="producto.nombre" id="nameproduct" name="nameproduct">
                     </div>
 
                     <div class="form-group">
                         <label class="col-form-label" for="descriptionproduct">Descripcion Producto</label>
-                        <input type="text" class="form-control" placeholder="Ingrese el apellido" v-model="descriptionproduct" id="descriptionproduct" name="descriptionproduct">
+                        <input type="text" class="form-control" placeholder="Ingrese el apellido" v-model="producto.descripcion" id="descriptionproduct" name="descriptionproduct">
                     </div>
 
                     <div class="form-group">
                         <label class="col-form-label" for="priceproduct">Precio Producto</label>
-                        <input  type="number" placeholder="0.00" step="0.01" class="form-control" v-model="priceproduct" id="priceproduct" name="priceproduct">
+                        <input  type="number" placeholder="0.00" step="0.01" class="form-control" v-model="producto.precio" id="priceproduct" name="priceproduct">
                     </div>                  
 
                     <div class="form-group">
                         <label class="col-form-label" for="brandproduct">Marca Producto</label>
-                        <select class="custom-select" v-model="brandproduct" id="brandproduct" name="brandproduct">
+                        <select class="custom-select" v-model="producto.fk_marca" id="brandproduct" name="brandproduct">
                             <option selected>Seleccione la marca</option>
                                 <option v-for="(marca, index) in marcas"
                                 v-bind:item="marca" 
@@ -45,21 +42,16 @@ export default {
     name: 'crear',
     data() {
         return {
-            error: '',
-            text: '',
-            elemento: '',
             marcas: [],
-            productos:[],
             producto:{
-                name: '',
+                nombre: '',
                 descripcion: '',
                 precio: '',
-                marca: ''
+                fk_marca: ''
             },
-            testButClicked: false,
             id_producto: this.$route.params.pkproducto,
-            urlMarcas: "http://" + this.$http + ":" + this.$port +"/api/marcas/",
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            urlMarcas:  this.$http + ":" + this.$port +"/api/marcas/",
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {
@@ -79,44 +71,34 @@ export default {
         getProducto() {
             axios.get(this.url+"/"+this.id_producto).then(
                 result => {
-                    this.productos = result.data.productos[0]
-                    if(this.productos.length == 0){
+                    let productos = result.data.productos[0]
+                    if(productos.length == 0){
                         throw "No existe el producto indicado";    // throw a text
                     }else{
-                        this.producto = this.productos[0];
-                        this.nameproduct = this.productos[0].nombre;
-                        this.descriptionproduct = this.productos[0].descripcion;
-                        this.priceproduct = this.productos[0].precio;
-                        this.brandproduct = this.productos[0].fk_marca;
+                        this.producto = productos[0];
                     }
                 }, error => {
                     console.error(error)
                 }
             )
         },
-        testToast() {
-            this.testButClicked = true;
-        },
         createPost() {
             axios.put(this.url+"/"+this.id_producto, {
-               nombre: this.nameproduct,
-               descripcion: this.descriptionproduct,
-               precio: this.priceproduct,
-               marca: this.brandproduct
+               nombre: this.producto.nombre,
+               descripcion: this.producto.descripcion,
+               precio: this.producto.precio,
+               marca: this.producto.fk_marca
             }).then(() => {
-                this.elemento = "Producto ["+this.nameproduct+"]"           
-                this.testToast()
+                this.$toast.success(  "Producto ["+this.producto.nombre+"] Editado", 'Success', {
+					position: "topCenter"
+				});          
             }).catch((error) => {
                 console.error(error)
+                this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 return;
             })
-        }
-    },
-    watch: {
-        testButClicked(val) {
-            if (val) {
-                setTimeout(() => this.testButClicked = false, 1000);
-            }
         }
     }
 };
