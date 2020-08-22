@@ -118,8 +118,24 @@ jobs:
             done
             gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
-            kubectl get svc --namespace ingress-nginx ingress-nginx-controller -o jsonpath='{..ip}'
-
+            export ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}");
+            if  [ -z "$ip" ]
+            then  
+              echo "No existe"
+              external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
+              echo ${endpoint}
+              gcloud dns record-sets import -z zona --delete-all-existing /dev/null --project ${PROJECT_ID}
+              gcloud dns record-sets transaction start --zone=zona --project ${PROJECT_ID}
+              gcloud dns record-sets transaction add ${endpoint} --name=poliformas.com.gt. --ttl=300 --type=A --zone=zona
+              for db in  $(gcloud sql instances list --project striped-temple-282417 --filter db-instance --format="value(PRIMARY_ADDRESS)")
+              do
+                export DB=$db
+                gcloud dns record-sets transaction add ${DB} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
+              done
+              gcloud dns record-sets transaction execute --zone=zona --project ${PROJECT_ID}
+            else 
+              echo "ya existe"
+            fi
 workflows:
   version: 2
   pipeline-principal:
