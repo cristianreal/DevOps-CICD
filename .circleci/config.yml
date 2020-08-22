@@ -133,6 +133,14 @@ jobs:
                 gcloud dns record-sets transaction add ${DB} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
               done
               gcloud dns record-sets transaction execute --zone=zona --project ${PROJECT_ID}
+              curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+              chmod 700 get_helm.sh
+              ./get_helm.sh
+              helm repo add jetstack https://charts.jetstack.io
+              kubectl create namespace cert-managers
+              kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
+              kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
+              helm install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
             fi
 workflows:
   version: 2

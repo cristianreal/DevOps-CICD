@@ -63,6 +63,8 @@ Luego de cierto tiempo los recursos habrán terminado de ejecutarse
 
 # Paso 8
 Configurar infraestructura. Se puede hacer localmente pero se recomienda agregar un # al final de este archivo y realizar un commit para que se dispare el workflow de circle ci y se encarge de configurar.
+![imagen](manuales/Gifs/Configuraciones/paso8.gif)
+
 
 # Herramientas
 - Github
