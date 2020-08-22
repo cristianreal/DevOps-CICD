@@ -36,7 +36,6 @@
 </template>
 <script>
 import axios from 'axios';
-import DataTable from "vue-materialize-datatable";
 
 export default {
    name: 'listar',
@@ -86,22 +85,22 @@ export default {
    mounted() {
       this.getPosts()
    },
-   components: {
-      "datatable": DataTable
-   },
    methods: {
       getPosts() {
-         let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/reportes/reporte2/" + this.limite
+         let urlReporte =  this.$http + ":" + this.$port + "/api/reportes/reporte2/" + this.limite
          axios.get(urlReporte).then(
             result => {
                this.tableRows1 = result.data[0]
             }, error => {
                console.error(error)
+               this.$toast.error('Hubo un error al obtener los valores del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
             }
          )
       },
       onChartReady(chart, google) {
-         let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/productos/total"
+         let urlReporte =  this.$http + ":" + this.$port + "/api/productos/total"
          const options = {
                 height: 500,
 				title: 'Existencias de productos',

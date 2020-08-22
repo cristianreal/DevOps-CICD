@@ -22,6 +22,6 @@ spec:
         - name: "DB_DATABASE"
           value: "test_proyectoeps"
         - name: "DB_HOST"
-          value: "34.72.118.55"
+          value: "db.poliformas.com.gt"
         ports:
         - containerPort: 5000
