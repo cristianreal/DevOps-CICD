@@ -1,8 +1,7 @@
-project_id  = "striped-temple-282417"                   # Put your GCP Project ID.
-database_name="test_proyectoeps"
-region = "us-central1"    # Put the desired GCS Bucket name.
-bucket_name = "bucket-prueba12abcdef"
-zone = "us-central1-b"    # Put the desired GCS Bucket name.
+region = "us-central1"   
+zone = "us-central1-b" 
+k8_cluster_name = "devops-ci-cd"
 cloudsql_instance_name = "db-instance"
 cloudsql_instance_type="db-f1-micro"
 cloudsql_dbms="MYSQL_5_6"
+database_name="test_proyectoeps"

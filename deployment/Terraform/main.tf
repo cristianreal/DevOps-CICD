@@ -2,17 +2,13 @@
 provider "google" {
   project     = var.project_id
 }
-
+# >>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<
+# >>>>>>> ID de los recursos <<<<<<<<<<<<<<<
 resource "random_id" "name" {
   byte_length = 2
 }
-
-/*# Create a GCS Bucket
-resource "google_storage_bucket" "my_bucket" {
-name     = var.bucket_name
-location = var.region
-}*/
-
+# >>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<
+# >>>>>>> Base de Datos (CloudSQL) <<<<<<<<<<<
 module "BD" {
   source = "./cloud_sql"
   cloudsql_instance_name = var.cloudsql_instance_name
@@ -22,9 +18,11 @@ module "BD" {
   database_name = var.database_name
   sufijo = random_id.name.hex
 }
-
+# >>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# >>>>>>>> Cluster K8 (GKE) <<<<<<<<<<<<<<<<<<<
 module "K8" {
   source = "./cluster_k8" 
   sufijo = random_id.name.hex
-  k8_cluster_name = "devops-ci-cd"
+  k8_cluster_name = var.k8_cluster_name
 }
+# >>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<

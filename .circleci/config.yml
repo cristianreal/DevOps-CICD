@@ -121,7 +121,6 @@ jobs:
             export ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}");
             if  [ -z "$ip" ]
             then  
-              echo "No existe"
               external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
               echo ${endpoint}
               gcloud dns record-sets import -z zona --delete-all-existing /dev/null --project ${PROJECT_ID}
@@ -134,8 +133,6 @@ jobs:
                 gcloud dns record-sets transaction add ${DB} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
               done
               gcloud dns record-sets transaction execute --zone=zona --project ${PROJECT_ID}
-            else 
-              echo "ya existe"
             fi
 workflows:
   version: 2

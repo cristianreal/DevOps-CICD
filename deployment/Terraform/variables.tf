@@ -1,4 +1,4 @@
-# >>>>>>> Nombre proyecto GCP <<<<<<<<<<<<<
+# >>>>>>> Nombre Cluster K8 <<<<<<<<<<<<<
 variable "project_id" {
   type        = string
   description = "The id of the gcp project."
@@ -15,27 +15,27 @@ variable "zone" {
     type        = string
     default     = "us-central1-a"
 }
-# >>>>>>> Availavility zone <<<<<<<<<<<<<<<<
-variable "bucket_name" {
-    description = "Google Cloud zone"
-    type        = string
+# >>>>>>> Nombre Cluster K8 <<<<<<<<<<<<<
+variable "k8_cluster_name" {
+  type        = string
+  description = "The id of the gcp project."
 }
-# >>>>>>> Availavility zone <<<<<<<<<<<<<<<<
+# >>>>>>> Nombre Instancia CloudSQL <<<<<<<<<<<<<<<<
 variable "cloudsql_instance_name" {
     description = "Google Cloud zone"
     type        = string
 }
-# >>>>>>> Availavility zone <<<<<<<<<<<<<<<<
+# >>>>>>> Tamanio Instancia CloudSQL <<<<<<<<<<<<<<<<
 variable "cloudsql_instance_type" {
     description = "Google Cloud type"
     type        = string
 }
-# >>>>>>> Availavility zone <<<<<<<<<<<<<<<<
+# >>>>>>> DBMS de la instancia CloudSQL <<<<<<<<<<<<<<<<
 variable "cloudsql_dbms" {
     description = "Google Cloud type"
     type        = string
 }
-# >>>>>>> Availavility zone <<<<<<<<<<<<<<<<
+# >>>>>>> Nombre Base de Datos inicial <<<<<<<<<<<<<<<<
 variable "database_name" {
     description = "Google Cloud type"
     type        = string
