@@ -1,7 +1,9 @@
 # Terraform
-Terraform es una herramienta open source para el aprovisionamiento de infraestructura en la nube a traves de codigo. Es muy popular debido a que tiene integracion con multiples proveedores de servicios.
+Terraform es una herramienta open source para el aprovisionamiento de infraestructura en la nube a traves de codigo (del ingles Infrastructure as a Code). Es muy popular debido a que tiene integracion con multiples proveedores de servicios.
 
-La forma en que funciona es que se escriben archivos con sintaxis yml pero con extension .tf al ejecutarse estos archivos generaran varios archivos internos para que terraform maneje el estado de los recursos y sepa que recursos se estan ejecutando. Sin embargo, si se pierde este archivo state se pierde por completo el historial de los recursos y se crearan unos nuevos al ejecutar los archivos. Para evitar esto se guarda el archivo state en un servicio para almacenar objetos, en aws se guarda en s3, en google clou en cloud storage.
+La forma en que funciona es que se escriben archivos con sintaxis yaml pero con extension .tf que al ejecutarse generan varios archivos internos que almacenan el estado de los recursos indicados en los archivos tf. De esta manera Terraform puede saber si debe de crear, configurar o eliminar algun recurso dependiendo del estado actual y el estado deseado (indicado en los archivos), sin embargo, si se pierde el acceso al archivo state se pierde por completo el historial de los recursos y cada vez que se ejecuten los archivos terrafor se crearan unos nuevos recursos. Para evitar esto se guarda el archivo state en un servicio para almacenar objetos, en aws se guarda en s3, en google cloud en cloud storage. Para que independientemente de donde se ejecuten los archivos terraform siempre se tenga acceso al archivo state y no duplicar los recursos.
+
+Esto significa que en Cloud Storage existira un archivo con extension .state el cual contendra (valga la redundancia) el estado de los recursos en GCP, por lo que en cualquier maquina que se ejecuten estos archivos verificaran el estado del archivo que estan en Cloud Storage.
 
 ## Main file
 Este es el archivo principal. Observaciones:
