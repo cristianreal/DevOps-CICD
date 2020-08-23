@@ -39,11 +39,6 @@ jobs:
             docker run --name service-nodejs --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker exec -it service-nodejs npm test 
       - run:
-          name: "Test Frontend"
-          command: |
-            ${HOME}/project/code/client
-            docker build -t christianreal/frontend-vuejs:test1${CIRCLE_SHA1} -f Dockerfile.test . 
-      - run:
           name: "Push images to registry"
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
