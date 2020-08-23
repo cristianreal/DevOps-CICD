@@ -19,7 +19,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = format("%s-%s-node-pool", var.k8_cluster_name, var.sufijo)
   location   = var.zone
   cluster    = google_container_cluster.primary.name
-  node_count = 1
+  node_count = 2
   
   autoscaling {
     max_node_count = 2

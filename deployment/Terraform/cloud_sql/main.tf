@@ -5,6 +5,12 @@ resource "google_sql_database_instance" "instance" {
 
   settings {
     tier = var.cloudsql_instance_type
+    ip_configuration {
+        authorized_networks {
+         name  = "all"
+         value = "0.0.0.0/0"
+        }
+    }
   }
 }
 
