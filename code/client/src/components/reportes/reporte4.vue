@@ -89,7 +89,7 @@ export default {
    },
    methods: {
       getPosts() {
-         let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/reportes/reporte5/" + this.mes
+         let urlReporte =  this.$http + ":" + this.$port + "/api/reportes/reporte5/" + this.mes
          axios.get(urlReporte).then(
             result => {
                this.tableRows1 = result.data[0]

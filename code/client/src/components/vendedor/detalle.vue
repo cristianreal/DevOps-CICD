@@ -61,7 +61,7 @@ export default {
                 jornada: ''
             },
             id_vendedor: this.$route.params.pkvendedor,
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {

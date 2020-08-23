@@ -16,7 +16,7 @@ jobs:
           name: "Test Frontend"
           command: |
             cd ${HOME}/project/code/client
-            docker build -t christianreal/frontend-vuejs:${CIRCLE_SHA1} -f Dockerfile.test . 
+            docker build -t christianreal/frontend-vuejs:test1${CIRCLE_SHA1} -f Dockerfile.test . 
   continous_integration_delivery:
     machine:
       image: ubuntu-1604:201903-01
@@ -32,6 +32,17 @@ jobs:
           command: |
             cd ${HOME}/project/code/client
             docker build -t christianreal/frontend-vuejs:${CIRCLE_SHA1} . 
+      - run:
+          name: "Test Backend"
+          command: |
+            cd ${HOME}/project/code/backend
+            docker run --name service-nodejs --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
+            docker exec -it service-nodejs npm test 
+      - run:
+          name: "Test Frontend"
+          command: |
+            ${HOME}/project/code/client
+            docker build -t christianreal/frontend-vuejs:test1${CIRCLE_SHA1} -f Dockerfile.test . 
       - run:
           name: "Push images to registry"
           command: |
@@ -55,11 +66,14 @@ jobs:
       - run:          
           name: Apply kubernetes files to the cluster
           command: |
-            gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
+            for cluster in  $(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))")
+            do
+              export CLUSTER=$cluster
+            done
+            gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
             kubectl apply -f deployment/K8/deployments
             kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
-            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
             kubectl apply -f deployment/K8/services/clusterip
             kubectl apply -f deployment/K8/services/service-ingress.yml 
   infrastructure_deployment:
@@ -81,6 +95,53 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
+  configure_infrastructure:
+    docker: 
+      - image: google/cloud-sdk    
+    steps:      
+      - checkout
+      - run:          
+          name: Auth gCloud SDK 
+          command: |
+            #!/bin/sh
+            set -e
+            echo ${CREDENTIALS} > ${HOME}/gcp-key.json
+            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+            gcloud --quiet config set project ${PROJECT_ID}
+            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - run:          
+          name: Apply kubernetes files to the cluster
+          command: |
+            for cluster in  $(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))")
+            do
+              export CLUSTER=$cluster
+            done
+            gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
+            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+            export ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}");
+            if  [ -z "$ip" ]
+            then  
+              external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
+              echo ${endpoint}
+              gcloud dns record-sets import -z zona --delete-all-existing /dev/null --project ${PROJECT_ID}
+              gcloud dns record-sets transaction start --zone=zona --project ${PROJECT_ID}
+              gcloud dns record-sets transaction add ${endpoint} --name=poliformas.com.gt. --ttl=300 --type=A --zone=zona
+              gcloud dns record-sets transaction add "poliformas.com.gt." --name="www.poliformas.com.gt." --ttl=300 --type=CNAME --zone=zona
+              for db in  $(gcloud sql instances list --project ${PROJECT_ID} --filter db-instance --format="value(PRIMARY_ADDRESS)")
+              do
+                export DB=$db
+                gcloud dns record-sets transaction add ${DB} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
+              done
+              gcloud dns record-sets transaction execute --zone=zona --project ${PROJECT_ID}
+              curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+              chmod 700 get_helm.sh
+              ./get_helm.sh
+              helm repo add jetstack https://charts.jetstack.io
+              kubectl create namespace cert-manager
+              kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
+              kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
+              helm install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
+            fi
 workflows:
   version: 2
   pipeline-principal:
@@ -90,10 +151,7 @@ workflows:
               branches:
                 only:
                   - developer
-                  - master
       - continous_integration_delivery:
-          requires:
-            - test
           filters:
               branches:
                 only:
@@ -106,6 +164,13 @@ workflows:
                 only:
                   - master
       - infrastructure_deployment:
+          filters:
+              branches:
+                only:
+                  - infrastructure
+      - configure_infrastructure:
+          requires:
+            - infrastructure_deployment
           filters:
               branches:
                 only:

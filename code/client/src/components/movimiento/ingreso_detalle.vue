@@ -60,7 +60,7 @@ export default {
                 total:''
             },
             rowData:[],
-            bare_url:  "http://" + this.$http + ":" + this.$port,
+            bare_url:   this.$http + ":" + this.$port,
         }
     },
     mounted() {

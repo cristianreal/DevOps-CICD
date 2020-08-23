@@ -276,7 +276,7 @@ export default {
     data() {
         return {
 			country: 'Guatemala',
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     methods: {

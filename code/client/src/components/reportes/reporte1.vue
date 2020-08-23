@@ -31,7 +31,7 @@ export default {
 	name: 'listar',
 	data() {
 		return {
-			url: "http://" + this.$http + ":" + this.$port + _PATH,
+			url:  this.$http + ":" + this.$port + _PATH,
 			tableColumns1: [{
 					label: "Id",
 					field: "pk_producto",
@@ -90,7 +90,7 @@ export default {
 			)
 		},
 		onChartReady(chart,google) {
-			let urlReporte = "http://" + this.$http + ":" + this.$port + "/api/productos/total"
+			let urlReporte =  this.$http + ":" + this.$port + "/api/productos/total"
 			const options = {
                 height: 500,
 				title: 'Productos con existencia disponible en el inventario',

@@ -280,7 +280,7 @@ export default {
                 pagina_web: ''
             },
             id_marca: this.$route.params.pkmarca,
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {
