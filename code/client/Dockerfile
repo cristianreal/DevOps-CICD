@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install && npm install vue-router vue-google-charts && npm i vue-materialize-datatable --save && npm install @vue/cli-plugin-unit-jest @vue/test-utils && npm install -S vue-sweetalert2 && npm install vue-izitoast --save
 COPY ./ .
 RUN npm run build
-#RUN npm test
+RUN npm test
 
 ## etapa de producción
 FROM nginx as production-stage
