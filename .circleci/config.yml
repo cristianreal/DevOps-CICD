@@ -121,7 +121,7 @@ jobs:
               gcloud dns record-sets transaction start --zone=zona --project ${PROJECT_ID}
               gcloud dns record-sets transaction add ${endpoint} --name=poliformas.com.gt. --ttl=300 --type=A --zone=zona
               gcloud dns record-sets transaction add "poliformas.com.gt." --name="www.poliformas.com.gt." --ttl=300 --type=CNAME --zone=zona
-              gcloud dns record-sets transaction add ${DB} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
+              gcloud dns record-sets transaction add ${DB_IP} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
               gcloud dns record-sets transaction execute --zone=zona --project ${PROJECT_ID}
               curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
               chmod 700 get_helm.sh
