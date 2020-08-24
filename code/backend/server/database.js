@@ -16,7 +16,7 @@ const mysql = require('mysql');
 
 // Database Connection for Development
 
-let connection = mysql.createConnection({
+let connection = mysql.createPool({
   //host: '127.0.0.1',
   host: process.env.DB_HOST,
   //host: '34.68.157.78',
@@ -27,7 +27,7 @@ let connection = mysql.createConnection({
   database: process.env.DB_DATABASE
   //database: 'prueba'
 });
-
+/*
   connection.connect(function(err) {
     if (err) {
       console.error('Error connecting: ' + err.stack);
@@ -35,5 +35,5 @@ let connection = mysql.createConnection({
     }
     console.log('Connected as thread id: ' + connection.threadId);
   });
-
+*/
   module.exports = connection;
