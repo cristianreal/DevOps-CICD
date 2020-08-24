@@ -26,7 +26,6 @@
 
 
 import axios from 'axios';
-import DataTable from "vue-materialize-datatable";
 const _PATH = "/api/vendedores/";
 
 export default {
@@ -34,9 +33,7 @@ export default {
 	data() {
 		return {
 			posts: [],
-			error: '',
-			text: '',
-			url: "http://" + this.$http + ":" + this.$port + _PATH,
+			url:  this.$http + ":" + this.$port + _PATH,
 			tableColumns1: [{
 					label: "Id",
 					field: "pk_vendedor",
@@ -76,9 +73,6 @@ export default {
 			]
 		}
 	},
-	components: {
-		"datatable": DataTable
-	},
 	mounted() {
 		this.getPosts()
 	},
@@ -94,14 +88,23 @@ export default {
 					});
 				}, error => {
 					console.error(error)
+					this.$toast.error('Hubo un error al obtener los valores del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
 				}
 			)
 		},
 		deletePost(id) {
 			axios.delete(`${this.url}${id}`).then(() => {
+				this.$toast.info( "Vendedor #"+id+" Eliminado", 'Info', {
+					position: "topCenter"
+				});
 				this.getPosts()
 			}).catch((error) => {
 				console.error(error)
+				this.$toast.error('Hubo un error al eliminar el valor del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+				});
 			})
 
 		}

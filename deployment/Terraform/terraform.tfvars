@@ -1,0 +1,7 @@
+region = "us-central1"   
+zone = "us-central1-b" 
+k8_cluster_name = "devops-ci-cd"
+cloudsql_instance_name = "db-instance"
+cloudsql_instance_type="db-f1-micro"
+cloudsql_dbms="MYSQL_5_6"
+database_name="test_proyectoeps"

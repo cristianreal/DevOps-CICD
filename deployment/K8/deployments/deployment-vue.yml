@@ -14,10 +14,5 @@ spec:
       containers:
       - name: vuejs-container
         image: christianreal/frontend-vuejs
-        env:
-        - name: API_IP
-          value: "34.69.42.189"
-        - name: API_PORT
-          value: "5000"
         ports:
         - containerPort: 80

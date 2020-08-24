@@ -3,14 +3,14 @@
 
 <div class="container">
    <div class="jumbotron">
-      <h1 class="display-3">Bienvenido!</h1>
-      <p class="lead">Sistema de almacenamiento, acceso rapido.</p>
+      <h1 class="display-3" style="font-size:8vw;"> Acceso Rapido</h1>
+      <p class="lead">Bienvenido al Sistema de almacenamiento</p>
       <hr class="my-4">
       <div class="container">
 
       
       <!-- First Row -->
-        <div class="row">
+        <div class="row" v-if="administrador">
           <div class="col-sm">
             <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
               <div class="card-header"> <i class="material-icons white-text">local_offer</i> Marcas</div>
@@ -22,31 +22,6 @@
               </div>
             </div>
           </div>
-          <div class="col-sm">
-            <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
-              <div class="card-header"> <i class="material-icons white-text">category</i> Productos</div>
-              <div class="card-body">
-               <ul class="list-group">
-                      <router-link to="/producto/crear" class="list-group-item list-group-item-action" >Crear</router-link>
-                      <router-link to="/producto/listar" class="list-group-item list-group-item-action" >Listar</router-link>
-                </ul>              
-              </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
-              <div class="card-header"><i class="material-icons white-text">compare_arrows</i>Ingreso</div>
-              <div class="card-body">
-               <ul class="list-group">
-                      <router-link to="/movimiento/ingreso/" class="list-group-item list-group-item-action" >Registrar</router-link>
-                      <router-link to="/movimiento/ingreso/listar" class="list-group-item list-group-item-action" >Listar</router-link>
-                </ul> 
-              </div>
-            </div>
-          </div>
-        </div>
-      <!-- Second Row -->
-        <div class="row">
           <div class="col-sm">
             <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
               <div class="card-header"> <i class="material-icons white-text">supervised_user_circle</i> Proveedores </div>
@@ -69,6 +44,32 @@
               </div>
             </div>
           </div>
+
+        </div>
+      <!-- Second Row -->
+        <div class="row">
+            <div class="col-sm">
+            <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+              <div class="card-header"> <i class="material-icons white-text">category</i> Productos</div>
+              <div class="card-body">
+               <ul class="list-group">
+                      <router-link to="/producto/crear" class="list-group-item list-group-item-action" >Crear</router-link>
+                      <router-link to="/producto/listar" class="list-group-item list-group-item-action" >Listar</router-link>
+                </ul>              
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+              <div class="card-header"><i class="material-icons white-text">compare_arrows</i>Ingreso</div>
+              <div class="card-body">
+               <ul class="list-group">
+                      <router-link to="/movimiento/ingreso/" class="list-group-item list-group-item-action" >Registrar</router-link>
+                      <router-link to="/movimiento/ingreso/listar" class="list-group-item list-group-item-action" >Listar</router-link>
+                </ul> 
+              </div>
+            </div>
+          </div>
           <div class="col-sm">
             <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
               <div class="card-header"><i class="material-icons white-text">compare_arrows</i>Egresos</div>
@@ -88,6 +89,23 @@
 <script>
 
 export default {
-  name: 'home'
+  name: 'home',
+  data: function () {
+        return {
+            authenticated: false,
+            administrador: false
+        }
+    },
+  mounted() {
+    if (localStorage.getItem('user') != null){
+                this.authenticated = true;
+                let usuario = JSON.parse(localStorage.getItem('user'));
+                let nombre = usuario.nombre;
+                if(nombre == "ADMIN"){
+                    this.administrador = true;
+                }
+                this.$emit('refresh')
+            }
+    }
 }
 </script>

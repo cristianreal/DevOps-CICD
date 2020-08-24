@@ -32,6 +32,12 @@ import movimientoEgresoListComponent from '@/components/movimiento/egreso_listar
 import movimientoEgresoDetailComponent from '@/components/movimiento/egreso_detalle.vue'
 //----------- Login ------------------------------
 import loginComponent from '@/components/login.vue'
+//----------- Reportes ------------------------------
+import menuReporteComponent from '@/components/reportes/menu.vue'
+import reporte1ReporteComponent from '@/components/reportes/reporte1.vue'
+import reporte2ReporteComponent from '@/components/reportes/reporte2.vue'
+import reporte3ReporteComponent from '@/components/reportes/reporte3.vue'
+import reporte4ReporteComponent from '@/components/reportes/reporte4.vue'
 
 Vue.use(Router)
 
@@ -183,13 +189,45 @@ let router =  new Router({
             meta: {
                 requiresAuth: true
             }
+        },
+        {
+            path: '/reportes/', 
+            component: contenedor,
+            children: [
+                {
+                    path: 'menu',
+                    component: menuReporteComponent
+                },
+                {
+                    path: 'reporte1',
+                    component: reporte1ReporteComponent
+                },
+                {
+                    path: 'reporte2/:limite',
+                    component: reporte2ReporteComponent,
+                    name: 'reporte2'
+                },
+                {
+                    path: 'reporte3/:mes',
+                    component: reporte3ReporteComponent
+                },
+                {
+                    path: 'reporte4/:mes',
+                    component: reporte4ReporteComponent
+                },
+                {
+                    path: 'egreso/listar',
+                    component: movimientoEgresoListComponent
+                }
+            ],
+            meta: {
+                requiresAuth: true
+            }
         }
     ]
 })
 
 router.beforeEach((to, from, next) => {
-
-
  if(to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('user') == null) {
         next({

@@ -33,6 +33,8 @@ call Producto_Crear('Producto M','Sirve para muchas cosas',25.20,2);
 call Ingreso_Movimiento('2020-05-15',2,6);
 call Detalle_Crear(50,123,1);
 call Detalle_Crear(85,245,2);
+call Egreso_Movimiento('2020-05-16',2);
+call Detalle_Crear(10,78,1);
 call Egreso_Movimiento('2020-06-16',2);
 call Detalle_Crear(10,78,1);
 call Detalle_Crear(1,896,2);

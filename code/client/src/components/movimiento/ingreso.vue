@@ -1,76 +1,75 @@
 <template>
-<div class="container">
-    <div v-if="testButClicked" class="alert alert-success" role="alert">
-            {{elemento}}
-    </div>
-   <h3 align="center">Ingreso de producto</h3>
-    <hr class="my-4">
-   <div class="row">
-      <div class="col-lg-3" >
-         <div style="max-width: 20rem;">
-            <div class="form-group">
-               <label class="col-form-label" for="date">Fecha</label>
-               <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
-            </div>
-            <div class="form-group">
-               <label for="seller">Vendedor</label>
-               <input type="text" readonly class="form-control" placeholder="Ingrese el nombre" v-model="seller" id="seller" name="seller" :value="input.nombre">
-            </div>
-            <div class="form-group">
-               <label class="col-form-label" for="Proveedor">Proveedor</label>
-               <select class="custom-select" v-model="Proveedor" id="Proveedor" name="Proveedor">
-                  <option>Seleccione un proveedor</option>
-                  <option v-for="(provider, index) in providers"
-                     v-bind:item="provider" 
-                     v-bind:index="index" 
-                     v-bind:key="provider.pk_usuario"
-                     v-bind:value="provider.pk_usuario">{{provider.nombre}} {{provider.apellido}}</option>
-               </select>
-            </div>
-            <div class="form-group">
-               <label for="total">Total</label>
-               <input type="number" step="0.01" class="form-control" v-model="total" id="total">
-            </div>
-            <button type="button" class="btn btn-primary"  v-on:click="createPost">Guardar Lote</button>
-         </div>
-      </div>
-      <div class="col-lg-9">
-         <div style="overflow-y: scroll; height:460px;">
-            <table align='center' id="data_table" name="data_table" class="table table-hover">
-               <tr>
-                  <th>Cantidad</th>
-                  <th>Producto</th>
-                  <th>Precio</th>
-                  <th>Subtotal</th>
-                  <th>Acciones</th>
-               </tr>
-               <tr>
-                <td><input type="number" style="width: 5em" v-model="cantidad" class="form-control" id="cantidad" @change="onChange()"></td>
-               <td>
-                    <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto" @change="onChange()">
-                    <option v-for="(product, index) in products"
-                     v-bind:item="product" 
-                     v-bind:index="index" 
-                     v-bind:key="product.pk_producto"
-                     v-bind:value="product">{{product.nombre}}</option>
+   <div class="container">
+      <h3 align="center">Ingreso de producto</h3>
+      <hr class="my-4">
+      <div class="row">
+         <div class="col-lg-3" >
+            <div style="max-width: 20rem;">
+               <div class="form-group">
+                  <label class="col-form-label" for="date">Fecha</label>
+                  <input type="date" class="form-control" v-model="date" placeholder="Default input" id="date" name="date">
+               </div>
+               <div class="form-group">
+                  <label for="seller">Vendedor</label>
+                  <input type="text" readonly class="form-control" placeholder="Ingrese el nombre" v-model="input.nombre" id="seller" name="seller">
+               </div>
+               <div class="form-group">
+                  <label class="col-form-label" for="Proveedor">Proveedor</label>
+                  <select class="custom-select" v-model="Proveedor" id="Proveedor" name="Proveedor">
+                     <option>Seleccione un proveedor</option>
+                     <option v-for="(provider, index) in providers"
+                        v-bind:item="provider" 
+                        v-bind:index="index" 
+                        v-bind:key="provider.pk_usuario"
+                        v-bind:value="provider.pk_usuario">{{provider.nombre}} {{provider.apellido}}</option>
                   </select>
-               </td>
-                <td><input readonly type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" ></td>
-                <td><input readonly type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
-               <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
-               </tr>
-               <tr v-for="(item,index) in rowData" v-bind:key="index" >
-                    <th scope="row">{{ item.cantidad }}</th>
-                    <td>{{ item.producto }}</td>
-                    <td>{{ item.precio }}</td>
-                    <td>{{ item.subtotal }}</td>
-               <td><input type="button" class='btn btn-danger' value="Quitar" v-on:click="delete_row(index)"></td>
-                </tr>
-            </table>
+               </div>
+               <div class="form-group">
+                  <label for="total">Total</label>
+                  <input type="number" step="0.01" class="form-control" v-model="total" id="total">
+               </div>
+               <button type="button" class="btn btn-primary"  v-on:click="createPost">Guardar Lote</button>
+            </div>
+         </div>
+         <div class="col-lg-9">
+            <div style="overflow-y: scroll; height:460px;">
+               <table align='center' id="data_table" name="data_table" class="table table-hover">
+                  <tr>
+                     <th>Cantidad</th>
+                     <th>Producto</th>
+                     <th>Precio</th>
+                     <th>Subtotal</th>
+                     <th>Acciones</th>
+                  </tr>
+                  <tr>
+                     <td><input type="number" style="width: 5em" v-model="cantidad" class="form-control" id="cantidad" @change="onChange()"></td>
+                     <td>
+                        <select class="custom-select" style="width: 15em" v-model="producto" id="producto" name="producto" @change="onChange()">
+                           <option v-for="(product, index) in products"
+                              v-bind:item="product" 
+                              v-bind:index="index" 
+                              v-bind:key="product.pk_producto"
+                              v-bind:value="product">{{product.nombre}}</option>
+                        </select>
+                     </td>
+                     <td><input readonly type="number"  step="0.01"  style="width: 5em" v-model="precio" class="form-control" id="precio" ></td>
+                     <td><input readonly type="number"  step="0.01" style="width: 7em" v-model="subtotal" class="form-control" id="subtotal"></td>
+                     <td><input type="button" class='btn btn-primary' value="Agregar Registro" v-on:click="add_row"></td>
+                  </tr>
+                  <tr v-for="(item,index) in rowData" v-bind:key="index" >
+                     <th scope="row">{{ item.cantidad }}</th>
+                     <td>{{ item.producto }}</td>
+                     <td>{{ item.precio }}</td>
+                     <td>{{ item.subtotal }}</td>
+                     <td><input type="button" class='btn btn-danger' value="Quitar" v-on:click="delete_row(index)"></td>
+                  </tr>
+               </table>
+            </div>
          </div>
       </div>
-</div>
+   </div>
 </template>
+
 <script>
 import axios from 'axios';
 const _PATH = "/api/movimientos/ingreso";
@@ -79,11 +78,8 @@ export default {
     name: 'crear',
     data() {
         return {
-            error: '',
-            text: '',
             providers:[],
             products:[],
-            elemento: '',
             rowData:[] ,
             total: '0.00',
             cantidad: '1',
@@ -96,9 +92,8 @@ export default {
             },
             seller: 'venddor prueba',
             date: new Date().toISOString().slice(0,10),
-            testButClicked: false,
-            bare_url:  "http://" + this.$http + ":" + this.$port,
-            url: "http://" + this.$http + ":" + this.$port + _PATH
+            bare_url:   this.$http + ":" + this.$port,
+            url:  this.$http + ":" + this.$port + _PATH
         }
     },
     mounted() {
@@ -123,6 +118,9 @@ export default {
                     this.providers = result.data[0]
                 }, error => {
                     console.error(error)
+                    this.$toast.error('Hubo un error al obtener los valores del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 }
             )
          },
@@ -159,9 +157,6 @@ export default {
             this.precio = parseFloat(this.producto.precio).toFixed(2);
             this.subtotal = parseFloat(this.cantidad * this.precio).toFixed(2);
         },
-        testToast() {
-            this.testButClicked = true;
-        },
         createPost() {
             axios.post(this.url, {
                 fecha_movimiento:this.date,
@@ -169,25 +164,22 @@ export default {
                 fk_proveedor:this.Proveedor,
                 detalle: this.rowData
             }).then(() => {
-                this.elemento = "Moviento Almacenado"             
-                this.testToast()
+               this.$toast.success( "Moviento Almacenado", 'Success', {
+					position: "topCenter"
+				});            
+                setTimeout(function(){
+                    window.location.reload()
+                    }, 1000);
             }).catch((error) => {
                 console.error(error)
+                this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
                 return;
             })
         }
 
 
-    },
-    watch: {
-        testButClicked(val) {
-            if (val) {
-                setTimeout(function(){
-                    this.testButClicked = false;
-                    window.location.reload()
-                    }, 1000);
-            }
-        }
     }
 };
 </script>

@@ -24,17 +24,14 @@
 
 <script>
 import axios from 'axios';
-import DataTable from "vue-materialize-datatable";
 const _PATH = "/api/marcas/";
 
 export default {
-	name: 'listar',
+	name: 'marca-listar',
 	data() {
 		return {
 			posts: [],
-			error: '',
-			text: '',
-			url: "http://" + this.$http + ":" + this.$port + _PATH,
+			url:  this.$http + ":" + this.$port + _PATH,
 			tableColumns1: [{
 					label: "Id",
 					field: "pk_marca",
@@ -65,26 +62,30 @@ export default {
 	mounted() {
 		this.getPosts()
 	},
-    components: {
-		"datatable": DataTable
-	},
 	methods: {
-
 		getPosts() {
 			axios.get(this.url).then(
 				result => {
 					this.posts = result.data[0]
 				}, error => {
 					console.error(error)
+					this.$toast.error('Hubo un error al obtener los valores del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+					});
 				}
 			)
 		},
 		deletePost(id) {
-
 			axios.delete(`${this.url}${id}`).then(() => {
+				this.$toast.info( "Marca #"+id+" Eliminada", 'Info', {
+					position: "topCenter"
+				});
 				this.getPosts()
 			}).catch((error) => {
 				console.error(error)
+				this.$toast.error('Hubo un error al eliminar el valor del sistema, comuniquese con el administrador!', 'Error', {
+						position: "topCenter"
+				});
 			})
 
 		}
