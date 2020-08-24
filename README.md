@@ -70,7 +70,7 @@ Configurar infraestructura. Se puede hacer localmente pero se recomienda agregar
 - Github
 - CircleCi
 - Docker
-- Kubernetes
+- Kubernetes 
 
 
 # Como funcioná?
