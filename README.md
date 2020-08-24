@@ -73,6 +73,7 @@ Configurar infraestructura. Se puede hacer localmente pero se recomienda agregar
 - Kubernetes 
 
 
+
 # Como funcioná?
 Tod comienza creando una carpeta .circleci dentro del repositorio. Esta carpeta es la que contendrá un archivo de nombre *config.yml* con el flujo completo a realizar por cada commmit.
 
