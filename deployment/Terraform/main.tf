@@ -9,7 +9,7 @@ resource "random_id" "name" {
 }
 # >>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<
 # >>>>>>> Base de Datos (CloudSQL) <<<<<<<<<<<
-module "BD" {
+module "DB" {
   source = "./cloud_sql"
   cloudsql_instance_name = var.cloudsql_instance_name
   region =  var.region
