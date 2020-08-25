@@ -16,12 +16,24 @@ spec:
         image: christianreal/backend-nodejs
         env:
         - name: "DB_USER"
-          value: "root"
+          valueFrom:
+            secretKeyRef:
+              name: credenciales-db
+              key: DB_USER
         - name: "DB_PASS"
-          value: "123456"
+          valueFrom:
+            secretKeyRef:
+              name: credenciales-db
+              key: DB_PASS
         - name: "DB_DATABASE"
-          value: "test_proyectoeps"
+          valueFrom:
+            configMapKeyRef:
+              name: config-db
+              key: DB_DATABASE
         - name: "DB_HOST"
-          value: "db.poliformas.com.gt"
+          valueFrom:
+            configMapKeyRef:
+              name: config-db
+              key: DB_HOST
         ports:
         - containerPort: 5000
