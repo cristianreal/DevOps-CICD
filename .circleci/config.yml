@@ -129,7 +129,7 @@ jobs:
                     gcloud dns record-sets transaction add ${DB_IP} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
                     gcloud dns record-sets transaction execute --zone=zona --project ${PROJECT_ID}
                 
-                # Instalar certificados SSL en el ingress-controller
+                # Instalar certificados SSL en el ingress-controller utiliando helm
                     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
                     chmod 700 get_helm.sh
                     ./get_helm.sh

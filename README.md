@@ -1,6 +1,6 @@
 # DevOps-CI-CD
 
-# Getting Started
+# Primeros Pasoss
 
 Para que las herramientas funcionen se deben de configurar ciertos recursos y servicios en Google Cloud Platform.
 ## Paso 1: 
@@ -10,18 +10,18 @@ Crear un proyecto
 ## Paso 2: 
 Crear una cuenta de servicio y crear una clave JSON para acceder al proyecto via CLI
 ![imagen](manuales/Gifs/Configuraciones/paso2.gif)
-s
+
 ## Paso 3: 
 Crear un Bucket de nombre "backend-terraform-devops-ci-cd" con permisos uniforme
 ![imagen](manuales/Gifs/Configuraciones/paso3.gif)
 
 ## Paso 4: 
 Agregar variables de entorno al repositorio que se esta siguiendo en CircleCI.
-  - CREDENTIALS: El valor de esta variable entorno es el contenido completo de la clave JSON generada en el paso 2
-  - DOCKERHUB_PASS: El password de la cuenta de docker hub para subir las imagenes (artefactos)
-  - DOCKERHUB_USERNAME: El nombre de usario utilizado para logearse en Docker Hub
-  - GOOGLE_COMPUTE_ZONE: La zona en la que se quieren desplegar los recursos (se recomiend us-central1-a)
-  - PROJECT_ID: El id del proyecto creado en GCP. 
+  - **CREDENTIALS**: El valor de esta variable entorno es el contenido completo de la clave JSON generada en el paso 2
+  - **DOCKERHUB_PASS**: El password de la cuenta de docker hub para subir las imagenes (artefactos)
+  - **DOCKERHUB_USERNAME**: El nombre de usario utilizado para logearse en Docker Hub
+  - **GOOGLE_COMPUTE_ZONE**: La zona en la que se quieren desplegar los recursos (se recomiend us-central1-a)
+  - **PROJECT_ID**: El id del proyecto creado en GCP. 
 ![imagen](manuales/Gifs/Configuraciones/paso4.gif)
 
 ## Paso 5:
@@ -73,13 +73,12 @@ Configurar infraestructura. Se puede hacer localmente pero se recomienda agregar
 - Kubernetes 
 
 
-
-# Como funcioná?
+# Como funciona?
 Tod comienza creando una carpeta .circleci dentro del repositorio. Esta carpeta es la que contendrá un archivo de nombre *config.yml* con el flujo completo a realizar por cada commmit.
 
 ## config.yml - estructura
 El archivo config.yml es un archivo que consistira de algunos bloques importantes.
-(En circle ci se utilizan job para ejecutar una secuencia de pasos y workflows para ejecutar un conjunto de jobs [Si se escribe una lista entonces se ejecutaran de manera simultanea, para ejecutarlo secuencial hay que indicar que job requiere para ejecutarse])
+(En circle ci se utiliza un job para ejecutar una secuencia de pasos y workflows para ejecutar un conjunto de jobs [Si se escribe una lista entonces se ejecutaran de manera simultanea, para ejecutarlo secuencial hay que indicar que job requiere para ejecutarse])
 ```
 version: 2.1
 jobs:
@@ -186,12 +185,3 @@ workflows:
           requires:
             - cd  
 ```
-### Variables de entorno
-Las variables de entorno que se deben de configurar en el proyecto de circleCi son:
-* **DOCKERHUB_PASS**: Password docker hub
-* **DOCKERHUB_USERNAME**: Nombre de usuario docker hub
-* **Credenciales**: JSON completo de la cuenta de servicio
-* **PROJECT_ID**: Id del proyecto de GCP.
-* **GOOGLE_COMPUTE_ZONE**: Nombre de la zona de google compute (us-central-1, us-west-2, etc)
-
-#
