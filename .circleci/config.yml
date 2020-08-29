@@ -105,18 +105,18 @@ jobs:
             gcloud --quiet config set project ${PROJECT_ID}
             gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - run:          
-          name: Instalar ingress-controller en el GKE cluster.
+          name: Autenticar en el GKE cluster.
           command: |
             export CLUSTER=$(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))" --limit=1)
             gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
-            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
       - run:          
-          name: Averiguar la IP de ingress-controller, si no existe esperara hasta que se aprovisione.
+          name: Instalar y averiguar la IP de ingress-controller, si no existe esperara hasta que se aprovisione.
           command: |      
-            export ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}");
+            export ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found);
             if  [ -z "$ip" ]
-            then  
-                external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
+            then
+                kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+                external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
                 export DB_IP=$(gcloud sql instances list --project ${PROJECT_ID} --filter db-instance --format="value(PRIMARY_ADDRESS)" --limit=1)
                 export DB_NAME=$(gcloud sql instances list --project ${PROJECT_ID} --filter db-instance --format="value(NAME)" --limit=1)
                 gcloud sql import sql ${DB_NAME}  gs://backend-terraform-devops-ci-cd/db/filename.sql -q
