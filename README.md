@@ -1,5 +1,72 @@
 # DevOps-CI-CD
 
+
+# Herramientas
+
+## Backend - NodeJS
+
+<img src="manuales/Gifs/nodejs.png" width="500" >
+
+
+## Frontend - Vuejs
+
+<img src="manuales/Gifs/vuejs.png" width="500" >
+
+## Despliegue
+
+- Docker
+
+![imagen](manuales/Gifs/docker.png)
+
+- Kubernetes
+
+<img src="manuales/Gifs/kubernetes.png" width="350" >
+
+
+## DevOps Tools
+
+- Terraform
+
+![imagen](manuales/Gifs/terraform.png)
+
+- Circle Ci
+
+![imagen](manuales/Gifs/circleci.png)
+
+## Jerarquia de archivos
+```
+.
+├── .circleci
+│   ├── config.yml
+│   └── README.md
+├── code
+│   ├── backend
+│   └── client
+├── db
+│   ├── filename.sql
+│   ├── init.sql
+│   └── scripts
+├── deployment
+│   ├── K8
+│   └── Terraform
+├── manuales
+│   ├── Gifs
+│   └── Readme.md
+└── README.md
+```
+
+## Modulos
+- [.circleci](/.circleci)
+- [code](./code)
+- [db](./db)
+- [deployment](./deployment)
+- [manuales](./manuales)<img src="manuales/Gifs/vuejs.png" widt
+  - [Manual de Usuario](./manuales/Readme.md)
+  - [Manual Tecnico](./manuales/tecnico.md)
+
+# Como funciona?
+Tod comienza creando una carpeta .circleci dentro del repositorio. Esta carpeta es la que contendrá un archivo de nombre *config.yml* con el flujo completo a realizar por cada commmit.
+
 # Primeros Pasos
 
 Para que las herramientas funcionen se deben de configurar ciertos recursos y servicios en Google Cloud Platform.
@@ -64,68 +131,3 @@ Luego de cierto tiempo los recursos habrán terminado de ejecutarse
 # Paso 8
 Configurar infraestructura. Se puede hacer localmente pero se recomienda agregar un # al final de este archivo y realizar un commit para que se dispare el workflow de circle ci y se encarge de configurar.
 ![imagen](manuales/Gifs/Configuraciones/paso8.gif)
-
-
-# Herramientas
-
-## Backend - NodeJS
-
-<img src="manuales/Gifs/nodejs.png" width="500" >
-
-
-## Frontend - Vuejs
-
-<img src="manuales/Gifs/vuejs.png" width="500" >
-
-## Despliegue
-
-- Docker
-
-![imagen](manuales/Gifs/docker.png)
-
-- Kubernetes
-
-<img src="manuales/Gifs/kubernetes.png" width="350" >
-
-
-## DevOps Tools
-
-- Terraform
-
-![imagen](manuales/Gifs/terraform.png)
-
-- Circle Ci
-
-![imagen](manuales/Gifs/circleci.png)
-
-## Jerarquia de archivos
-```
-.
-├── .circleci
-│   ├── config.yml
-│   └── README.md
-├── code
-│   ├── backend
-│   └── client
-├── db
-│   ├── filename.sql
-│   ├── init.sql
-│   └── scripts
-├── deployment
-│   ├── K8
-│   └── Terraform
-├── manuales
-│   ├── Gifs
-│   └── Readme.md
-└── README.md
-```
-
-## Modulos
-- [.circleci](/.circleci)
-- code
-- db
-- deployment
-- manuales
-
-# Como funciona?
-Tod comienza creando una carpeta .circleci dentro del repositorio. Esta carpeta es la que contendrá un archivo de nombre *config.yml* con el flujo completo a realizar por cada commmit.
