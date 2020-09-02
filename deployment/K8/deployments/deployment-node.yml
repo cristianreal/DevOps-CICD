@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: nodejs-container
-        image: christianreal/backend-nodejs
+        image: christianreal/backend-nodejs:test2
         env:
         - name: "DB_USER"
           valueFrom:

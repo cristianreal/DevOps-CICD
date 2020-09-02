@@ -1,37 +1,8 @@
 # DevOps-CI-CD
 
+# Manuales
 
-# Herramientas
-
-## Backend - NodeJS
-
-<img src="manuales/Gifs/nodejs.png" width="500" >
-
-
-## Frontend - Vuejs
-
-<img src="manuales/Gifs/vuejs.png" width="500" >
-
-## Despliegue
-
-- Docker
-
-![imagen](manuales/Gifs/docker.png)
-
-- Kubernetes
-
-<img src="manuales/Gifs/kubernetes.png" width="350" >
-
-
-## DevOps Tools
-
-- Terraform
-
-![imagen](manuales/Gifs/terraform.png)
-
-- Circle Ci
-
-![imagen](manuales/Gifs/circleci.png)
+- [Manual de usuario](./manuales/)
 
 ## Jerarquia de archivos
 ```
@@ -60,12 +31,9 @@
 - [code](./code)
 - [db](./db)
 - [deployment](./deployment)
-- [manuales](./manuales)<img src="manuales/Gifs/vuejs.png" widt
-  - [Manual de Usuario](./manuales/Readme.md)
-  - [Manual Tecnico](./manuales/tecnico.md)
 
 # Como funciona?
-Tod comienza creando una carpeta .circleci dentro del repositorio. Esta carpeta es la que contendrá un archivo de nombre *config.yml* con el flujo completo a realizar por cada commmit.
+El proceso de DevOps CI/CD trabaja con un flujo de trabajo que se detalla en el archivo [.circleci/config.yml](.circleci/config.yml). 
 
 # Primeros Pasos
 
@@ -89,6 +57,7 @@ Agregar variables de entorno al repositorio que se esta siguiendo en CircleCI.
   - **DOCKERHUB_USERNAME**: El nombre de usario utilizado para logearse en Docker Hub
   - **GOOGLE_COMPUTE_ZONE**: La zona en la que se quieren desplegar los recursos (se recomiend us-central1-a)
   - **PROJECT_ID**: El id del proyecto creado en GCP. 
+  
 ![imagen](manuales/Gifs/Configuraciones/paso4.gif)
 
 ## Paso 5:
@@ -99,6 +68,7 @@ Crear una zona DNS de nombre "zona" para "poliformas.com.gt."
 Antes de desplegar los recursos se deben de habilitar las siguientes APIS en google cloud platform
 - Cloud SQL Admin API
 - Kubernetes Engine API
+
 ![imagen](manuales/Gifs/Configuraciones/paso6.gif)
 
 
@@ -131,3 +101,35 @@ Luego de cierto tiempo los recursos habrán terminado de ejecutarse
 # Paso 8
 Configurar infraestructura. Se puede hacer localmente pero se recomienda agregar un # al final de este archivo y realizar un commit para que se dispare el workflow de circle ci y se encarge de configurar.
 ![imagen](manuales/Gifs/Configuraciones/paso8.gif)
+
+# Herramientas
+
+## Backend - NodeJS
+
+<img src="manuales/Gifs/Logos/nodejs.png" width="500" >
+
+
+## Frontend - Vuejs
+
+<img src="manuales/Gifs/Logos/vuejs.png" width="500" >
+
+## Despliegue
+
+- Docker
+
+![imagen](manuales/Gifs/Logos/docker.png)
+
+- Kubernetes
+
+<img src="manuales/Gifs/Logos/kubernetes.png" width="350" >
+
+
+## DevOps Tools
+
+- Terraform
+
+![imagen](manuales/Gifs/Logos/terraform.png)
+
+- Circle Ci
+
+![imagen](manuales/Gifs/Logos/circleci.png)

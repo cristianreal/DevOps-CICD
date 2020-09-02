@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
       - name: vuejs-container
-        image: christianreal/frontend-vuejs
+        image: christianreal/frontend-vuejs:test2
         ports:
         - containerPort: 80
