@@ -48,30 +48,15 @@ A continuacion una vista general del archivo config.yml que circle ci lee, inter
 version: 2.1
 jobs:
   test:
-    machine:
-      image: ubuntu-1604:201903-01
-    steps:
-      ...
+    ...
   continous_integration_delivery:
-    machine:
-      image: ubuntu-1604:201903-01
-    steps:
-      ...
+    ...
   continous_deployment:
-    docker: 
-      - image: google/cloud-sdk    
-    steps: 
-      ...
+    ...
   infrastructure_deployment:
-    machine:
-      image: ubuntu-1604:201903-01
-    steps:
-      ...
+    ...
   configure_infrastructure:
-    docker: 
-      - image: google/cloud-sdk    
-    steps:
-      ...
+    ...
   
 workflows:
   version: 2
@@ -111,16 +96,19 @@ workflows:
 # Jobs
 
 - **test**:
-  - Se ejecuta en una **maquina virtual ubuntu-1604:201903-01***
-  - En este job se ejecutan las pruebas de backend y frontend. Para backen se crea una imagen y luego se ejecuta el comando npm test en esa imagen para ejecutar las pruebas. Para el frontend solo se crea la imagen y esta a su vez ejecuta las pruebas durante la construccion de esta.
+  - Se ejecuta en una **maquina virtual ubuntu-1604:201903-01**
+  - En este job se ejecutan las pruebas de backend y frontend. 
+    - Para backend se crea una imagen y luego se ejecuta el comando npm test en esa imagen para ejecutar las pruebas. 
+    - Para el frontend solo se crea la imagen y esta a su vez ejecuta las pruebas durante la construccion de esta.
+
 - **continous_integration_delivery**: 
-  - Se ejecuta en una **maquina virtual ubuntu-1604:201903-01***
+  - Se ejecuta en una **maquina virtual ubuntu-1604:201903-01**
   - Cuando una version sube a master esta debe de integrarse por lo que se construyen las imagenes, se ejecutan los tests y si todo esta correcto entonces se suben las imagenes a docker para que estas puedan ser utilizadas por el cluste de K8 a la hora de desplegarlas.
 - **continous_deployment**: 
   - Se ejecuta en una **imagen Docker de Cloud SDK**
   - Inmediatamente despúes del continous integration delivery se procede a desplegar la nueva version de la aplicacion, para esto entonces se ejecutan los archivos yaml que definen los recursos y luego como a cada nueva version de las imagenes subidas a docker hub se le pone como id el codigo SHA del commit entonces se alteran estos deployments con las nuevas versiones de las imagenes para que al ingresar a poliformas.com.gt se pueda acceder a la nueva version del sistema de inventario.
 - **infrastructure_deployment**: 
-  - Se ejecuta en una **maquina virtual ubuntu-1604:201903-01***
+  - Se ejecuta en una **maquina virtual ubuntu-1604:201903-01**
   - Se encarga de ejecutar los nuevos cambios realizados en los archivos tf de terraform para desplegar las nuevas versiones de la infrastructura.
 - **configure_infrastructure**: 
   - Se ejecuta en una **imagen Docker de Cloud SDK**
