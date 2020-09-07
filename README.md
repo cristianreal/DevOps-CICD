@@ -1,9 +1,5 @@
 # DevOps-CI-CD
 
-# Manuales
-
-- [Manual de usuario](./manuales/)
-
 ## Jerarquia de archivos
 ```
 .
@@ -31,9 +27,10 @@
 - [code](./code)
 - [db](./db)
 - [deployment](./deployment)
+- [Manual de usuario](./manuales/)
 
 # Como funciona?
-El proceso de DevOps CI/CD trabaja con un flujo de trabajo que se detalla en el archivo [.circleci/config.yml](.circleci/config.yml). 
+El proceso de DevOps CI/CD emplea un flujo de trabajo que se detalla en el archivo [.circleci/config.yml](.circleci/config.yml). 
 
 # Primeros Pasos
 
@@ -65,28 +62,43 @@ Crear una zona DNS de nombre "zona" para "poliformas.com.gt."
 ![imagen](manuales/Gifs/Configuraciones/paso5.gif)
 
 ## Paso 6:
-Antes de desplegar los recursos se deben de habilitar las siguientes APIS en google cloud platform
+Antes de desplegar los recursos se deben de **habilitar** las siguientes APIS en google cloud platform
 - Cloud SQL Admin API
 - Kubernetes Engine API
 
 ![imagen](manuales/Gifs/Configuraciones/paso6.gif)
 
 
-## Paso 7:
-Desplegar la infraestructura, sin embargo, para esto se debe de tener instalado de manera local:
-- Terraform 0.12.28
-  - Para esto se puede utilizar el script que se encuentra en deployment/Terraform/script.sh
+## Paso 7 - Alternativa 1: 
+La alternativa mas sencilla para desplegar la infraestructura y configurarla automaticamente se debe de realizar lo siguiente:
+- Cambiar en la rama infraestrucura (git checkout infrastructure)
+- En cualquier archivo agregar un espacio 
+- Crer un commit para lanzar los jobs y CircleCI se encargue del resto.
 
-Luego de instalar estas dos herramientas se deben de establecer algunas variables de entorno.
-```
-  export GOOGLE_APPLICATION_CREDENTIALS="ruta del archivo json descargado"
-  export TF_VAR_project_id="Id del proyecto"
-```
-se debe de cambiar al directorio 
-```
-  deployment/Terraform
-```
-y ejecutar los siguientes comandos
+![imagen](manuales/Gifs/Configuraciones/paso8.gif)
+
+
+## Paso 7 - Alternativa 2:
+En esta alternativa se despliega y configura la infraestructura de manera manual.
+Se necesita tener instalado de manera local:
+- Terraform 0.12.28
+
+![alt imagen](manuales/Gifs/Configuraciones/paso7-2.1.png)
+
+- Gcloud
+
+![alt imagen](manuales/Gifs/Configuraciones/paso7-2.2.png)
+
+- Kclubectl
+
+![alt imagen](manuales/Gifs/Configuraciones/paso7-2.3.png)
+
+- **Paso A**: establecer algunas variables de entorno.
+  - export GOOGLE_APPLICATION_CREDENTIALS=**"ruta del archivo json descargado"**
+  - export TF_VAR_project_id=**"Id del proyecto"**
+
+- **Paso B**: Abrir una terminal en la carpeta deployment/Terraform
+- **Paso C**: Ejecutar los siguientes comandos
 ```
   terraform init
   terraform plan -out plan.out
@@ -98,9 +110,7 @@ Los recursos estaran en proceso de creacion..
 Luego de cierto tiempo los recursos habrán terminado de ejecutarse
 ![imagen](manuales/Gifs/Configuraciones/paso7.2.gif)
 
-# Paso 8
-Configurar infraestructura. Se puede hacer localmente pero se recomienda agregar un # al final de este archivo y realizar un commit para que se dispare el workflow de circle ci y se encarge de configurar.
-![imagen](manuales/Gifs/Configuraciones/paso8.gif)
+
 
 # Herramientas
 
