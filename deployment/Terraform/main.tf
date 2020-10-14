@@ -25,6 +25,8 @@ module "DB" {
 module "K8" {
   source = "./cluster_k8" 
   sufijo = random_id.name.hex
+  cluster_username = var.db_username
+  cluster_password = var.db_password
   k8_cluster_name = var.k8_cluster_name
 }
 # >>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -1,3 +1,4 @@
 code/script.sh
 deployment/Terraform/.terraform
 deployment/Terraform/plan.out
+deployment/Terraform/cluster_k8/config

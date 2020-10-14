@@ -92,6 +92,7 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
+      
   configure_infrastructure:
     docker: 
       - image: google/cloud-sdk    
