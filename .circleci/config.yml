@@ -93,7 +93,7 @@ jobs:
             terraform plan -out plan.out
             terraform apply plan.out
             ls cluster_k8
-            cat config
+            cat cluster_k8/config
             mkdir -p ~/.kube
             mv cluster_k8/config ~/.kube/
             export KUBECONFIG=~/.kube/config
