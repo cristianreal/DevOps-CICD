@@ -94,11 +94,9 @@ jobs:
             terraform apply plan.out
             ls cluster_k8
             echo "$(terraform output kubeconfig_data)" > ${HOME}/project/deployment/Terraform/cluster_k8/config
-            KUBECONFIG=${HOME}/project/deployment/Terraform/cluster_k8/config
+            export KUBECONFIG=${HOME}/project/deployment/Terraform/cluster_k8/config
             echo $KUBECONFIG
-      - run:
-          name: "Instalar Ingress Controller en el cluster K8"
-          command: |
+            kubectl cluster-info
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
       - run:
           name: "Configurar certificado SSL en el ingress controller utilizando HELM"
