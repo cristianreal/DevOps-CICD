@@ -93,14 +93,16 @@ jobs:
             terraform plan -out plan.out
             terraform apply plan.out
             ls cluster_k8
-            echo "$(terraform output kubeconfig_data)" > ${HOME}/project/deployment/Terraform/cluster_k8/config
-            export KUBECONFIG=${HOME}/project/deployment/Terraform/cluster_k8/config
+            mkdir -p ~/.kube
+            mv config ~/.kube/
+            export KUBECONFIG=~/.kube/config
             echo $KUBECONFIG
             kubectl cluster-info
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
       - run:
           name: "Configurar certificado SSL en el ingress controller utilizando HELM"
           command: |
+            export KUBECONFIG=~/.kube/config
             helm repo add jetstack https://charts.jetstack.io
             kubectl create namespace cert-manager
             kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
