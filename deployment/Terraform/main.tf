@@ -16,6 +16,8 @@ module "DB" {
   cloudsql_instance_type = var.cloudsql_instance_type
   cloudsql_dbms = var.cloudsql_dbms
   database_name = var.database_name
+  db_username = var.db_username
+  db_password = var.db_password
   sufijo = random_id.name.hex
 }
 # >>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<

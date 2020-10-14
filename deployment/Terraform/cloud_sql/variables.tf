@@ -28,7 +28,12 @@ variable "sufijo" {
     type        = string
 }
 
-variable "name_override" {
-  description = "You may optionally override the name_prefix + random string by specifying an override"
-  default     = ""
+variable "db_username" {
+    description = "Username of cloud sql database"
+    type        = string
+}
+
+variable "db_password" {
+    description = "Password of cloud sql database"
+    type        = string
 }
