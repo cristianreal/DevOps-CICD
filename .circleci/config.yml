@@ -92,9 +92,7 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
-      - run:
-          name: "Configurar Kubectl para conectarse al cluster K8"
-          command: |
+            ls
             echo "$(terraform output kubeconfig_data)" > ~/.kube/config
             export KUBECONFIG=~/.kube/config
       - run:
