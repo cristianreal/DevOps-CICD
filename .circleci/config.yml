@@ -94,7 +94,8 @@ jobs:
             terraform apply plan.out
             ls cluster_k8
             echo "$(terraform output kubeconfig_data)" > ${HOME}/project/deployment/Terraform/cluster_k8/config
-            export KUBECONFIG=${HOME}/project/deployment/Terraform/cluster_k8/config
+            KUBECONFIG=${HOME}/project/deployment/Terraform/cluster_k8/config
+            echo $KUBECONFIG
       - run:
           name: "Instalar Ingress Controller en el cluster K8"
           command: |
