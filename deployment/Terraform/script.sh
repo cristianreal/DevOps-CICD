@@ -14,3 +14,4 @@ chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 kubectl version --client
 echo "Installe kubectl"
+ls /usr/local/bin/kubectl
