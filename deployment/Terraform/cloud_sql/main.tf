@@ -28,5 +28,5 @@ resource "google_sql_user" "users" {
   instance = google_sql_database_instance.instance.name
   name     = db_username
   host     = "%"
-  password = "db_password
+  password = "db_password"
 }
