@@ -17,3 +17,13 @@ variable "zone" {
     type        = string
     default     = "us-central1-a"
 }
+
+variable "cluster_username" {
+    description = "Username of cloud sql database"
+    type        = string
+}
+
+variable "cluster_password" {
+    description = "Password of cloud sql database"
+    type        = string
+}
