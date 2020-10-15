@@ -92,6 +92,10 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
+            echo "$(terraform output cloudsql_instance_ip)" > cloud_dns/cloudsql_instance_ip
+      - run:
+          name: "Configurar kubectl para conectarse correctamente al cluster K8"
+          command: |
             mkdir -p ~/.kube
             mv cluster_k8/config ~/.kube/
             export KUBECONFIG=~/.kube/config
@@ -109,46 +113,17 @@ jobs:
             kubectl apply -f deployment/K8/configmaps/
             kubectl apply -f deployment/K8/secrets/
             helm upgrade --install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
-  configure_infrastructure:
-    docker: 
-      - image: google/cloud-sdk    
-    steps:      
-      - checkout
-      - run:          
-          name: Autenticar gCloud SDK 
-          command: |
-            #!/bin/sh
-            set -e
-            echo ${CREDENTIALS} > ${HOME}/gcp-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-            gcloud --quiet config set project ${PROJECT_ID}
-            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-      - run:          
-          name: Autenticar en el GKE cluster.
-          command: |
-            export CLUSTER=$(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))" --limit=1)
-            gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
-      - run:          
-          name: Instalar y averiguar la IP de ingress-controller, si no existe esperara hasta que se aprovisione.
-          command: |      
-            export ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found);
-            if  [ -z "$ip" ]
-            then
-                kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
-                external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
-                export DB_IP=$(gcloud sql instances list --project ${PROJECT_ID} --filter db-instance --format="value(PRIMARY_ADDRESS)" --limit=1)
-                # Ejecuta el script incial en la DB para crear las tablas y datos default.
-                export DB_NAME=$(gcloud sql instances list --project ${PROJECT_ID} --filter db-instance --format="value(NAME)" --limit=1)
-                gcloud sql import sql ${DB_NAME}  gs://backend-terraform-devops-ci-cd/db/filename.sql -q
-                
-                # Crear registros en la zona DNS para la base de datos e ingress controller
-                    gcloud dns record-sets import -z zona --delete-all-existing /dev/null --project ${PROJECT_ID}
-                    gcloud dns record-sets transaction start --zone=zona --project ${PROJECT_ID}
-                    gcloud dns record-sets transaction add ${endpoint} --name=poliformas.com.gt. --ttl=300 --type=A --zone=zona
-                    gcloud dns record-sets transaction add "poliformas.com.gt." --name="www.poliformas.com.gt." --ttl=300 --type=CNAME --zone=zona
-                    gcloud dns record-sets transaction add ${DB_IP} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
-                    gcloud dns record-sets transaction execute --zone=zona --project ${PROJECT_ID}                    
-            fi
+      - run:
+          name: "Configurar dominios DNS en cloud DNS"
+            cd ${HOME}/project/deployment/Terraform/cloud_dns/
+            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip         
+            export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
+            export TF_VAR_project_id=${PROJECT_ID}
+            export TF_VAR_ingress_controller_ip=${endpoint}
+            export TF_VAR_cloudsql_instance_ip=`cat cloudsql_instance_ip`
+            terraform init 
+            terraform plan -out plan.out
+            terraform apply plan.out
 workflows:
   version: 2
   pipeline-principal:
@@ -171,13 +146,6 @@ workflows:
                 only:
                   - master
       - infrastructure_deployment:
-          filters:
-              branches:
-                only:
-                  - infrastructure
-      - configure_infrastructure:
-          requires:
-            - infrastructure_deployment
           filters:
               branches:
                 only:

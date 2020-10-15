@@ -30,3 +30,9 @@ module "K8" {
   k8_cluster_name = var.k8_cluster_name
 }
 # >>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<
+# >>>>>>>> Cloud DNS <<<<<<<<<<<<<<<<<<<
+#module "cloud_dns" {
+#  source = "./cloud_dns" 
+#  cloudsql_instance_ip=module.DB.cloudsql_instance_ip
+#}
+# >>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<
