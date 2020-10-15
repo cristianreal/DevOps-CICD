@@ -2,5 +2,5 @@ code/script.sh
 deployment/Terraform/.terraform
 deployment/Terraform/plan.out
 deployment/Terraform/cluster_k8/config
-deployment/Terraform/cloud_dns/.terraform
-deployment/Terraform/cloud_dns/cloudsql_instance_ip
+deployment/TerraformDNS/.terraform
+deployment/TerraformDNS/cloudsql_instance_ip

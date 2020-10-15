@@ -92,10 +92,7 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
-            echo "$(terraform output cloudsql_instance_ip)" > cloud_dns/cloudsql_instance_ip
-      - run:
-          name: "Configurar kubectl para conectarse correctamente al cluster K8"
-          command: |
+            echo "$(terraform output cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
             mkdir -p ~/.kube
             mv cluster_k8/config ~/.kube/
             export KUBECONFIG=~/.kube/config
@@ -116,7 +113,7 @@ jobs:
       - run:
           name: "Configurar dominios DNS en cloud DNS"
           command: |
-            cd ${HOME}/project/deployment/Terraform/cloud_dns/
+            cd ${HOME}/project/deployment/TerraformDNS
             external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip         
             export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
             export TF_VAR_project_id=${PROJECT_ID}
