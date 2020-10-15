@@ -6,20 +6,20 @@ var expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe("vendedores", function() {
-    describe("listar", function() {
-            it('se verifica si la ruta para listar vendedores funciona', done => {
-                chai
-                    .request(server)
-                    .get('/api/vendedores')
-                    .end((err, res) => {
-                        expect(err).to.be.null;
-                        expect(res).to.have.status(200);
-                        done();
-                    })
-            });
-        }),
-        describe("agregar", function() {
+describe("vendedores", function () {
+    describe("listar", function () {
+        it('se verifica si la ruta para listar vendedores funciona', done => {
+            chai
+                .request(server)
+                .get('/api/vendedores')
+                .end((err, res) => {
+                    expect(err).to.be.null;
+                    expect(res).to.have.status(200);
+                    done();
+                })
+        });
+    }),
+        describe("agregar", function () {
             it('se verifica si la ruta para listar vendedores funciona', done => {
                 chai.request(server)
                     .post('/api/vendedores')
@@ -35,18 +35,18 @@ describe("vendedores", function() {
                         fecha_vinculacion: "2001-03-16",
                         jornada: "1"
                     })
-                    .end(function(err, res) {
+                    .end(function (err, res) {
                         expect(err).to.be.null;
                         expect(res).to.have.status(200);
                         done();
                     });
             });
         }),
-        describe("ver", function() {
+        describe("ver", function () {
             it('metodo para ver un vendedores especifico', done => {
                 chai.request(server)
                     .get('/api/vendedores/1')
-                    .end(function(err, res) {
+                    .end(function (err, res) {
                         expect(err).to.be.null;
                         expect(res).to.have.status(200);
                         done();

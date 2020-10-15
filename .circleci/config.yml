@@ -10,7 +10,7 @@ jobs:
           command: |
             cd ${HOME}/project/code/backend
             docker build -t christianreal/backend-nodejs:${CIRCLE_SHA1} .
-            docker run --name service-nodejs --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
+            docker run --name service-nodejs --env-file env.list --env DB_PASS=${DB_PASSWORD} -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker exec -it service-nodejs npm test
       - run:
           name: "Test Frontend"
@@ -21,13 +21,7 @@ jobs:
     machine:
       image: ubuntu-1604:201903-01
     steps:
-      - attach_workspace:
-            at: /tmp/workspace
       - checkout
-      - run:
-          name: "Revisar Workspace"
-          command: |
-            ls /tmp/workspace
       - run:
           name: "Build Image Backend"
           command: |
@@ -42,7 +36,7 @@ jobs:
           name: "Test Backend"
           command: |
             cd ${HOME}/project/code/backend
-            docker run --name service-nodejs --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
+            docker run --name service-nodejs --env-file env.list --env DB_PASS=${DB_PASSWORD} -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker exec -it service-nodejs npm test 
       - run:
           name: "Push images to registry"
@@ -54,27 +48,28 @@ jobs:
     machine:
       image: ubuntu-1604:201903-01
     steps:
-      - attach_workspace:
-            at: /tmp/workspace
       - checkout
       - run:
-          name: "Revisar Workspace"
+          name: "Instalar terraform, Kubeclt, Helm & Crear archivo de credenciales."  
           command: |
-            ls /tmp/workspace/cluster_k8
-      - run:
-          name: "Instalar Kubectl"
-          command: |
-            curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-            chmod +x ./kubectl
-            sudo mv ./kubectl /usr/local/bin/kubectl
+            sudo bash deployment/Terraform/script.sh
       - run:
           name: "Configurar Kubectl"
           command: |
+            cd ${HOME}/project/deployment/Terraform
+            echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
+            export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
+            export TF_VAR_project_id=${PROJECT_ID}
+            export TF_VAR_db_username=${DB_USERNAME}
+            export TF_VAR_db_password=${DB_PASSWORD}
+            terraform init 
+            echo "$(terraform output kubeconfig_data)"  > config
             mkdir -p ~/.kube
-            cp /tmp/workspace/cluster_k8/config ~/.kube/
+            mv config ~/.kube/
       - run:          
           name: "Aplicar manifestos yaml en el cluster K8"
           command: |
+            cd ${HOME}/project
             kubectl apply -f deployment/K8/deployments
             kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
@@ -103,7 +98,7 @@ jobs:
             terraform apply plan.out
             mkdir -p ~/.kube
             ls cluster_k8
-            cp cluster_k8/config ~/.kube/
+            mv cluster_k8/config ~/.kube/
             export KUBECONFIG=~/.kube/config
             echo "$(terraform output cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
       - run:
@@ -132,10 +127,6 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
-      - persist_to_workspace:
-            root: deployment/Terraform
-            paths:
-              - cluster_k8
 workflows:
   version: 2
   pipeline-principal:
@@ -150,6 +141,7 @@ workflows:
               branches:
                 only:
                   - master
+                  - hotfix
       - continous_deployment:
           requires:
             - continous_integration_delivery
@@ -157,6 +149,7 @@ workflows:
               branches:
                 only:
                   - master
+                  - hotfix
       - infrastructure_deployment:
           filters:
               branches:
