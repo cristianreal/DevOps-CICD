@@ -143,6 +143,8 @@ workflows:
                 only:
                   - developer
       - continous_integration_delivery:
+          requires:
+            - infrastructure_deployment
           filters:
               branches:
                 only:
