@@ -51,32 +51,34 @@ jobs:
             docker push christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker push christianreal/frontend-vuejs:${CIRCLE_SHA1}
   continous_deployment:
-    docker: 
-      - image: google/cloud-sdk    
-    steps:      
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - attach_workspace:
+            at: /tmp/workspace
       - checkout
-      - run:          
-          name: Auth gCloud SDK 
+      - run:
+          name: "Revisar Workspace"
           command: |
-            #!/bin/sh
-            set -e
-            echo ${CREDENTIALS} > ${HOME}/gcp-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-            gcloud --quiet config set project ${PROJECT_ID}
-            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-      - run:          
-          name: Apply kubernetes files to the cluster
+            ls /tmp/workspace/cluster_k8
+      - run:
+          name: "Instalar Kubectl"
           command: |
-            for cluster in  $(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))")
-            do
-              export CLUSTER=$cluster
-            done
-            gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
+            curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+      - run:
+          name: "Configurar Kubectl"
+          command: |
+            mkdir -p ~/.kube
+            cp /tmp/workspace/cluster_k8/config ~/.kube/
+      - run:          
+          name: "Aplicar manifestos yaml en el cluster K8"
             kubectl apply -f deployment/K8/deployments
             kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
             kubectl apply -f deployment/K8/services/clusterip
-            kubectl apply -f deployment/K8/services/service-ingress.yml 
+            kubectl apply -f deployment/K8/services/service-ingress.yml
   infrastructure_deployment:
     machine:
       image: ubuntu-1604:201903-01
@@ -143,13 +145,10 @@ workflows:
                 only:
                   - developer
       - continous_integration_delivery:
-          requires:
-            - infrastructure_deployment
           filters:
               branches:
                 only:
                   - master
-                  - infrastructure
       - continous_deployment:
           requires:
             - continous_integration_delivery
