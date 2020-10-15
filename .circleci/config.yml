@@ -130,9 +130,9 @@ jobs:
             terraform plan -out plan.out
             terraform apply plan.out
       - persist_to_workspace:
-            root: /tmp/workspace
+            root: ${HOME}/.kube/
             paths:
-              - ${HOME}/.kube/config
+              - config
 workflows:
   version: 2
   pipeline-principal:
