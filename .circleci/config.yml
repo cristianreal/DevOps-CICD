@@ -57,6 +57,7 @@ jobs:
           name: "Configurar Kubectl"
           command: |
             cd ${HOME}/project/deployment/Terraform
+            echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
             export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
             export TF_VAR_project_id=${PROJECT_ID}
             export TF_VAR_db_username=${DB_USERNAME}
