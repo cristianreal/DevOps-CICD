@@ -26,7 +26,7 @@ resource "google_sql_database" "database-test" {
 
 resource "google_sql_user" "users" {
   instance = google_sql_database_instance.instance.name
-  name     = "root"
+  name     = var.db_username
   host     = "%"
-  password = "123456"
+  password = var.db_password
 }

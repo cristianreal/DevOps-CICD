@@ -40,3 +40,13 @@ variable "database_name" {
     description = "Google Cloud type"
     type        = string
 }
+
+variable "db_username" {
+    description = "Username of cloud sql database"
+    type        = string
+}
+
+variable "db_password" {
+    description = "Password of cloud sql database"
+    type        = string
+}
