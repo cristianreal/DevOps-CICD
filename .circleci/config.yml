@@ -42,7 +42,7 @@ jobs:
           name: "Test Backend"
           command: |
             cd ${HOME}/project/code/backend
-            docker run --name service-nodejs --env-file env.list -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
+            docker run --name service-nodejs --env-file env.list --env DB_PASS=${DB_PASSWORD} -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker exec -it service-nodejs npm test 
       - run:
           name: "Push images to registry"
@@ -135,7 +135,7 @@ jobs:
       - persist_to_workspace:
             root: deployment/Terraform
             paths:
-              - cluster_k8
+              - cluster_k8/*
 workflows:
   version: 2
   pipeline-principal:
@@ -146,10 +146,13 @@ workflows:
                 only:
                   - developer
       - continous_integration_delivery:
+          requires:
+            - infrastructure_deployment
           filters:
               branches:
                 only:
                   - master
+                  - hotfix
       - continous_deployment:
           requires:
             - continous_integration_delivery
@@ -157,8 +160,10 @@ workflows:
               branches:
                 only:
                   - master
+                  - hotfix
       - infrastructure_deployment:
           filters:
               branches:
                 only:
                   - infrastructure
+                  - hotfix
