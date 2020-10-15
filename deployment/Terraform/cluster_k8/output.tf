@@ -5,3 +5,7 @@ output "cluster_name" {
 output "kubeconfig_path" {
   value = local_file.kubeconfig.filename
 }
+
+output "kubeconfig_data" {
+  value = data.template_file.kubeconfig.rendered
+}
