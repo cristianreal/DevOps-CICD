@@ -74,6 +74,7 @@ jobs:
             cp /tmp/workspace/cluster_k8/config ~/.kube/
       - run:          
           name: "Aplicar manifestos yaml en el cluster K8"
+          command: |
             kubectl apply -f deployment/K8/deployments
             kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
