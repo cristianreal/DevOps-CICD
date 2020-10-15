@@ -100,7 +100,7 @@ jobs:
             terraform apply plan.out
             mkdir -p ~/.kube
             ls cluster_k8
-            mv cluster_k8/config ~/.kube/
+            cp cluster_k8/config ~/.kube/
             export KUBECONFIG=~/.kube/config
             echo "$(terraform output cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
       - run:
@@ -130,9 +130,9 @@ jobs:
             terraform plan -out plan.out
             terraform apply plan.out
       - persist_to_workspace:
-            root: ${HOME}/.kube/
+            root: deployment/Terraform
             paths:
-              - config
+              - cluster_k8
 workflows:
   version: 2
   pipeline-principal:
