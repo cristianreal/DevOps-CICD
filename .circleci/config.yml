@@ -110,7 +110,7 @@ jobs:
             kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
             kubectl apply -f deployment/K8/configmaps/
             kubectl apply -f deployment/K8/secrets/
-            helm install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
+            helm upgrade --install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
   configure_infrastructure:
     docker: 
       - image: google/cloud-sdk    
