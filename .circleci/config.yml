@@ -146,13 +146,10 @@ workflows:
                 only:
                   - developer
       - continous_integration_delivery:
-          requires:
-            - infrastructure_deployment
           filters:
               branches:
                 only:
                   - master
-                  - hotfix
       - continous_deployment:
           requires:
             - continous_integration_delivery
@@ -160,10 +157,8 @@ workflows:
               branches:
                 only:
                   - master
-                  - hotfix
       - infrastructure_deployment:
           filters:
               branches:
                 only:
                   - infrastructure
-                  - hotfix
