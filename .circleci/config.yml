@@ -21,13 +21,7 @@ jobs:
     machine:
       image: ubuntu-1604:201903-01
     steps:
-      - attach_workspace:
-            at: /tmp/workspace
       - checkout
-      - run:
-          name: "Revisar Workspace"
-          command: |
-            ls /tmp/workspace
       - run:
           name: "Build Image Backend"
           command: |
@@ -74,6 +68,7 @@ jobs:
       - run:          
           name: "Aplicar manifestos yaml en el cluster K8"
           command: |
+            cd ${HOME}/project
             kubectl apply -f deployment/K8/deployments
             kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
