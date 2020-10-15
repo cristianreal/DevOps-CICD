@@ -1,13 +1,13 @@
 resource "google_container_cluster" "primary" {
-  name     = "devops-ci-cd-cluster"
-  location = "us-central1"
+  name     = format("%s-%s-cluster", var.k8_cluster_name, var.sufijo)
+  location = var.zone
 
   remove_default_node_pool = true
   initial_node_count       = 1
 
   master_auth {
-    username = ""
-    password = ""
+    username = var.cluster_username
+    password = var.cluster_password
 
     client_certificate_config {
       issue_client_certificate = false
@@ -16,16 +16,18 @@ resource "google_container_cluster" "primary" {
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
-  name       = "my-node-pool"
-  location   = "us-central1"
+  name       = format("%s-%s-node-pool", var.k8_cluster_name, var.sufijo)
+  location   = var.zone
   cluster    = google_container_cluster.primary.name
-  node_count = 1
-  min_node_count = 1
-  max_node_count = 1
-
+  node_count = 2
+  
+  autoscaling {
+    max_node_count = 2
+    min_node_count = 1
+  }
+  
   node_config {
-    preemptible  = true
-    machine_type = "f1-micro"
+    machine_type = var.k8_node_type
 
     metadata = {
       disable-legacy-endpoints = "true"
@@ -37,3 +39,25 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     ]
   }
 }
+
+
+data "template_file" "kubeconfig" {
+  template = file("${path.module}/kubeconfig-template.yaml")
+
+  vars = {
+    cluster_name    = google_container_cluster.primary.name
+    user_name       = google_container_cluster.primary.master_auth[0].username
+    user_password   = google_container_cluster.primary.master_auth[0].password
+    endpoint        = google_container_cluster.primary.endpoint
+    cluster_ca      = google_container_cluster.primary.master_auth[0].cluster_ca_certificate
+    client_cert     = google_container_cluster.primary.master_auth[0].client_certificate
+    client_cert_key = google_container_cluster.primary.master_auth[0].client_key
+  }
+}
+
+resource "local_file" "kubeconfig" {
+  content  = data.template_file.kubeconfig.rendered
+  filename = "${path.module}/config"
+}
+
+
