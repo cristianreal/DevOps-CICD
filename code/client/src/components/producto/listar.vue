@@ -27,7 +27,7 @@ import axios from 'axios';
 const _PATH = "/api/productos/";
 
 export default {
-	name: 'listar',
+	name: 'producto-listar',
 	data() {
 		return {
 			url:  this.$http + ":" + this.$port + _PATH,
