@@ -21,7 +21,13 @@ jobs:
     machine:
       image: ubuntu-1604:201903-01
     steps:
+      - attach_workspace:
+            at: /tmp/workspace
       - checkout
+      - run:
+          name: "Revisar Workspace"
+          command: |
+            ls /tmp/workspace
       - run:
           name: "Build Image Backend"
           command: |
@@ -45,92 +51,91 @@ jobs:
             docker push christianreal/backend-nodejs:${CIRCLE_SHA1}
             docker push christianreal/frontend-vuejs:${CIRCLE_SHA1}
   continous_deployment:
-    docker: 
-      - image: google/cloud-sdk    
-    steps:      
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - attach_workspace:
+            at: /tmp/workspace
       - checkout
-      - run:          
-          name: Auth gCloud SDK 
+      - run:
+          name: "Revisar Workspace"
           command: |
-            #!/bin/sh
-            set -e
-            echo ${CREDENTIALS} > ${HOME}/gcp-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-            gcloud --quiet config set project ${PROJECT_ID}
-            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-      - run:          
-          name: Apply kubernetes files to the cluster
+            ls /tmp/workspace/cluster_k8
+      - run:
+          name: "Instalar Kubectl"
           command: |
-            for cluster in  $(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))")
-            do
-              export CLUSTER=$cluster
-            done
-            gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
+            curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+      - run:
+          name: "Configurar Kubectl"
+          command: |
+            mkdir -p ~/.kube
+            cp /tmp/workspace/cluster_k8/config ~/.kube/
+      - run:          
+          name: "Aplicar manifestos yaml en el cluster K8"
+          command: |
             kubectl apply -f deployment/K8/deployments
             kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:${CIRCLE_SHA1} --record
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
             kubectl apply -f deployment/K8/services/clusterip
-            kubectl apply -f deployment/K8/services/service-ingress.yml 
+            kubectl apply -f deployment/K8/services/service-ingress.yml
   infrastructure_deployment:
     machine:
       image: ubuntu-1604:201903-01
     steps:
       - checkout
       - run:
-          name: "Instalar terraform & Crear archivo de credenciales."  
+          name: "Instalar terraform, Kubeclt, Helm & Crear archivo de credenciales."  
           command: |
             sudo bash deployment/Terraform/script.sh
             echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
       - run:
           name: "Desplegar infraestructura con terraform"
           command: |
-            cd deployment/Terraform
+            cd ${HOME}/project/deployment/Terraform
             export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
             export TF_VAR_project_id=${PROJECT_ID}
+            export TF_VAR_db_username=${DB_USERNAME}
+            export TF_VAR_db_password=${DB_PASSWORD}
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
-  configure_infrastructure:
-    docker: 
-      - image: google/cloud-sdk    
-    steps:      
-      - checkout
-      - run:          
-          name: Auth gCloud SDK 
-          command: |
-            #!/bin/sh
-            set -e
-            echo ${CREDENTIALS} > ${HOME}/gcp-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-            gcloud --quiet config set project ${PROJECT_ID}
-            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-      - run:          
-          name: Apply kubernetes files to the cluster
-          command: |
-            export CLUSTER=$(gcloud container clusters list --project ${PROJECT_ID} --filter devops-ci-cd --format="value(selfLink.scope(clusters))" --limit=1)
-            export DB=$(gcloud sql instances list --project ${PROJECT_ID} --filter db-instance --format="value(PRIMARY_ADDRESS)" --limit=1)
-            gcloud container clusters get-credentials ${CLUSTER} --zone ${GOOGLE_COMPUTE_ZONE} --project ${PROJECT_ID}
+            mkdir -p ~/.kube
+            ls cluster_k8
+            cp cluster_k8/config ~/.kube/
+            export KUBECONFIG=~/.kube/config
+            echo "$(terraform output cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
+      - run:
+          name: "Instalar ingress controller"
+          command: | 
             kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
-            export ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}");
-            if  [ -z "$ip" ]
-            then  
-              external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip
-              gcloud sql import sql db-instance-b826  gs://backend-terraform-devops-ci-cd/db/filename.sql -q
-              gcloud dns record-sets import -z zona --delete-all-existing /dev/null --project ${PROJECT_ID}
-              gcloud dns record-sets transaction start --zone=zona --project ${PROJECT_ID}
-              gcloud dns record-sets transaction add ${endpoint} --name=poliformas.com.gt. --ttl=300 --type=A --zone=zona
-              gcloud dns record-sets transaction add "poliformas.com.gt." --name="www.poliformas.com.gt." --ttl=300 --type=CNAME --zone=zona
-              gcloud dns record-sets transaction add ${DB} --name=db.poliformas.com.gt. --ttl=300 --type=A --zone=zona
-              gcloud dns record-sets transaction execute --zone=zona --project ${PROJECT_ID}
-              curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-              chmod 700 get_helm.sh
-              ./get_helm.sh
-              helm repo add jetstack https://charts.jetstack.io
-              kubectl create namespace cert-manager
-              kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
-              kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
-              helm install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
-            fi
+      - run:
+          name: "Configurar certificado SSL en el ingress controller utilizando HELM"
+          command: |
+            helm repo add jetstack https://charts.jetstack.io
+            kubectl apply -f deployment/K8/namespace/ns-cert-manager.yaml
+            kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
+            kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
+            kubectl apply -f deployment/K8/configmaps/
+            kubectl apply -f deployment/K8/secrets/
+            helm upgrade --install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
+      - run:
+          name: "Configurar dominios DNS en cloud DNS"
+          command: |
+            cd ${HOME}/project/deployment/TerraformDNS
+            external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip         
+            export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
+            export TF_VAR_project_id=${PROJECT_ID}
+            export TF_VAR_ingress_controller_ip=${endpoint}
+            export TF_VAR_cloudsql_instance_ip=`cat cloudsql_instance_ip`
+            terraform init 
+            terraform plan -out plan.out
+            terraform apply plan.out
+      - persist_to_workspace:
+            root: deployment/Terraform
+            paths:
+              - cluster_k8
 workflows:
   version: 2
   pipeline-principal:
@@ -153,13 +158,6 @@ workflows:
                 only:
                   - master
       - infrastructure_deployment:
-          filters:
-              branches:
-                only:
-                  - infrastructure
-      - configure_infrastructure:
-          requires:
-            - infrastructure_deployment
           filters:
               branches:
                 only:
