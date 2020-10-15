@@ -92,10 +92,11 @@ jobs:
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
-            echo "$(terraform output cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
             mkdir -p ~/.kube
+            ls cluster_k8
             mv cluster_k8/config ~/.kube/
             export KUBECONFIG=~/.kube/config
+            echo "$(terraform output cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
       - run:
           name: "Instalar ingress controller"
           command: | 
