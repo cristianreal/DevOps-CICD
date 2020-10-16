@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-principal
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  rules:
+  - host: poliformas.com.gt
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: service-vuejs
+          servicePort: 80
+      - path: /api
+        backend:
+          serviceName: service-vuejs
+          servicePort: 80
+      - path: /grafana
+        backend:
+          serviceName: grafana
+          servicePort: 80
+  tls:
+  - secretName: joomla-tls-cert
+    hosts:
+      - poliformas.com.gt
