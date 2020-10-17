@@ -8,11 +8,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const movimientos = require('./routes/api/movimientos');
-const reportes = require('./routes/api/reportes');
+const marcas = require('./routes/marcas');
+const productos = require('./routes/productos');
 
-app.use('/api/movimientos', movimientos)
-app.use('/api/reportes', reportes)
+app.use('/api/productos', productos);
+app.use('/api/marcas', marcas);
 
 app.get('/', function (req, res) {
     res.sendStatus(200)

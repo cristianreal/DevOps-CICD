@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const connection = require('../../database');
+const connection = require('../database');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -15,13 +15,13 @@ router.get('/', (req, res) => {
 
 //ADD
 router.post('/', urlencodedParser, (req, res) => {
-    if(!req.body.name){
+    if (!req.body.name) {
         res.status(400)
         res.json({
             error: "Bad Data"
         })
-    }else{
-        connection.query('call Marca_Crear(\''+req.body.name+'\',\''+req.body.country+'\',\''+req.body.webpage+'\')', function (err, rows, fields) {
+    } else {
+        connection.query('call Marca_Crear(\'' + req.body.name + '\',\'' + req.body.country + '\',\'' + req.body.webpage + '\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("MARCA ADDED")
         });
@@ -32,7 +32,7 @@ router.post('/', urlencodedParser, (req, res) => {
 //OBTENER MARCA ESPECIFICA
 router.get('/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
-    connection.query('call Marca_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+    connection.query('call Marca_Buscar_Por_Id(' + id + ')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
@@ -41,17 +41,17 @@ router.get('/:id', (req, res) => {
 //UPDATE
 router.put('/:id', urlencodedParser, (req, res) => {
     console.log(req)
-    if(!req.body.name){
+    if (!req.body.name) {
         res.status(400)
         res.json({
             error: "Bad Data"
         })
-    }else{
+    } else {
         let id = req.params.id.replace("\'", "");
-        let name= req.body.name.replace("\'", "");
+        let name = req.body.name.replace("\'", "");
         let country = req.body.country.replace("\'", "");
-        let webpage= req.body.webpage.replace("\'", "");
-        connection.query('call Marca_Modificar('+id+',\''+name+'\',\''+country+'\',\''+webpage+'\')', function (err, rows, fields) {
+        let webpage = req.body.webpage.replace("\'", "");
+        connection.query('call Marca_Modificar(' + id + ',\'' + name + '\',\'' + country + '\',\'' + webpage + '\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("MARCA UPDATED")
         });
@@ -60,11 +60,11 @@ router.put('/:id', urlencodedParser, (req, res) => {
 
 //DELETE
 router.delete('/:id', (req, res) => {
-    connection.query('call Marca_Eliminar('+req.params.id+')', 
-    function (err, rows, fields) {
-        if (err) throw res.send('error: ' + err)
-        res.send("name deleted")
-    });
+    connection.query('call Marca_Eliminar(' + req.params.id + ')',
+        function (err, rows, fields) {
+            if (err) throw res.send('error: ' + err)
+            res.send("name deleted")
+        });
 });
 
 module.exports = router;

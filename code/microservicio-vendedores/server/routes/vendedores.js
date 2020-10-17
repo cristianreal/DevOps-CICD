@@ -1,11 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const connection = require('../../database');
+const connection = require('../database');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const router = express.Router();
+
+/**
+ * @name getVendedores
+ * 
+ * @httpMethod  GET
+ * 
+ * @return json de todos los vendedores
+ */
 router.get('/', (req, res) => {
     connection.query('call Vendedor_Listar()', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
@@ -14,7 +22,24 @@ router.get('/', (req, res) => {
     });
 });
 
-//ADD
+/**
+ * @name addVendedor
+ * 
+ * @httpMethod  POST
+ * 
+ * @param {string} nombre
+ * @param {string} apellido
+ * @param {string} direccion
+ * @param {string} telefono
+ * @param {string} email
+ * @param {int}    genero
+ * @param {string} fecha_nacimiento
+ * @param {string} fecha_vinculacion
+ * @param {int}    jornada
+ * @param {string} pass
+ * 
+ * @return "Vendedor added"
+ */
 router.post('/', urlencodedParser, (req, res) => {
     if (!req.body.nombre) {
         res.status(400)
@@ -22,16 +47,13 @@ router.post('/', urlencodedParser, (req, res) => {
             error: "Bad Data"
         })
     } else {
-        let nombre = req.body.nombre.replace("\'", "");
-        let apellido = req.body.apellido.replace("\'", "");
-        let direccion = req.body.direccion.replace("\'", "");
-        let telefono = req.body.telefono.replace("\'", "");
-        let email = req.body.email.replace("\'", "");
-        let genero = req.body.genero.replace("\'", "");
-        let fecha_nacimiento = req.body.fecha_nacimiento.replace("\'", "");
-        let fecha_vinculacion = req.body.fecha_vinculacion.replace("\'", "");
-        let jornada = req.body.jornada.replace("\'", "");
-        let pass = req.body.pass.replace("\'", "");
+        // Quitando las comillas simples de todos los elementos
+        let objeto = req.body;
+        Object.keys(objeto).map(function (key, index) {
+            objeto[key] = objeto[key].replace("\'", "");
+        });
+        // Obteniendo los parametros de body
+        let { nombre, apellido, direccion, telefono, email, genero, fecha_nacimiento, fecha_vinculacion, jornada, pass } = objeto;
         connection.query('call Vendedor_Crear(\'' + nombre + '\',\'' + apellido + '\',\'' + direccion + '\',\'' + telefono + '\',\'' + email + '\',' + genero + ',\'' + fecha_nacimiento + '\',\'' + fecha_vinculacion + '\',' + jornada + ',\'' + pass + '\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Vendedor added")
@@ -39,6 +61,16 @@ router.post('/', urlencodedParser, (req, res) => {
     }
 });
 
+/**
+ * @name login
+ *
+ * @httpMethod  POST
+ * 
+ * @param {string}  email
+ * @param {string}  password
+ *
+ * @return json de la informacion del usuario que se esta autenticando
+ */
 router.post('/login', urlencodedParser, (req, res) => {
     if (!req.body.email) {
         res.status(400)
@@ -46,8 +78,13 @@ router.post('/login', urlencodedParser, (req, res) => {
             error: "Bad Data"
         })
     } else {
-        let email = req.body.email.replace("\'", "");
-        let password = req.body.password.replace("\'", "");
+        // Quitando las comillas simples de todos los elementos
+        let objeto = req.body;
+        Object.keys(objeto).map(function (key, index) {
+            objeto[key] = objeto[key].replace("\'", "");
+        });
+        // Obteniendo los parametros de body
+        let { email, password } = objeto;
         connection.query('call Vendedor_Login(\'' + email + '\',\'' + password + '\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.json(rows)
@@ -55,31 +92,52 @@ router.post('/login', urlencodedParser, (req, res) => {
     }
 });
 
-//OBTENER MARCA ESPECIFICA
+/**
+ * @name ObtenerDetalleVendedor
+ *
+ * @httpMethod  GET
+ * 
+ * @param {int} id
+ *
+ * @return json de la informacion del vendedor con un id especifico
+ */
 router.get('/:id', (req, res) => {
-    let id = req.params.id.replace("\'", "");
+    let id = req.params.id;
     connection.query('call Vendedor_Buscar_Por_Id(' + id + ')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
 });
 
-//UPDATE
+/**
+ * @name UpdateVendedor
+ *
+ * @httpMethod  PUT
+ *
+ * @param {string}  nombre
+ * @param {string}  apellido
+ * @param {string}  direccion
+ * @param {string}  telefono
+ * @param {string}  email
+ * @param {int}     jornada
+ *
+ * @return "Vendedores UPDATED"
+ */
 router.put('/:id', urlencodedParser, (req, res) => {
-    console.log(req)
     if (!req.body.nombre) {
         res.status(400)
         res.json({
             error: "Bad Data"
         })
     } else {
-        let id = req.params.id.replace("\'", "");
-        let nombre = req.body.nombre.replace("\'", "");
-        let apellido = req.body.apellido.replace("\'", "");
-        let direccion = req.body.direccion.replace("\'", "");
-        let telefono = req.body.telefono.replace("\'", "");
-        let email = req.body.email.replace("\'", "");
-        let jornada = req.body.jornada;
+        let id = req.params.id;
+        // Quitando las comillas simples de todos los elementos
+        let objeto = req.body;
+        Object.keys(objeto).map(function (key, index) {
+            objeto[key] = objeto[key].replace("\'", "");
+        });
+        // Obteniendo los parametros de body
+        let { nombre, apellido, direccion, telefono, email, jornada } = objeto;
         connection.query('call Vendedor_Modificar(' + id + ',\'' + nombre + '\',\'' + apellido + '\',\'' + direccion + '\',\'' + telefono + '\',\'' + email + '\',' + jornada + ')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Vendedores UPDATED")
@@ -87,7 +145,15 @@ router.put('/:id', urlencodedParser, (req, res) => {
     }
 });
 
-//DELETE
+/**
+ * @name EliminarVendedor
+ *
+ * @httpMethod  DELETE
+ *
+ * @param {int} id
+ *
+ * @return "Vendedor eliminado" luego de eliminar al vendedor
+ */
 router.delete('/:id', (req, res) => {
     connection.query('call Vendedor_Eliminar(' + req.params.id + ')',
         function (err, rows, fields) {

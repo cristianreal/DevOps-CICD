@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const connection = require('../../database');
+const connection = require('../database');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -16,17 +16,17 @@ router.get('/', (req, res) => {
 
 //ADD
 router.post('/', urlencodedParser, (req, res) => {
-    if(!req.body.nombre){
+    if (!req.body.nombre) {
         res.status(400)
         res.json({
             error: "Bad Data"
         })
-    }else{
+    } else {
         let nombre = req.body.nombre.replace("\'", "");
         let descripcion = req.body.descripcion.replace("\'", "");
         let precio = req.body.precio;
         let marca = req.body.marca;
-        connection.query('call Producto_Crear(\''+nombre+'\',\''+descripcion+'\','+precio+','+marca+')', function (err, rows, fields) {
+        connection.query('call Producto_Crear(\'' + nombre + '\',\'' + descripcion + '\',' + precio + ',' + marca + ')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Producto added")
         });
@@ -45,7 +45,7 @@ router.get('/total', (req, res) => {
 //OBTENER producto ESPECIFICo
 router.get('/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
-    connection.query('call Producto_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+    connection.query('call Producto_Buscar_Por_Id(' + id + ')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
 
         let obj = {
@@ -57,18 +57,18 @@ router.get('/:id', (req, res) => {
 
 //UPDATE
 router.put('/:id', urlencodedParser, (req, res) => {
-    if(!req.body.nombre){
+    if (!req.body.nombre) {
         res.status(400)
         res.json({
             error: "Bad Data"
         })
-    }else{
+    } else {
         let id = req.params.id.replace("\'", "");
         let nombre = req.body.nombre.replace("\'", "");
         let descripcion = req.body.descripcion.replace("\'", "");
         let precio = req.body.precio;
         let marca = req.body.marca;
-        connection.query('call Producto_Modificar('+id+',\''+nombre+'\',\''+descripcion+'\','+precio+','+marca+')', function (err, rows, fields) {
+        connection.query('call Producto_Modificar(' + id + ',\'' + nombre + '\',\'' + descripcion + '\',' + precio + ',' + marca + ')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("Producto UPDATED")
         });
@@ -77,11 +77,11 @@ router.put('/:id', urlencodedParser, (req, res) => {
 
 //DELETE
 router.delete('/:id', (req, res) => {
-    connection.query('call Producto_Eliminar('+req.params.id+')', 
-    function (err, rows, fields) {
-        if (err) throw res.send('error: ' + err)
-        res.send("Producto deleted")
-    });
+    connection.query('call Producto_Eliminar(' + req.params.id + ')',
+        function (err, rows, fields) {
+            if (err) throw res.send('error: ' + err)
+            res.send("Producto deleted")
+        });
 });
 
 module.exports = router;

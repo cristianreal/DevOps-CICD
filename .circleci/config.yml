@@ -6,6 +6,13 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Test microservicio personal"
+          command: |
+            cd ${HOME}/project/code/microservicio-personal
+            docker build -t christianreal/backend-nodejs:personal-${CIRCLE_SHA1} .
+            docker run --name service-nodejs-personal --env-file env.list --env DB_PASS=${DB_PASSWORD} -p 5001:5000 -d christianreal/backend-nodejs:personal-${CIRCLE_SHA1}
+            docker exec -it service-nodejs-personal npm test
+      - run:
           name: "Tests backend"
           command: |
             cd ${HOME}/project/code/backend

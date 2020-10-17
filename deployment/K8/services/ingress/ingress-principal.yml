@@ -17,7 +17,7 @@ spec:
           servicePort: 80
       - path: /api
         backend:
-          serviceName: service-vuejs
+          serviceName: service-nodejs
           servicePort: 80
       - path: /grafana
         backend:
