@@ -50,27 +50,80 @@ jobs:
       image: ubuntu-1604:201903-01
     steps:
       - checkout
+      ######### Build microservices images ##########3
       - run:
-          name: "Build Image Backend"
+          name: "Build microservicio movimientos"
           command: |
-            cd ${HOME}/project/code/backend
-            docker build -t christianreal/backend-nodejs:${CIRCLE_SHA1} . 
+            cd ${HOME}/project/code/microservicio-movimientos
+            docker build -t christianreal/backend-nodejs:movimientos-${CIRCLE_SHA1} . 
       - run:
-          name: "Build Image Frontend"
+          name: "Build microservicio productos"
+          command: |
+            cd ${HOME}/project/code/microservicio-productos
+            docker build -t christianreal/backend-nodejs:productos-${CIRCLE_SHA1} . 
+      - run:
+          name: "Build microservicio proveedores"
+          command: |
+            cd ${HOME}/project/code/microservicio-proveedores
+            docker build -t christianreal/backend-nodejs:proveedores-${CIRCLE_SHA1} . 
+      - run:
+          name: "Build microservicio reportes"
+          command: |
+            cd ${HOME}/project/code/microservicio-reportes
+            docker build -t christianreal/backend-nodejs:reportes-${CIRCLE_SHA1} . 
+      - run:
+          name: "Build microservicio vendedores"
+          command: |
+            cd ${HOME}/project/code/microservicio-vendedores
+            docker build -t christianreal/backend-nodejs:vendedores-${CIRCLE_SHA1} . 
+      - run:
+          name: "Build & test Image Frontend"
           command: |
             cd ${HOME}/project/code/client
             docker build -t christianreal/frontend-vuejs:${CIRCLE_SHA1} . 
+      ############# Test microservices images ##################
       - run:
-          name: "Test Backend"
+          name: "Test microservicio movimientos"
           command: |
-            cd ${HOME}/project/code/backend
-            docker run --name service-nodejs --env-file env.list --env DB_PASS=${DB_PASSWORD} -p 5000:5000 -d christianreal/backend-nodejs:${CIRCLE_SHA1}
-            docker exec -it service-nodejs npm test 
+            cd ${HOME}/project/code/microservicio-movimientos
+            docker run --name service-nodejs-movimientos --env-file env.list --env DB_PASS=${DB_PASSWORD} -d christianreal/backend-nodejs:movimientos-${CIRCLE_SHA1}
+            docker exec -it service-nodejs-movimientos npm test
+      - run:
+          name: "Test microservicio productos"
+          command: |
+            cd ${HOME}/project/code/microservicio-productos
+            docker run --name service-nodejs-productos --env-file env.list --env DB_PASS=${DB_PASSWORD} -d christianreal/backend-nodejs:productos-${CIRCLE_SHA1}
+            docker exec -it service-nodejs-productos npm test
+      - run:
+          name: "Test microservicio proveedores"
+          command: |
+            cd ${HOME}/project/code/microservicio-proveedores
+            docker run --name service-nodejs-proveedores --env-file env.list --env DB_PASS=${DB_PASSWORD} -d christianreal/backend-nodejs:proveedores-${CIRCLE_SHA1}
+            docker exec -it service-nodejs-proveedores npm test
+      - run:
+          name: "Test microservicio reportes"
+          command: |
+            cd ${HOME}/project/code/microservicio-reportes
+            docker run --name service-nodejs-reportes --env-file env.list --env DB_PASS=${DB_PASSWORD} -d christianreal/backend-nodejs:reportes-${CIRCLE_SHA1}
+            docker exec -it service-nodejs-reportes npm test
+      - run:
+          name: "Test microservicio vendedores"
+          command: |
+            cd ${HOME}/project/code/microservicio-vendedores
+            docker run --name service-nodejs-vendedores --env-file env.list --env DB_PASS=${DB_PASSWORD} -d christianreal/backend-nodejs:vendedores-${CIRCLE_SHA1}
+            docker exec -it service-nodejs-vendedores npm test
+      ############ Push images ############################
       - run:
           name: "Push images to registry"
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push christianreal/backend-nodejs:${CIRCLE_SHA1}
+
+            docker push christianreal/backend-nodejs:movimientos-${CIRCLE_SHA1}
+            docker push christianreal/backend-nodejs:productos-${CIRCLE_SHA1}
+            docker push christianreal/backend-nodejs:proveedores-${CIRCLE_SHA1}
+            docker push christianreal/backend-nodejs:reportes-${CIRCLE_SHA1}
+            docker push christianreal/backend-nodejs:vendedores-${CIRCLE_SHA1}
+
             docker push christianreal/frontend-vuejs:${CIRCLE_SHA1}
   continous_deployment:
     machine:

@@ -121,4 +121,3 @@ resource "google_dns_record_set" "record_cname_backend" {
 
   rrdatas = [google_dns_record_set.record_a_backend.name, ]
 }
-s

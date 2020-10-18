@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
-    "test": "/server/node_modules/.bin/mocha /server/server/tests/* --reporter spec --exit"
+    "test": "/server/node_modules/.bin/mocha /server/server/tests/* --timeout 7000 --reporter spec --exit"
   },
   "author": "",
   "license": "ISC",
