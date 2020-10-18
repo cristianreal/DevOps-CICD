@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const connection = require('../../database');
+const connection = require('../database');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -16,7 +16,7 @@ router.get('/ingreso', (req, res) => {
 
 router.get('/ingreso/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
-    connection.query('call Ingreso_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+    connection.query('call Ingreso_Buscar_Por_Id(' + id + ')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
@@ -24,20 +24,20 @@ router.get('/ingreso/:id', (req, res) => {
 
 //ADD
 router.post('/ingreso', urlencodedParser, (req, res) => {
-    if(!req.body.fecha_movimiento){
+    if (!req.body.fecha_movimiento) {
         res.status(400)
         res.json({
             error: "Bad Data"
         })
-    }else{
+    } else {
         let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
         let fk_vendedor = req.body.fk_vendedor;
         let fk_proveedor = req.body.fk_proveedor;
         let detalle = req.body.detalle;
-        connection.query('call Ingreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+','+fk_proveedor+')', function (err, result, fields) {
+        connection.query('call Ingreso_Movimiento(\'' + fecha_movimiento + '\',' + fk_vendedor + ',' + fk_proveedor + ')', function (err, result, fields) {
             if (err) throw res.send('error: ' + err)
-            detalle.forEach(async function(element){
-                connection.query('call Detalle_Crear('+element.cantidad+','+element.subtotal+','+element.fk_producto+')', function (err, result, fields) {          
+            detalle.forEach(async function (element) {
+                connection.query('call Detalle_Crear(' + element.cantidad + ',' + element.subtotal + ',' + element.fk_producto + ')', function (err, result, fields) {
                     if (err) throw res.send('error: ' + err)
                 });
             });
@@ -55,7 +55,7 @@ router.get('/egreso', (req, res) => {
 
 router.get('/egreso/:id', (req, res) => {
     let id = req.params.id.replace("\'", "");
-    connection.query('call Egreso_Buscar_Por_Id('+id+')', function (err, rows, fields) {
+    connection.query('call Egreso_Buscar_Por_Id(' + id + ')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
@@ -63,19 +63,19 @@ router.get('/egreso/:id', (req, res) => {
 
 //ADD
 router.post('/egreso', urlencodedParser, (req, res) => {
-    if(!req.body.fecha_movimiento){
+    if (!req.body.fecha_movimiento) {
         res.status(400)
         res.json({
             error: "Bad Data"
         })
-    }else{
+    } else {
         let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
         let fk_vendedor = req.body.fk_vendedor;
         let detalle = req.body.detalle;
-        connection.query('call Egreso_Movimiento(\''+fecha_movimiento+'\','+fk_vendedor+')', function (err, rows, fields) {
+        connection.query('call Egreso_Movimiento(\'' + fecha_movimiento + '\',' + fk_vendedor + ')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
-            detalle.forEach(async function(element){
-                connection.query('call Detalle_Crear('+element.cantidad+','+element.subtotal+','+element.fk_producto+')', function (err, result, fields) {          
+            detalle.forEach(async function (element) {
+                connection.query('call Detalle_Crear(' + element.cantidad + ',' + element.subtotal + ',' + element.fk_producto + ')', function (err, result, fields) {
                     if (err) throw res.send('error: ' + err)
                 });
             });
@@ -85,7 +85,7 @@ router.post('/egreso', urlencodedParser, (req, res) => {
 });
 
 router.get('/detalle/:id', (req, res) => {
-    connection.query('call Detalle_Movimiento('+req.params.id+')', function (err, rows, fields) {
+    connection.query('call Detalle_Movimiento(' + req.params.id + ')', function (err, rows, fields) {
         if (err) throw res.send('error: ' + err)
         res.json(rows)
     });
@@ -93,11 +93,11 @@ router.get('/detalle/:id', (req, res) => {
 
 //DELETE
 router.delete('/:id', (req, res) => {
-    connection.query('call Movimiento_Eliminar('+req.params.id+')', 
-    function (err, rows, fields) {
-        if (err) throw res.send('error: ' + err)
-        res.send("Movimiento deleted")
-    });
+    connection.query('call Movimiento_Eliminar(' + req.params.id + ')',
+        function (err, rows, fields) {
+            if (err) throw res.send('error: ' + err)
+            res.send("Movimiento deleted")
+        });
 });
 
 module.exports = router;

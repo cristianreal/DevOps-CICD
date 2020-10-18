@@ -8,10 +8,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const movimientos = require('./routes/api/movimientos');
-const reportes = require('./routes/api/reportes');
+const reportes = require('./routes/reportes');
 
-app.use('/api/movimientos', movimientos)
 app.use('/api/reportes', reportes)
 
 app.get('/', function (req, res) {

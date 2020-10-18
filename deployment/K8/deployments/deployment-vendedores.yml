@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-nodejs
+  name: deployment-nodejs-vendedores
 spec:
   selector:
     matchLabels:
-      app: nodejs
+      app: nodejs-vendedores
   template:
     metadata:
       labels:
-        app: nodejs
+        app: nodejs-vendedores
     spec:
       containers:
       - name: nodejs-container
-        image: christianreal/backend-nodejs
+        image: christianreal/backend-nodejs:test2-vendedores
         env:
         - name: "DB_USER"
           valueFrom:
@@ -37,3 +37,4 @@ spec:
               key: DB_HOST
         ports:
         - containerPort: 5000
+        imagePullPolicy: Always

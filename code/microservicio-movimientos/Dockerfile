@@ -1,6 +1,10 @@
 FROM node:12
-COPY . /server
+
+COPY package*.json /server/
 WORKDIR /server
-EXPOSE 5000
 RUN npm install --silent
+EXPOSE 5000
+
+COPY ./ .
+
 CMD [ "npm", "run", "dev" ]
