@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-nodejs-reportes
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-reportes
+  template:
+    metadata:
+      labels:
+        app: nodejs-reportes
+    spec:
+      containers:
+      - name: nodejs-container
+        image: christianreal/backend-nodejs:test2-reportes
+        env:
+        - name: "DB_USER"
+          valueFrom:
+            secretKeyRef:
+              name: secretos-proyecto
+              key: DB_USER
+        - name: "DB_PASS"
+          valueFrom:
+            secretKeyRef:
+              name: secretos-proyecto
+              key: DB_PASS
+        - name: "DB_DATABASE"
+          valueFrom:
+            secretKeyRef:
+              name: secretos-proyecto
+              key: DB_DATABASE
+        - name: "DB_HOST"
+          valueFrom:
+            secretKeyRef:
+              name: secretos-proyecto
+              key: DB_HOST
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always

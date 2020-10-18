@@ -10,7 +10,7 @@ variable "k8_cluster_name" {
 variable "k8_node_type" {
     description = "Google Cloud zone"
     type        = string
-    default = "n1-standard-1"
+    default = "n1-standard-2"
 }
 variable "zone" {
     description = "Google Cloud zone"
