@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-nodejs-reportes
+spec:
+  selector:
+    app: nodejs-reportes
+  ports:
+    - port: 5000
+      targetPort: 5000
