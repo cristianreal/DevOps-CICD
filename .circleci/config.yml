@@ -153,11 +153,11 @@ jobs:
             cd ${HOME}/project
             kubectl apply -f deployment/K8/deployments
             
-            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:movimientos-${CIRCLE_SHA1} --record
-            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:productos-${CIRCLE_SHA1} --record
-            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:proveedores-${CIRCLE_SHA1} --record
-            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:reportes-${CIRCLE_SHA1} --record
-            kubectl set image deployment/deployment-nodejs nodejs-container=christianreal/backend-nodejs:vendedores-${CIRCLE_SHA1} --record
+            kubectl set image deployment/deployment-nodejs-movimientos nodejs-container=christianreal/backend-nodejs:movimientos-${CIRCLE_SHA1} --record
+            kubectl set image deployment/deployment-nodejs-productos nodejs-container=christianreal/backend-nodejs:productos-${CIRCLE_SHA1} --record
+            kubectl set image deployment/deployment-nodejs-proveedores nodejs-container=christianreal/backend-nodejs:proveedores-${CIRCLE_SHA1} --record
+            kubectl set image deployment/deployment-nodejs-reportes nodejs-container=christianreal/backend-nodejs:reportes-${CIRCLE_SHA1} --record
+            kubectl set image deployment/deployment-nodejs-vendedores nodejs-container=christianreal/backend-nodejs:vendedores-${CIRCLE_SHA1} --record
 
             kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:${CIRCLE_SHA1} --record
             kubectl apply -f deployment/K8/services/clusterip
