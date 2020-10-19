@@ -145,12 +145,12 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
       terraform init 
       terraform plan -out plan.out
       terraform apply plan.out
-  ```
+    ```
 
 
-# Herramientas
+# Tecnologias
 
-## Backend - NodeJS
+## Microservicios Backend - NodeJS
 
 <img src="manuales/Gifs/Logos/nodejs.png" width="500" >
 
@@ -163,19 +163,43 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
 
 - Docker
 
-![imagen](manuales/Gifs/Logos/docker.png)
+<img src="manuales/Gifs/Logos/docker.png" width="350" >
+
 
 - Kubernetes
 
 <img src="manuales/Gifs/Logos/kubernetes.png" width="350" >
 
+- Helm
+
+<img src="manuales/Gifs/Logos/helm.png" width="350" >
+
 
 ## DevOps Tools
 
-- Terraform
+- Terraform **(infraestructura)**
 
-![imagen](manuales/Gifs/Logos/terraform.png)
+<img src="manuales/Gifs/Logos/terraform.png" width="350" >
 
-- Circle Ci
 
-![imagen](manuales/Gifs/Logos/circleci.png)
+- Circle Ci **(CI/CD Pipeline)**
+
+<img src="manuales/Gifs/Logos/circleci.png" width="350" >
+
+
+- Prometheus **(monitoreo)**
+
+<img src="manuales/Gifs/Logos/prometheus.png" width="350" >
+
+
+- Grafana **(monitoreo)**
+
+<img src="manuales/Gifs/Logos/grafana.png" width="350" >
+
+
+## Cloud Provider
+
+<img src="manuales/Gifs/Logos/googlecloud.png" width="350" >
+
+
+
