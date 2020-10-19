@@ -27,11 +27,9 @@
 └── README.md
 ```
 
-## Modulos
-- [.circleci](/.circleci)
-- [code](./code)
-- [db](./db)
-- [deployment](./deployment)
+## Documentacion
+- [Pipeline CircleCI](/.circleci)
+- [Manual Tecnico](./deployment)
 - [Manual de usuario](./manuales/)
 
 # Como funciona?
