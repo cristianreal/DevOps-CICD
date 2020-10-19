@@ -7,17 +7,22 @@
 │   ├── config.yml
 │   └── README.md
 ├── code
-│   ├── backend
-│   └── client
+│   ├── client/
+|   ├── microservicio-movimientos/
+|   ├── microservicio-productos/
+|   ├── microservicio-proveedores/
+|   ├── microservicio-reportes/
+│   └── microservicio-vendedores/
 ├── db
-│   ├── filename.sql
+│   ├── scripts/
 │   ├── init.sql
-│   └── scripts
+│   └── filename.sql
 ├── deployment
-│   ├── K8
-│   └── Terraform
+│   ├── K8/
+│   ├── Terraform/
+│   └── TerraformDNS/
 ├── manuales
-│   ├── Gifs
+│   ├── Gifs/
 │   └── Readme.md
 └── README.md
 ```
