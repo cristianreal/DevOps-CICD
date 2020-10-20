@@ -20,15 +20,15 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   location   = var.zone
   cluster    = google_container_cluster.primary.name
   node_count = 1
-  
+
   autoscaling {
     max_node_count = 4
     min_node_count = 1
   }
-  
+
   node_config {
     machine_type = var.k8_node_type
-    disk_size_gb = 10
+    disk_size_gb = 50
 
     metadata = {
       disable-legacy-endpoints = "true"
