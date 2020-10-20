@@ -1,5 +1,7 @@
 # SISTEMA DE ALMACENAMIENTO
 
+# Frontend
+
 ## Modulos 
 - [Login](#login)
 - [Marcas](#marcas)
@@ -130,3 +132,46 @@ Reporte 4 | cantidadMeses | https://poliformas.com.gt/#/reportes/reporte4/:canti
 ## Logout
 
 ![imagen](Gifs/Usuario/Logout.gif)
+
+# APIs microservicios Backend
+
+## Marcas
+
+Accion | Parametros | Ruta | Method | Body
+--- | --- | --- | --- | --- | 
+Listar Marca | --- | https://backend.poliformas.com.gt/api/marcas | GET | ---
+Crear Marca | --- | https://backend.poliformas.com.gt/api/marcas | POST  |  { name, country, webpage }
+Detalle Marca  | idMarca | https://backend.poliformas.com.gt/api/marcas/:id | GET | --
+Editar Marca | idMarca | https://backend.poliformas.com.gt/api/marcas/:id | PUT |  { name, country, webpage }
+Eliminar Marca | idMarca | https://backend.poliformas.com.gt/api/marcas/:id | DELETE | --
+
+
+## Productos
+
+Accion | Parametros | Ruta | Method | Body
+--- | --- | --- | --- | --- | 
+Listar Productos | --- | https://backend.poliformas.com.gt/api/productos | GET | ---
+Crear Productos | --- | https://backend.poliformas.com.gt/api/productos | POST  |  { nombre, descripcion, precio, marca }
+Detalle Productos  | idProductos | https://backend.poliformas.com.gt/api/productos/:id | GET | --
+Editar Productos | idProductos | https://backend.poliformas.com.gt/api/productos/:id | PUT |  { nombre, descripcion, precio, marca }
+Eliminar Productos | idProductos | https://backend.poliformas.com.gt/api/productos/:id | DELETE | --
+
+## Proveedores
+
+Accion | Parametros | Ruta | Method | Body
+--- | --- | --- | --- | --- | 
+Listar Proveedor | --- | https://backend.poliformas.com.gt/api/proveedores | GET | ---
+Crear Proveedor | --- | https://backend.poliformas.com.gt/api/proveedores | POST  |  { nombre, apellido, direccion, telefono, email, pagina_web, pais, ciudad }
+Detalle Proveedor  | idProveedores | https://backend.poliformas.com.gt/api/proveedores/:id | GET | --
+Editar Proveedor | idProveedores | https://backend.poliformas.com.gt/api/proveedores/:id | PUT |  { nombre, apellido, direccion, telefono, email, pagina_web, pais, ciudad }
+Eliminar Proveedor | idProveedores | https://backend.poliformas.com.gt/api/proveedores/:id | DELETE | --
+
+## Vendedores
+
+Accion | Parametros | Ruta | Method | Body
+--- | --- | --- | --- | --- | 
+Listar Vendedor | --- | https://backend.poliformas.com.gt/api/vendedores | GET | ---
+Crear Vendedor | --- | https://backend.poliformas.com.gt/api/vendedores | POST  |  { nombre, apellido, direccion, telefono, email, genero, fecha_nacimiento, fecha_vinculacion, jornada, pass }
+Detalle Vendedor  | idVendedores | https://backend.poliformas.com.gt/api/vendedores/:id | GET | --
+Editar Vendedor | idVendedores | https://backend.poliformas.com.gt/api/vendedores/:id | PUT |  { nombre, apellido, direccion, telefono, email, jornada }
+Eliminar Vendedor | idVendedores | https://backend.poliformas.com.gt/api/vendedores/:id | DELETE | --
