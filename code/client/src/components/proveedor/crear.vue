@@ -340,12 +340,11 @@ export default {
                 this.webpage = ''
                 this.country = ''
                 this.city = ''
+            }).catch((error) => {
+                console.error(error)
                 this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
 						position: "topCenter"
 				});
-            }).catch((error) => {
-                console.error(error)
-                return;
             })
         }
     }

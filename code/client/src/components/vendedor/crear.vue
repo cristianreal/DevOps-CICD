@@ -115,7 +115,6 @@ export default {
                 this.journalseller = ''
             }).catch((error) => {
                 console.error(error)
-                return;
             })
         }
     }

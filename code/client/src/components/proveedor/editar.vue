@@ -335,14 +335,14 @@ export default {
         },
         createPost() {
             axios.put(this.url+"/"+this.id_proveedor, {
-                nombre: this.nombre,
-                apellido: this.apellido,
-                direccion: this.direccion,
-                telefono: this.telefono,
-                email: this.email,
-                pagina_web: this.pagina_web,
-                pais: this.pais,
-                ciudad: this.ciudad
+                nombre: this.proveedor.nombre,
+                apellido: this.proveedor.apellido,
+                direccion: this.proveedor.direccion,
+                telefono: this.proveedor.telefono,
+                email: this.proveedor.email,
+                pagina_web: this.proveedor.pagina_web,
+                pais: this.proveedor.pais,
+                ciudad: this.proveedor.ciudad
             }).then(() => {
                 this.$toast.success( "Proveedor #"+this.id_proveedor+" Editado", 'Success', {
 					position: "topCenter"
@@ -352,7 +352,6 @@ export default {
                 this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
 						position: "topCenter"
 				});
-                return;
             })
         }
     }
