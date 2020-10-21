@@ -272,7 +272,7 @@ import axios from 'axios';
 const _PATH = "/api/marcas";
 
 export default {
-    name: 'editar',
+    name: 'marca-editar',
     data() {
         return {
             marca: {

@@ -29,7 +29,7 @@ import axios from 'axios';
 const _PATH = "/api/vendedores/";
 
 export default {
-	name: 'listar',
+	name: 'vendedor-listar',
 	data() {
 		return {
 			posts: [],

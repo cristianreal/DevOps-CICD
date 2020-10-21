@@ -76,7 +76,7 @@ import axios from 'axios';
 const _PATH = "/api/vendedores/";
 
 export default {
-    name: 'crear',
+    name: 'vendedor-crear',
     data() {
         return {
             genderseller: '1',

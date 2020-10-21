@@ -306,7 +306,7 @@ import axios from 'axios';
 const _PATH = "/api/proveedores/";
 
 export default {
-    name: 'crear',
+    name: 'proveedor-crear',
     data() {
         return {
             genderbuyer: '1',

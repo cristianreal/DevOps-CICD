@@ -272,7 +272,7 @@ import axios from 'axios';
 const _PATH = "/api/marcas/";
 
 export default {
-    name: 'crear',
+    name: 'marca-crear',
     data() {
         return {
 			country: 'Guatemala',

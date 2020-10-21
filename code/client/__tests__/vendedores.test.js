@@ -1,15 +1,15 @@
 import { shallowMount } from '@vue/test-utils'
-import listar from './../src/components/producto/listar.vue'
-import crear from './../src/components/producto/crear.vue'
-import editar from './../src/components/producto/editar.vue'
-import detalle from './../src/components/producto/detalle.vue'
+import listar from './../src/components/vendedor/listar.vue'
+import crear from './../src/components/vendedor/crear.vue'
+import editar from './../src/components/vendedor/editar.vue'
+import detalle from './../src/components/vendedor/detalle.vue'
 
 /**
- * Test componente listar producto
+ * Test componente listar vendedor
  */
-describe('Componente listar producto', () => {
-    it('se llama producto-listar', () => {
-        expect(listar.name).toMatch('producto-listar')
+describe('Componente listar vendedor', () => {
+    it('se llama vendedor-listar', () => {
+        expect(listar.name).toMatch('vendedor-listar')
     })
     it('tiene data', () => {
         expect(typeof listar.data).toBe('function')
@@ -23,11 +23,11 @@ describe('Componente listar producto', () => {
 })
 
 /**
- * Test componente crear producto
+ * Test componente crear vendedor
  */
-describe('Componente crear producto', () => {
-    it('se llama producto-crear', () => {
-        expect(crear.name).toMatch('producto-crear')
+describe('Componente crear vendedor', () => {
+    it('se llama vendedor-crear', () => {
+        expect(crear.name).toMatch('vendedor-crear')
     })
     it('tiene data', () => {
         expect(typeof crear.data).toBe('function')
@@ -38,11 +38,11 @@ describe('Componente crear producto', () => {
 })
 
 /**
- * Test componente editar producto
+ * Test componente editar vendedor
  */
-describe('Componente editar producto', () => {
-    it('se llama producto-editar', () => {
-        expect(editar.name).toMatch('producto-editar')
+describe('Componente editar vendedor', () => {
+    it('se llama vendedor-editar', () => {
+        expect(editar.name).toMatch('vendedor-editar')
     })
     it('tiene data', () => {
         expect(typeof editar.data).toBe('function')
@@ -56,11 +56,11 @@ describe('Componente editar producto', () => {
 })
 
 /**
- * Test componente detalle producto
+ * Test componente detalle vendedor
  */
-describe('Componente detalle producto', () => {
-    it('se llama producto-detalle', () => {
-        expect(detalle.name).toMatch('producto-detalle')
+describe('Componente detalle vendedor', () => {
+    it('se llama vendedor-detalle', () => {
+        expect(detalle.name).toMatch('vendedor-detalle')
     })
     it('tiene data', () => {
         expect(typeof detalle.data).toBe('function')
