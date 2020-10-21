@@ -39,7 +39,7 @@ import axios from 'axios';
 const _PATH = "/api/productos/";
 
 export default {
-    name: 'crear',
+    name: 'producto-crear',
     data() {
         return {
             brandproduct: 'Seleccione la marca',
@@ -71,7 +71,7 @@ export default {
                precio: this.priceproduct,
                marca: this.brandproduct
             }).then(() => {
-                this.$toast.success( "Producto ["+this.namebuyer+"] Guardado", 'Success', {
+                this.$toast.success( "Producto ["+this.nameproduct+"] Guardado", 'Success', {
 					position: "topCenter"
 				});
                 this.nameproduct=  ''
@@ -83,7 +83,6 @@ export default {
                 this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
 						position: "topCenter"
 					});
-                return;
             })
         }
     }

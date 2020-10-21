@@ -21,7 +21,14 @@ router.post('/', urlencodedParser, (req, res) => {
             error: "Bad Data"
         })
     } else {
-        connection.query('call Marca_Crear(\'' + req.body.name + '\',\'' + req.body.country + '\',\'' + req.body.webpage + '\')', function (err, rows, fields) {
+        // Quitando las comillas simples de todos los elementos
+        let objeto = req.body;
+        Object.keys(objeto).map(function (key, index) {
+            objeto[key] = String(objeto[key]).replace("\'", "");
+        });
+        // Obteniendo los parametros de body
+        let { name, country, webpage } = objeto;
+        connection.query('call Marca_Crear(\'' + name + '\',\'' + country + '\',\'' + webpage + '\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("MARCA ADDED")
         });
@@ -40,17 +47,22 @@ router.get('/:id', (req, res) => {
 
 //UPDATE
 router.put('/:id', urlencodedParser, (req, res) => {
-    console.log(req)
     if (!req.body.name) {
         res.status(400)
         res.json({
             error: "Bad Data"
         })
     } else {
-        let id = req.params.id.replace("\'", "");
-        let name = req.body.name.replace("\'", "");
-        let country = req.body.country.replace("\'", "");
-        let webpage = req.body.webpage.replace("\'", "");
+
+        let id = req.params.id;
+        // Quitando las comillas simples de todos los elementos
+        let objeto = req.body;
+        Object.keys(objeto).map(function (key, index) {
+            objeto[key] = String(objeto[key]).replace("\'", "");
+        });
+        // Obteniendo los parametros de body
+        let { name, country, webpage } = objeto;
+
         connection.query('call Marca_Modificar(' + id + ',\'' + name + '\',\'' + country + '\',\'' + webpage + '\')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             res.send("MARCA UPDATED")

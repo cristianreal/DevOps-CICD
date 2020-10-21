@@ -27,7 +27,7 @@ import axios from 'axios';
 const _PATH = "/api/proveedores/";
 
 export default {
-	name: 'listar',
+	name: 'proveedor-listar',
 	data() {
 		return {
 			posts: [],

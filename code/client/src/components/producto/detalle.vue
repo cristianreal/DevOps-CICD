@@ -55,7 +55,7 @@ import axios from 'axios';
 const _PATH = "/api/productos";
 
 export default {
-	name: 'crear',
+	name: 'producto-detalle',
 	data() {
 		return {
 			marcas: [],

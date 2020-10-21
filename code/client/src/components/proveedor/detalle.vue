@@ -295,7 +295,7 @@ import axios from 'axios';
 const _PATH = "/api/proveedores";
 
 export default {
-    name: 'editar',
+    name: 'proveedor-detalle',
     data() {
         return {
             proveedor: {

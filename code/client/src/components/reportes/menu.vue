@@ -58,26 +58,8 @@
             </div>
           </div>
           <div class="col-sm">
-            <div class="card text-white bg-warning mb-3" style="max-width: 20rem;">
-              <div class="card-header"> <i class="material-icons white-text">supervisor_account</i> Vendedores </div>
-              <div class="card-body">
-               <ul class="list-group">
-                      <router-link to="/vendedor/crear" class="list-group-item list-group-item-action" >Crear</router-link>
-                      <router-link to="/vendedor/listar" class="list-group-item list-group-item-action" >Listar</router-link>
-                </ul>              
-              </div>
-            </div>
           </div>
           <div class="col-sm">
-            <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-              <div class="card-header"><i class="material-icons white-text">compare_arrows</i>Egresos</div>
-              <div class="card-body">
-               <ul class="list-group">
-                      <router-link to="/movimiento/egreso/" class="list-group-item list-group-item-action" >Registrar</router-link>
-                      <router-link to="/movimiento/egreso/listar" class="list-group-item list-group-item-action" >Listar</router-link>
-                </ul> 
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -49,7 +49,7 @@ import axios from 'axios';
 const _PATH = "/api/vendedores";
 
 export default {
-    name: 'editar',
+    name: 'vendedor-detalle',
     data() {
         return {
             vendedor: {
