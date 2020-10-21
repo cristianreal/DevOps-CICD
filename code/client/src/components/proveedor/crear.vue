@@ -306,7 +306,7 @@ import axios from 'axios';
 const _PATH = "/api/proveedores/";
 
 export default {
-    name: 'crear',
+    name: 'proveedor-crear',
     data() {
         return {
             genderbuyer: '1',
@@ -340,12 +340,11 @@ export default {
                 this.webpage = ''
                 this.country = ''
                 this.city = ''
+            }).catch((error) => {
+                console.error(error)
                 this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
 						position: "topCenter"
 				});
-            }).catch((error) => {
-                console.error(error)
-                return;
             })
         }
     }

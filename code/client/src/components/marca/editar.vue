@@ -272,7 +272,7 @@ import axios from 'axios';
 const _PATH = "/api/marcas";
 
 export default {
-    name: 'editar',
+    name: 'marca-editar',
     data() {
         return {
             marca: {
@@ -316,7 +316,6 @@ export default {
 				this.$toast.error('Hubo un error al guardar los valores en el sistema, comuniquese con el administrador!', 'Error', {
 						position: "topCenter"
 					});
-                return;
             })
         }
     }

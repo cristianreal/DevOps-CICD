@@ -3,4 +3,5 @@ deployment/Terraform/.terraform
 deployment/Terraform/plan.out
 deployment/Terraform/cluster_k8/config
 deployment/TerraformDNS/.terraform
+deployment/TerraformDNS/plan.out
 deployment/TerraformDNS/cloudsql_instance_ip

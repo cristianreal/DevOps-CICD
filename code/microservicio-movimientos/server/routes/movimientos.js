@@ -30,14 +30,18 @@ router.post('/ingreso', urlencodedParser, (req, res) => {
             error: "Bad Data"
         })
     } else {
-        let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
-        let fk_vendedor = req.body.fk_vendedor;
-        let fk_proveedor = req.body.fk_proveedor;
+        let fecha_movimiento = String(req.body.fecha_movimiento).replace("\'", "");
+        let fk_vendedor = String(req.body.fk_vendedor).replace("\'", "");
+        let fk_proveedor = String(req.body.fk_proveedor).replace("\'", "");
         let detalle = req.body.detalle;
+
         connection.query('call Ingreso_Movimiento(\'' + fecha_movimiento + '\',' + fk_vendedor + ',' + fk_proveedor + ')', function (err, result, fields) {
             if (err) throw res.send('error: ' + err)
             detalle.forEach(async function (element) {
-                connection.query('call Detalle_Crear(' + element.cantidad + ',' + element.subtotal + ',' + element.fk_producto + ')', function (err, result, fields) {
+                let cantidad = String(element.cantidad).replace("\'", "")
+                let subtotal = String(element.subtotal).replace("\'", "")
+                let fk_producto = String(element.fk_producto).replace("\'", "")
+                connection.query('call Detalle_Crear(' + cantidad + ',' + subtotal + ',' + fk_producto + ')', function (err, result, fields) {
                     if (err) throw res.send('error: ' + err)
                 });
             });
@@ -69,13 +73,16 @@ router.post('/egreso', urlencodedParser, (req, res) => {
             error: "Bad Data"
         })
     } else {
-        let fecha_movimiento = req.body.fecha_movimiento.replace("\'", "");
-        let fk_vendedor = req.body.fk_vendedor;
+        let fecha_movimiento = String(req.body.fecha_movimiento).replace("\'", "");
+        let fk_vendedor = String(req.body.fk_vendedor).replace("\'", "");
         let detalle = req.body.detalle;
         connection.query('call Egreso_Movimiento(\'' + fecha_movimiento + '\',' + fk_vendedor + ')', function (err, rows, fields) {
             if (err) throw res.send('error: ' + err)
             detalle.forEach(async function (element) {
-                connection.query('call Detalle_Crear(' + element.cantidad + ',' + element.subtotal + ',' + element.fk_producto + ')', function (err, result, fields) {
+                let cantidad = String(element.cantidad).replace("\'", "")
+                let subtotal = String(element.subtotal).replace("\'", "")
+                let fk_producto = String(element.fk_producto).replace("\'", "")
+                connection.query('call Detalle_Crear(' + cantidad + ',' + subtotal + ',' + fk_producto + ')', function (err, result, fields) {
                     if (err) throw res.send('error: ' + err)
                 });
             });

@@ -49,7 +49,7 @@ router.post('/', urlencodedParser, (req, res) => {
         // Quitando las comillas simples de todos los elementos
         let objeto = req.body;
         Object.keys(objeto).map(function (key, index) {
-            objeto[key] = objeto[key].replace("\'", "");
+            objeto[key] = String(objeto[key]).replace("\'", "");
         });
         // Obteniendo los parametros de body
         let { nombre, apellido, direccion, telefono, email, genero, pagina_web, pais, ciudad } = objeto;
@@ -105,7 +105,7 @@ router.put('/:id', urlencodedParser, (req, res) => {
         // Quitando las comillas simples de todos los elementos
         let objeto = req.body;
         Object.keys(objeto).map(function (key, index) {
-            objeto[key] = objeto[key].replace("\'", "");
+            objeto[key] = String(objeto[key]).replace("\'", "");
         });
         // Obteniendo los parametros de body
         let { nombre, apellido, direccion, telefono, email, pagina_web, pais, ciudad } = objeto;

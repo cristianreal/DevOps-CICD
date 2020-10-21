@@ -271,7 +271,7 @@ import axios from 'axios';
 const _PATH = "/api/marcas";
 
 export default {
-    name: 'editar',
+    name: 'marca-detalle',
     data() {
         return {
             marca: {
