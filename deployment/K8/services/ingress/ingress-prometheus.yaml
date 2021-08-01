@@ -1,8 +1,10 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-prometheus
   annotations:
+    certmanager.k8s.io/acme-challenge-type: http01
+    acme.cert-manager.io/http01-edit-in-place: "true"
     kubernetes.io/ingress.class: "nginx"
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -12,9 +14,12 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName:  prometheus-server
-          servicePort: 80
+          service:
+            name: prometheus-server
+            port:
+              number: 80
   tls:
   - secretName: joomla-tls-cert
     hosts:

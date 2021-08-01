@@ -143,10 +143,11 @@ jobs:
             export TF_VAR_project_id=${PROJECT_ID}
             export TF_VAR_db_username=${DB_USERNAME}
             export TF_VAR_db_password=${DB_PASSWORD}
-            terraform init 
-            echo "$(terraform output kubeconfig_data)"  > config
-            mkdir -p ~/.kube
-            mv config ~/.kube/
+            export TF_VAR_service_account_name=${SERVICE_ACCOUNT_NAME}
+            export VAR_GOOGLE_COMPUTE_ZONE=${GOOGLE_COMPUTE_ZONE}
+            terraform init
+            gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}
+            echo "$(terraform output cloudsql_instance_ip)" > ${RUTADELPROYECTO}/deployment/TerraformDNS/cloudsql_instance_ip
       - run:          
           name: "Aplicar manifestos yaml en el cluster K8"
           command: |
@@ -180,14 +181,13 @@ jobs:
             export TF_VAR_project_id=${PROJECT_ID}
             export TF_VAR_db_username=${DB_USERNAME}
             export TF_VAR_db_password=${DB_PASSWORD}
+            export TF_VAR_service_account_name=${SERVICE_ACCOUNT_NAME}
+            export VAR_GOOGLE_COMPUTE_ZONE=${GOOGLE_COMPUTE_ZONE}
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
-            mkdir -p ~/.kube
-            ls cluster_k8
-            mv cluster_k8/config ~/.kube/
-            export KUBECONFIG=~/.kube/config
-            echo "$(terraform output cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
+            gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}
+            echo "$(terraform output cloudsql_instance_ip)" > ${RUTADELPROYECTO}/deployment/TerraformDNS/cloudsql_instance_ip
       - run:
           name: "Instalar ingress controller"
           command: | 

@@ -1,3 +1,7 @@
+data "google_service_account" "myaccount" {
+  account_id = var.service_account_name
+}
+
 resource "google_container_cluster" "primary" {
   name     = format("%s-%s-cluster", var.k8_cluster_name, var.sufijo)
   location = var.zone
@@ -5,14 +9,6 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
-  master_auth {
-    username = var.cluster_username
-    password = var.cluster_password
-
-    client_certificate_config {
-      issue_client_certificate = false
-    }
-  }
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
@@ -34,31 +30,11 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
       disable-legacy-endpoints = "true"
     }
 
+    service_account = data.google_service_account.myaccount.email
     oauth_scopes = [
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
 }
-
-
-data "template_file" "kubeconfig" {
-  template = file("${path.module}/kubeconfig-template.yaml")
-
-  vars = {
-    cluster_name    = google_container_cluster.primary.name
-    user_name       = google_container_cluster.primary.master_auth[0].username
-    user_password   = google_container_cluster.primary.master_auth[0].password
-    endpoint        = google_container_cluster.primary.endpoint
-    cluster_ca      = google_container_cluster.primary.master_auth[0].cluster_ca_certificate
-    client_cert     = google_container_cluster.primary.master_auth[0].client_certificate
-    client_cert_key = google_container_cluster.primary.master_auth[0].client_key
-  }
-}
-
-resource "local_file" "kubeconfig" {
-  content  = data.template_file.kubeconfig.rendered
-  filename = "${path.module}/config"
-}
-
-

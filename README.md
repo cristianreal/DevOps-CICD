@@ -59,6 +59,7 @@ Agregar variables de entorno en CircleCI.
   - **PROJECT_ID**: El id del proyecto creado en GCP. 
   - **DB_PASSWORD**: El password de la base de datos y cluster GK8.
   - **DB_USERNAME**: El nombre de usuario con el cual se va a poder conectarse a la Base de Datos.
+  - **SERVICE_ACCOUNT_NAME** : El nombre del servicio creado en IAM <Ej. Paso2>
 
   
 ![imagen](manuales/Gifs/Configuraciones/paso4.png)
@@ -89,6 +90,8 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
       export TF_VAR_project_id="Id del proyecto"
       export TF_VAR_db_username="Nombre de usuario"
       export TF_VAR_db_password="Password de la base de datos y del cluster GK8"
+      export TF_VAR_service_account_name='nombre servicio IAM <Ej. Paso2>'
+      export VAR_GOOGLE_COMPUTE_ZONE='us-central1-a'
       export RUTADELPROYECTO="ruta del proyecto"
     ```
   - Cambiar al directorio deployment/Terraform
@@ -101,32 +104,44 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
       terraform plan -out plan.out
       terraform apply plan.out
     ```
-  - Configurar kubectl para que se conecte al cluster.
+  - Autenticarse con Google SDK y Configurar kubectl para que se conecte al cluster.
     ```
-      mkdir -p ~/.kube
-      ls cluster_k8
-      mv cluster_k8/config ~/.kube/
-      export KUBECONFIG=~/.kube/config
-      echo "$(terraform output cloudsql_instance_ip)" > ${RUTADELPROYECTO}/deployment/TerraformDNS/cloudsql_instance_ip
+      gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}
+      echo "$(terraform output --raw  cloudsql_instance_ip)" > ${RUTADELPROYECTO}/deployment/TerraformDNS/cloudsql_instance_ip
     ```
+
+  - Verificar si hay conexion con el cluster
+    ```
+    kubectl get nodes -o wide
+    ```
+  
+  # Desplegar aplicaciones en kubernetes 
+
   - Instalar el ingress controller
     ```
-      kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+      helm repo add nginx-stable https://helm.nginx.com/stable
+      helm install nginx-ing nginx-stable/nginx-ingress
     ```
   - Generar certificados SSL
-    ```
+    ``` bash
       cd ${RUTADELPROYECTO}/
       kubectl apply -f deployment/K8/namespace
-      helm repo add jetstack https://charts.jetstack.io 
-      kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.yaml
+      helm repo add jetstack https://charts.jetstack.io
+      helm repo update
+	    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
+      helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.4.0
+      #kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.yaml
+      
       kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
       kubectl apply -f deployment/K8/configmaps/
       kubectl apply -f deployment/K8/secrets/secret.yaml
-      helm upgrade --install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
+	    
+
+      #helm upgrade --install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
     ```
   - Instalar Prometheus y Grafana
     ```
-      cd ${HOME}/project/
+      cd ${RUTADELPROYECTO}/
       helm repo add grafana https://grafana.github.io/helm-charts
       helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
       helm upgrade --install prometheus prometheus-community/prometheus --namespace prometheus
@@ -136,8 +151,8 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
     ```
   - Crear registros DNS que apunten a los recursos recien creados.
     ```
-      cd ${HOME}/project/deployment/TerraformDNS
-      external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip                
+      cd ${RUTADELPROYECTO}/deployment/TerraformDNS
+      external_ip=""; while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc --namespace default nginx-ing-nginx-ingress  --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}" --ignore-not-found); [ -z "$external_ip" ] && sleep 10; done; echo "End point ready-" && echo $external_ip; export endpoint=$external_ip          
       export TF_VAR_ingress_controller_ip=${endpoint}
       export TF_VAR_cloudsql_instance_ip=`cat cloudsql_instance_ip`
       terraform init 

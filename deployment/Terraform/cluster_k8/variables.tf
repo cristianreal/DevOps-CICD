@@ -27,3 +27,7 @@ variable "cluster_password" {
     description = "Password of cloud sql database"
     type        = string
 }
+variable "service_account_name" {
+    description = "name of service account"
+    type        = string
+}
