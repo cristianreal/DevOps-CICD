@@ -149,7 +149,9 @@ jobs:
             
             pwd
             cat ${HOME}/gcloud-key.json
-            echo $SERVICE_ACCOUNT_NAME
+            echo ${SERVICE_ACCOUNT_NAME}
+            echo ${SERVICE_ACCOUNT_NAME} > file.txt
+            cat file.txt
 
             gcloud auth activate-service-account ${SERVICE_ACCOUNT_NAME} --key-file=${HOME}/gcloud-key.json
             gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}
