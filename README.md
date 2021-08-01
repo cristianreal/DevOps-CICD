@@ -106,6 +106,7 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
     ```
   - Autenticarse con Google SDK y Configurar kubectl para que se conecte al cluster.
     ```
+      gcloud config set project $TF_VAR_project_id
       gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}
       echo "$(terraform output --raw  cloudsql_instance_ip)" > ${RUTADELPROYECTO}/deployment/TerraformDNS/cloudsql_instance_ip
     ```

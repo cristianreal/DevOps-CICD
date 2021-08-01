@@ -147,6 +147,7 @@ jobs:
             export VAR_GOOGLE_COMPUTE_ZONE=${GOOGLE_COMPUTE_ZONE}
             terraform init
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-key.json
+            gcloud config set project $TF_VAR_project_id
             gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}
             echo "$(terraform output cloudsql_instance_ip)" > ${RUTADELPROYECTO}/deployment/TerraformDNS/cloudsql_instance_ip
       - run:          
