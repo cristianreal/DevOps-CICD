@@ -1,8 +1,11 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-principal
   annotations:
+    cert-manager.io/issue-temporary-certificate: "true"
+    certmanager.k8s.io/acme-challenge-type: http01
+    acme.cert-manager.io/http01-edit-in-place: "true"
     kubernetes.io/ingress.class: "nginx"
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -12,36 +15,57 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: service-vuejs
-          servicePort: 80
+          service:
+            name: service-vuejs
+            port:
+              number: 80
   - host: backend.poliformas.com.gt
     http:
       paths:
       - path: /api/vendedores
+        pathType: Prefix
         backend:
-          serviceName: service-nodejs-vendedores
-          servicePort: 5000
+          service:
+            name: service-nodejs-vendedores
+            port:
+              number: 5000
       - path: /api/movimientos
+        pathType: Prefix
         backend:
-          serviceName: service-nodejs-movimientos
-          servicePort: 5000
+          service:
+            name: service-nodejs-movimientos
+            port:
+              number: 5000
       - path: /api/marcas
+        pathType: Prefix
         backend:
-          serviceName: service-nodejs-productos
-          servicePort: 5000
+          service:
+            name: service-nodejs-productos
+            port:
+              number: 5000
       - path: /api/productos
+        pathType: Prefix
         backend:
-          serviceName: service-nodejs-productos
-          servicePort: 5000
+          service:
+            name: service-nodejs-productos
+            port:
+              number: 5000
       - path: /api/proveedores
+        pathType: Prefix
         backend:
-          serviceName: service-nodejs-proveedores
-          servicePort: 5000
+          service:
+            name: service-nodejs-proveedores
+            port:
+              number: 5000
       - path: /api/reportes
+        pathType: Prefix
         backend:
-          serviceName: service-nodejs-reportes
-          servicePort: 5000
+          service:
+            name: service-nodejs-reportes
+            port:
+              number: 5000
   tls:
   - secretName: joomla-tls-cert
     hosts:
