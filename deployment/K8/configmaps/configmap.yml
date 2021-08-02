@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: config-db
-data:
-  DB_DATABASE: "test_proyectoeps"
-  DB_HOST: "db.poliformas.com.gt"

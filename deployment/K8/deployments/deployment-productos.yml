@@ -14,27 +14,9 @@ spec:
       containers:
       - name: nodejs-container
         image: christianreal/backend-nodejs:test2-productos
-        env:
-        - name: "DB_USER"
-          valueFrom:
-            secretKeyRef:
+        envFrom:
+          - secretRef:
               name: secretos-proyecto
-              key: DB_USER
-        - name: "DB_PASS"
-          valueFrom:
-            secretKeyRef:
-              name: secretos-proyecto
-              key: DB_PASS
-        - name: "DB_DATABASE"
-          valueFrom:
-            secretKeyRef:
-              name: secretos-proyecto
-              key: DB_DATABASE
-        - name: "DB_HOST"
-          valueFrom:
-            secretKeyRef:
-              name: secretos-proyecto
-              key: DB_HOST
         ports:
         - containerPort: 5000
         imagePullPolicy: Always

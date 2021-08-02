@@ -137,14 +137,18 @@ jobs:
       - run:
           name: "Configurar Kubectl"
           command: |
-            cd ${HOME}/project/deployment/Terraform
-            echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
+            export DB_DATABASE=${DB_DATABASE}
+            export DB_HOST=${DB_HOST}
+            export DB_USER=${DB_USERNAME}
+            export DB_PASS=${DB_PASSWORD}
             export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
             export TF_VAR_project_id=${PROJECT_ID}
             export TF_VAR_db_username=${DB_USERNAME}
             export TF_VAR_db_password=${DB_PASSWORD}
             export TF_VAR_service_account_name=${SERVICE_ACCOUNT_NAME}
             export VAR_GOOGLE_COMPUTE_ZONE=${GOOGLE_COMPUTE_ZONE}
+            cd ${HOME}/project/deployment/Terraform
+            echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
             terraform init
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-key.json
             gcloud config set project $TF_VAR_project_id
@@ -178,32 +182,38 @@ jobs:
           name: "Desplegar infraestructura con terraform"
           command: |
             cd ${HOME}/project/deployment/Terraform
+            export DB_DATABASE=${DB_DATABASE}
+            export DB_HOST=${DB_HOST}
+            export DB_USER=${DB_USERNAME}
+            export DB_PASS=${DB_PASSWORD}
             export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-key.json
             export TF_VAR_project_id=${PROJECT_ID}
             export TF_VAR_db_username=${DB_USERNAME}
             export TF_VAR_db_password=${DB_PASSWORD}
             export TF_VAR_service_account_name=${SERVICE_ACCOUNT_NAME}
             export VAR_GOOGLE_COMPUTE_ZONE=${GOOGLE_COMPUTE_ZONE}
+            echo ${CREDENTIALS} > ${HOME}/gcloud-key.json
             terraform init 
             terraform plan -out plan.out
             terraform apply plan.out
-            gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}
+
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-key.json
+            gcloud config set project $TF_VAR_project_id
+            gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}            
             echo "$(terraform output cloudsql_instance_ip)" > ${RUTADELPROYECTO}/deployment/TerraformDNS/cloudsql_instance_ip
       - run:
           name: "Instalar ingress controller"
           command: | 
-            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+            helm repo add nginx-stable https://helm.nginx.com/stable
+            helm install nginx-ing nginx-stable/nginx-ingress
       - run:
           name: "Configurar certificado SSL en el ingress controller utilizando HELM"
           command: |
             cd ${HOME}/project/
             kubectl apply -f deployment/K8/namespace
-            helm repo add jetstack https://charts.jetstack.io
-            kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
+            kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
             kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
-            kubectl apply -f deployment/K8/configmaps/
-            kubectl apply -f deployment/K8/secrets/secret.yaml
-            helm upgrade --install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
+            kubectl create secret generic secretos-proyecto --from-literal=DB_DATABASE=$DB_DATABASE --from-literal=DB_HOST=$DB_HOST --from-literal=DB_USER=$DB_USER --from-literal=DB_PASS=$DB_PASS 
       - run:
           name: "Instalar prometheus y grafana utilizando HELM"
           command: |

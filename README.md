@@ -86,10 +86,14 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
 ### Pasos:
   - Establecer algunas variables de entorno
     ```
+      export DB_DATABASE="agregar el nombre de la base de datos"
+      export DB_HOST="agregar el nombre del host en el que se encuentra bd"
+      export DB_USER="agregar el nombre de usuario de bd"
+      export DB_PASS="agregar pssw de la bd"
       export GOOGLE_APPLICATION_CREDENTIALS="ruta del archivo json descargado"
       export TF_VAR_project_id="Id del proyecto"
-      export TF_VAR_db_username="Nombre de usuario"
-      export TF_VAR_db_password="Password de la base de datos y del cluster GK8"
+      export TF_VAR_db_username=$DB_USER
+      export TF_VAR_db_password=$DB_PASS
       export TF_VAR_service_account_name='nombre servicio IAM <Ej. Paso2>'
       export VAR_GOOGLE_COMPUTE_ZONE='us-central1-a'
       export RUTADELPROYECTO="ruta del proyecto"
@@ -106,8 +110,9 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
     ```
   - Autenticarse con Google SDK y Configurar kubectl para que se conecte al cluster.
     ```
+      gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
       gcloud config set project $TF_VAR_project_id
-      gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}
+      gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=$VAR_GOOGLE_COMPUTE_ZONE
       echo "$(terraform output --raw  cloudsql_instance_ip)" > ${RUTADELPROYECTO}/deployment/TerraformDNS/cloudsql_instance_ip
     ```
 
@@ -123,22 +128,15 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
       helm repo add nginx-stable https://helm.nginx.com/stable
       helm install nginx-ing nginx-stable/nginx-ingress
     ```
-  - Generar certificados SSL
+  - instalar cert-manager para certificados SSL
     ``` bash
       cd ${RUTADELPROYECTO}/
       kubectl apply -f deployment/K8/namespace
-      helm repo add jetstack https://charts.jetstack.io
-      helm repo update
-	    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
-      helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.4.0
-      #kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.yaml
-      
+      kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
       kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
-      kubectl apply -f deployment/K8/configmaps/
-      kubectl apply -f deployment/K8/secrets/secret.yaml
-	    
-
-      #helm upgrade --install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.1
+      #kubectl apply -f deployment/K8/configmaps/
+      #kubectl apply -f deployment/K8/secrets/secret.yaml
+      kubectl create secret generic secretos-proyecto --from-literal=DB_DATABASE=$DB_DATABASE --from-literal=DB_HOST=$DB_HOST --from-literal=DB_USER=$DB_USER --from-literal=DB_PASS=$DB_PASS 
     ```
   - Instalar Prometheus y Grafana
     ```
@@ -160,7 +158,44 @@ Para desplegar la infrastructura es necesario tener instalado de manera local:
       terraform plan -out plan.out
       terraform apply plan.out
     ```
+  - Desplegar aplicacion en Kubernetes
+    ```
+    cd ${RUTADELPROYECTO}/
+    kubectl apply -f deployment/K8/deployments
 
+    kubectl set image deployment/deployment-nodejs-movimientos nodejs-container=christianreal/backend-nodejs:movimientos-8ccc17311ae9163c4da17ca6d27dd2b101628e3c --record
+
+    kubectl set image deployment/deployment-nodejs-productos nodejs-container=christianreal/backend-nodejs:productos-8ccc17311ae9163c4da17ca6d27dd2b101628e3c --record
+
+    kubectl set image deployment/deployment-nodejs-proveedores nodejs-container=christianreal/backend-nodejs:proveedores-8ccc17311ae9163c4da17ca6d27dd2b101628e3c --record
+    
+    kubectl set image deployment/deployment-nodejs-reportes nodejs-container=christianreal/backend-nodejs:reportes-8ccc17311ae9163c4da17ca6d27dd2b101628e3c --record
+    
+    kubectl set image deployment/deployment-nodejs-vendedores nodejs-container=christianreal/backend-nodejs:vendedores-8ccc17311ae9163c4da17ca6d27dd2b101628e3c --record
+
+    kubectl set image deployment/deployment-vuejs vuejs-container=christianreal/frontend-vuejs:8ccc17311ae9163c4da17ca6d27dd2b101628e3c --record
+    kubectl apply -f deployment/K8/services/clusterip
+
+
+
+    kubectl apply -f deployment/K8/services/ingress/ingress-principal.yml
+
+    kubectl apply -f deployment/K8/services/ingress/ingress-grafana.yaml
+
+    kubectl apply -f deployment/K8/services/ingress/ingress-prometheus.yaml
+    ```
+
+  - Configuracion grafana
+
+    * Obtener credenciales para admin
+      
+      ```
+      kubectl get secret --namespace grafana grafana  -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+      ```
+
+    * Agregar data source proveniente de htttps://prometheus.poliformas.com.gt
+
+    * Importar dashboard (315, 11074) para cluster de Kubernetes 
 
 # Tecnologias
 

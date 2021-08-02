@@ -70,4 +70,6 @@ spec:
   - secretName: joomla-tls-cert
     hosts:
       - poliformas.com.gt
+      - grafana.poliformas.com.gt
       - backend.poliformas.com.gt
+      - prometheus.poliformas.com.gt
