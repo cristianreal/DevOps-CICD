@@ -199,7 +199,7 @@ jobs:
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-key.json
             gcloud config set project $TF_VAR_project_id
             gcloud container clusters get-credentials $( terraform output --raw cluster_name ) --zone=${VAR_GOOGLE_COMPUTE_ZONE}            
-            echo "$(terraform output cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
+            echo "$(terraform output --raw cloudsql_instance_ip)" > ${HOME}/project/deployment/TerraformDNS/cloudsql_instance_ip
       - run:
           name: "Instalar ingress controller"
           command: | 
