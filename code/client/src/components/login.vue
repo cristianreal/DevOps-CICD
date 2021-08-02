@@ -1,12 +1,12 @@
 <template>
 	<div class="container">
 		<div class="jumbotron">
-            <h1>Login</h1>
+            <h1>Login V2</h1>
             <div class="form-group">
             <input type="text" class="form-control" name="email" v-model="input.email" placeholder="email" />
             </div>
             <div class="form-group">
-            <input type="password" class="form-control" name="password" v-model="input.password" placeholder="Password" />
+            <input type="password" class="form-control" name="password" v-model="input.password"/>
             </div>
             <div class="form-group">
             <button type="button"  class="btn btn-primary" v-on:click="login()">Login</button>
