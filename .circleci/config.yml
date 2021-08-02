@@ -211,6 +211,7 @@ jobs:
             cd ${HOME}/project/
             kubectl apply -f deployment/K8/namespace
             kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
+            sleep 60
             kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
             kubectl create secret generic secretos-proyecto --from-literal=DB_DATABASE=$DB_DATABASE --from-literal=DB_HOST=$DB_HOST --from-literal=DB_USER=$DB_USER --from-literal=DB_PASS=$DB_PASS 
       - run:
