@@ -1,7 +1,7 @@
 <template>
    <div class="container">
       <datatable
-         title="Listado de Marcas"
+         title="Listado de Marcas V2"
          :columns="tableColumns1"
          :rows="posts"
          >
