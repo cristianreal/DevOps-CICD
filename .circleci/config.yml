@@ -213,7 +213,8 @@ jobs:
             kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
             sleep 60
             kubectl apply -f deployment/K8/services/letsencrypt-prod.yaml
-            kubectl create secret generic secretos-proyecto --from-literal=DB_DATABASE=$DB_DATABASE --from-literal=DB_HOST=$DB_HOST --from-literal=DB_USER=$DB_USER --from-literal=DB_PASS=$DB_PASS 
+            SecretoExiste=$( kubectl get secrets --no-headers=true | grep -i "secretos-proyecto" | wc -l ) 
+            if [ $SecretoExiste -eq 0 ]; then kubectl create secret generic secretos-proyecto --from-literal=DB_DATABASE=$DB_DATABASE --from-literal=DB_HOST=$DB_HOST --from-literal=DB_USER=$DB_USER --from-literal=DB_PASS=$DB_PASS; fi 
       - run:
           name: "Instalar prometheus y grafana utilizando HELM"
           command: |
