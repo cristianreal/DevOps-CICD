@@ -2,6 +2,7 @@ resource "google_sql_database_instance" "instance" {
   name             = length(var.name_override) == 0 ? format("%s-%s", var.cloudsql_instance_name, var.sufijo) : var.name_override
   database_version = var.cloudsql_dbms
   region           = var.region
+  deletion_protection = false
 
   settings {
     tier = var.cloudsql_instance_type
