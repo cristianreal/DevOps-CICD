@@ -204,7 +204,7 @@ jobs:
           name: "Instalar ingress controller"
           command: | 
             helm repo add nginx-stable https://helm.nginx.com/stable
-            helm install nginx-ing nginx-stable/nginx-ingress
+            helm upgrade --install nginx-ing nginx-stable/nginx-ingress
       - run:
           name: "Configurar certificado SSL en el ingress controller utilizando HELM"
           command: |
